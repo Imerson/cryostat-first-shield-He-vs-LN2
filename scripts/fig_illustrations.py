@@ -89,7 +89,7 @@ fig.savefig(os.path.join(FIG, 'figA_cryostat_routes.png'), dpi=300, bbox_inches=
 
 # ---------------------------------------------------------------- Fig B: cold-plate geometry
 fig = plt.figure(figsize=(5.4, 5.6))
-ax = fig.add_axes([0.02, 0.44, 0.96, 0.54]); ax.set_xlim(-1.5, 13.5); ax.set_ylim(-2.5, 6.3); ax.axis('off'); ax.set_aspect('equal')
+ax = fig.add_axes([0.02, 0.44, 0.96, 0.54]); ax.set_xlim(-1.5, 13.5); ax.set_ylim(-2.5, 7.0); ax.axis('off'); ax.set_aspect('equal')
 # oblique projection of 5 ducts: length L along x (foreshortened), width along y
 L, W, H, dx, dy = 9.0, 0.9, 0.9, 1.4, 0.7   # dx,dy = oblique offsets for depth
 def duct(x0, y0, col):
@@ -122,7 +122,7 @@ ax.plot([0, L], [-0.35, -0.35], color='k', lw=0.7); ax.text(L / 2, -0.7, '$L$ = 
 ax.plot([-0.25, -0.25], [0, H], color='k', lw=0.7); ax.text(-0.6, 1.02, '10 mm', ha='center', va='bottom', fontsize=8.5)
 ax.plot([L + 0.15, L + 0.15 + dx * 0.4], [H + 0.15, H + 0.15 + dy * 0.55], color='k', lw=0.7); ax.text(L + 0.72, 0.1, '10 mm', fontsize=9.5)
 ax.text(5.5, -2.05, 'heated area 0.015 m$^2$ (top walls), flow area 5$\\times$10$^{-4}$ m$^2$', ha='center', fontsize=9)
-ax.text(-1.4, 6.2, '(a) cold-plate heat-exchanger domain', fontsize=9.5, va='top')
+ax.text(-1.4, 6.95, '(a) cold-plate heat-exchanger domain', fontsize=9.5, va='top')
 # (b) cross-section with graded mesh + sampling lines
 ax2 = fig.add_axes([0.08, 0.05, 0.34, 0.34]); ax2.set_aspect('equal'); ax2.set_xlim(-0.05, 1.05); ax2.set_ylim(-0.05, 1.15); ax2.axis('off')
 n = 18; r = 6 ** (1 / 8)
