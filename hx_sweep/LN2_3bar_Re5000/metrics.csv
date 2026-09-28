@@ -1,0 +1,2 @@
+case,fluid,model,Q_W,Re,Nu,f_Darcy,Nu_over_Nuinf,fRe,fRe_over_56p9,Nu_over_f,PF,St,j,j_over_f,Mo,NTU,eps,Lt_over_L,Be,Wpump_W,dP_Pa,h_W_m2K,mdot_kg_s,Tw_K,Tb_K,dTcool_K,rho_ratio,beta_dT_wall,Qrem_W,ebal_pct,nCells
+LN2_3bar_Re5000,LN2_77K_3bar,boussinesq,9.4,5000.01,27.8111,0.0448943,7.70391,224.472,3.94503,619.48,78.2506,0.00243316,0.00422236,0.0940511,45958.5,0.0729636,0.0703653,19.05,3.46521e+10,0.000281632,5.56854,405.208,0.0408751,7.86029302e+01,77.0564,0.112882,1,0.00868686,9.40346,0.0368085,291600

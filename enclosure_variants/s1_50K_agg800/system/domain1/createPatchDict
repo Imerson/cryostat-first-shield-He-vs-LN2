@@ -1,0 +1,21 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      createPatchDict;
+}
+pointSync false;
+patches
+(
+    {
+        name coldPlate;
+        patchInfo
+        {
+            type        wall;
+            inGroups    (wall viewFactorWall);
+        }
+        constructFrom   set;
+        set             coldPlateSet;
+    }
+);

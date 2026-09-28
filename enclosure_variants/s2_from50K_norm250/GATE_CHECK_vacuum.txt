@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/gate_check.py", line 89, in <module>
+    rs=F_rowsums(Fp); within=sum(1 for x in rs if 0.9<=x<=1.1)/len(rs)
+  File "/home/ubuntu/gate_check.py", line 64, in F_rowsums
+    N,p=ri(p); p=sk(p); p+=1; out=[]
+        ~~^^^
+  File "/home/ubuntu/gate_check.py", line 63, in ri
+    return int(raw[s:p]),p
+           ~~~^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: b''

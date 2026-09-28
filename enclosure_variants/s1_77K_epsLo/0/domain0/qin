@@ -1,0 +1,40 @@
+FoamFile
+{
+    version 2.0;
+    format ascii;
+    class volScalarField;
+    location "0/domain0";
+    object qin;
+}
+
+dimensions      [1 0 -3 0 0 0 0];
+internalField   uniform 0;
+
+boundaryField
+{
+    coldPlate
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    warmPlate
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    OVC
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    shield_slave
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    domain0_to_coax_lumped
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+}

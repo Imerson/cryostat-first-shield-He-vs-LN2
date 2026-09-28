@@ -1,0 +1,9 @@
+FoamFile { version 2.0; format ascii; class dictionary; location "constant/domain1"; object boundaryRadiationProperties; }
+warmPlate { type lookup; emissivity 0.02; absorptivity 0.02; }
+coldPlate { type lookup; emissivity 0.01; absorptivity 0.01; }
+shield_bottom { type lookup; emissivity 0.01; absorptivity 0.01; }
+shield { type lookup; emissivity 0.01; absorptivity 0.01; }
+domain1_to_coax_L1 { type lookup; emissivity 0.02; absorptivity 0.02; }
+domain1_to_coax_L2 { type lookup; emissivity 0.02; absorptivity 0.02; }
+domain1_to_coax_L3 { type lookup; emissivity 0.02; absorptivity 0.02; }
+domain1_to_coax_L4 { type lookup; emissivity 0.02; absorptivity 0.02; }

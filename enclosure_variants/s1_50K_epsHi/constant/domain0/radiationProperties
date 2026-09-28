@@ -1,0 +1,28 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant/domain0";
+    object      radiationProperties;
+}
+radiation       on;
+radiationModel  viewFactor;
+    solverFreq 10;
+viewFactorCoeffs
+{
+    nBands                  1;
+    smoothing               false;
+    constantEmissivity      true;
+    nFacesInCoarsestLevel   100;
+    featureAngle            10;
+}
+absorptionEmissionModel constantAbsorptionEmission;
+constantAbsorptionEmissionCoeffs
+{
+    absorptivity    absorptivity    [0 -1 0 0 0 0 0] 0.0;
+    emissivity      emissivity      [0 -1 0 0 0 0 0] 0.0;
+    E               E               [1 -1 -3 0 0 0 0] 0;
+}
+scatterModel    none;
+sootModel       none;

@@ -1,0 +1,8 @@
+FoamFile { version 2.0; format ascii; class volScalarField; object T; }
+dimensions      [0 0 0 1 0 0 0];
+internalField   uniform 40;
+boundaryField
+{
+    OVC          { type fixedValue; value uniform 77; }
+    shield_slave { type fixedValue; value uniform 4; }
+}

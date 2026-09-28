@@ -1,0 +1,32 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      radiationProperties;
+}
+
+radiation       on;
+radiationModel  fvDOM;
+
+fvDOMCoeffs
+{
+    nPhi        1;
+    nTheta      2;
+    tolerance   1e-2;
+    maxIter     10;
+}
+
+solverFreq  1;
+
+absorptionEmissionModel constantAbsorptionEmission;
+constantAbsorptionEmissionCoeffs
+{
+    absorptivity    [ 0 -1 0 0 0 0 0 ] 0;
+    emissivity      [ 0 -1 0 0 0 0 0 ] 0;
+    E               [ 1 -1 -3 0 0 0 0 ] 0;
+}
+
+scatterModel    none;
+sootModel       none;

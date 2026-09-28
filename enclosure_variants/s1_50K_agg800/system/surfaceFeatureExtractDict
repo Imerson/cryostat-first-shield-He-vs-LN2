@@ -1,0 +1,149 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      surfaceFeatureExtractDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+surfaces
+(
+    OVC.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    shield.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax01.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax02.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax03.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax04.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax05.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax06.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax07.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax08.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax09.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax10.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax11.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax12.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax13.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax14.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax15.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax16.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax17.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax18.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax19.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax20.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax21.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax22.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax23.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+    coax24.stl {
+        extractionMethod    extractFromSurface;
+        extractFromSurfaceCoeffs { includedAngle 150; }
+        writeObj    yes;
+    }
+);

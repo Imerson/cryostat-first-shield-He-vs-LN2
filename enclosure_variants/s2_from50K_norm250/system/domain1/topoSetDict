@@ -1,0 +1,6 @@
+FoamFile { version 2.0; format ascii; class dictionary; object topoSetDict; }
+actions
+(
+    { name topFaces; type faceSet; action new;    source patchToFace;  sourceInfo { name OVC; } }
+    { name topFaces; type faceSet; action subset; source boxToFace;    sourceInfo { box (-1 -1 0.20) (1 1 1); } }
+);

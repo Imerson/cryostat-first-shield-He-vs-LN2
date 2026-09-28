@@ -1,0 +1,52 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/fluid";
+    object      G;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+dimensions      [1 0 -3 0 0 0 0];
+internalField   uniform 2.1273e+02;
+
+boundaryField
+{
+    coldPlate { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    warmPlate { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.04; value uniform 2.1273e+02; }
+    farfield  { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.04; value uniform 2.1273e+02; }
+    shield   { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax01 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax02 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax03 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax04 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax05 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax06 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax07 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax08 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax09 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax10 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax11 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax12 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax13 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax14 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax15 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax16 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax17 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax18 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax19 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax20 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax21 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax22 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax23 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+    fluid_to_coax24 { type MarshakRadiation; T T; emissivityMode lookup; emissivity uniform 0.02; value uniform 2.1273e+02; }
+}

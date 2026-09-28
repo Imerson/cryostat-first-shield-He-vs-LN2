@@ -1,0 +1,4 @@
+# y+ ()         
+# Time          	patch           	min             	max             	average         
+6000            	heatedWall	9.93037922e-01	6.54337836e+00	2.54979519e+00
+6000            	adiabaticWalls	1.00373471e+00	6.64889733e+00	2.89927820e+00

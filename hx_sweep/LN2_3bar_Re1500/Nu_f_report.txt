@@ -1,0 +1,35 @@
+=====================================================================
+ Consolidated metrics report  (true SI units, no manual corrections)
+ Case:  LN2_3bar_Re1500      Fluid: LN2_77K_3bar
+ Geometry: mini-channel (Dh=0.01 m = 10 mm; Kandlikar mini, NOT micro)
+ Heat duty Q_wall: 9.4 W (matched-duty He-vs-N2 basis; Stage-1 load ~9.4 W)
+ Flow model: incompressible Boussinesq (beta*dT<<1 valid)
+=====================================================================
+--- raw CFD ---
+Tin_K: 7.70000000e+01  Tout_bulk_K: 7.73761467e+01  Tout_area_K: 7.77992146e+01  Tw_K: 8.21053769e+01  Tb_K: 77.1881
+dP_Pa(true): 0.868944  Umean_m_s: 0.030345  mdot_kg_s: 0.0122624  Qvol_m3_s: 1.51725e-05
+rho_in: 808.2  rho_out: 808.2  rho_ratio_in_out: 1
+--- dimensional ---
+h_W_m2K: 127.442  Wpump_W(true): 1.31841e-05  wall_superheat_Tw_minus_Tb_K: 4.91728
+--- core dimensionless ---
+Re: 1499.99  Nu: 8.74688  f_Darcy: 0.0778408  Nu_over_f: 112.369  PF_Nu_f13: 20.4857
+St: 0.00255087  Colburn_j: 0.00442662  j_over_f: 0.0568676  Mouromtseff_Mo: 45958.5
+--- HX effectiveness (single-stream isothermal-wall limit) ---
+NTU: 0.0764934  effectiveness_eps: 0.073641
+--- validation (Shah & London, square duct, const-q: Nu_inf=3.61, fRe=56.9) ---
+Nu_over_Nuinf: 2.42296  fRe_Darcy: 116.76  fRe_over_56p9: 2.05202
+--- thermal entry length (Graetz) ---
+Lt_m: 1.71449  Lt_over_L: 5.71497
+--- convective Bejan ---
+Convec_Bejan: 5.40729e+09
+--- entropy generation (EGM) ---
+Irrev_Bejan: NA (out of scope, guideline 2.4)   W_exergy_loss_W: NA
+--- density / Boussinesq diagnostic ---
+rho_ratio_in_out: 1  beta_dT_wall_to_bulk: 0.0276203  beta_dT_coolant: 0.00211282
+--- energy balance ---
+Q_removed_W: 9.4002  energy_balance_error_pct: 0.00212766
+--- provenance ---
+solver: buoyantBoussinesqSimpleFoam (laminar)  OF: openfoam2412
+nCells: 291600  last_time: 1532  final_resid_Ux: 8.3098729e-12  T_or_h: 9.9012303e-08  p_rgh: 5.7630768e-09
+Carnot_COP: 0.34529148
+=====================================================================

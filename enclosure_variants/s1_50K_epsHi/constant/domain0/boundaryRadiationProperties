@@ -1,0 +1,4 @@
+FoamFile { version 2.0; format ascii; class dictionary; location "constant/domain0"; object boundaryRadiationProperties; }
+warmPlate { type lookup; emissivity 0.06; absorptivity 0.06; }
+OVC { type lookup; emissivity 0.06; absorptivity 0.06; }
+shield_slave { type lookup; emissivity 0.03; absorptivity 0.03; }

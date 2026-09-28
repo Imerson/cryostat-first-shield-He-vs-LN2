@@ -1,0 +1,44 @@
+FoamFile { version 2.0; format ascii; class volScalarField; location "0/domain1"; object T; }
+dimensions      [0 0 0 1 0 0 0];
+internalField   uniform 175;
+boundaryField
+{
+    warmPlate { type fixedValue; value uniform 300; }
+    shield { type fixedValue; value uniform 50; }
+    domain1_to_coax_L2
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        Tnbr            T;
+        kappaMethod     fluidThermo;
+        value           uniform 50;
+    }
+    domain1_to_coax_L4
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        Tnbr            T;
+        kappaMethod     fluidThermo;
+        value           uniform 50;
+    }
+    domain1_to_coax_L1
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        Tnbr            T;
+        kappaMethod     fluidThermo;
+        value           uniform 50;
+    }
+    domain1_to_coax_L3
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        Tnbr            T;
+        kappaMethod     fluidThermo;
+        value           uniform 50;
+    }
+    coldPlate
+    {
+        type            fixedValue;
+        value           uniform 50;
+    }
+
+    shield_bottom { type fixedValue; value uniform 50; }
+
+}

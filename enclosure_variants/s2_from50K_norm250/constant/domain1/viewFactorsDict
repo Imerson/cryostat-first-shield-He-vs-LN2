@@ -1,0 +1,15 @@
+FoamFile { version 2.0; format ascii; class dictionary; object viewFactorsDict; }
+
+writeViewFactorMatrix     true;
+writeFacesAgglomeration   true;
+GaussQuadTol              0.01;
+
+patchAgglomeration
+{
+    ".*"
+    {
+        nFacesInCoarsestLevel   250;
+        featureAngle            20;
+        mergeLevels             1;
+    }
+}

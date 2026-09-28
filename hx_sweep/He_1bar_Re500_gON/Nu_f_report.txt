@@ -1,0 +1,35 @@
+=====================================================================
+ Consolidated metrics report  (true SI units, no manual corrections)
+ Case:  He_1bar_Re500_gON      Fluid: He_50K_1bar
+ Geometry: mini-channel (Dh=0.01 m = 10 mm; Kandlikar mini, NOT micro)
+ Heat duty Q_wall: 9.4 W (matched-duty He-vs-N2 basis; Stage-1 load ~9.4 W)
+ Flow model: compressible variable-density (ideal-gas He; Boussinesq NOT assumed)
+=====================================================================
+--- raw CFD ---
+Tin_K: 4.50000000e+01  Tout_bulk_K: 5.62071298e+01  Tout_area_K: 5.98609052e+01  Tw_K: 6.74763203e+01  Tb_K: 50.6036
+dP_Pa(true): 0.3306  Umean_m_s: 0.330156  mdot_kg_s: 0.000159  Qvol_m3_s: 0.000165078
+rho_in: 1.06984  rho_out: 0.856524  rho_ratio_in_out: 1.24905
+--- dimensional ---
+h_W_m2K: 37.1408  Wpump_W(true): 5.45748e-05  wall_superheat_Tw_minus_Tb_K: 16.8727
+--- core dimensionless ---
+Re: 500  Nu: 7.95647  f_Darcy: 0.209925  Nu_over_f: 37.9015  PF_Nu_f13: 13.3875
+St: 0.0224442  Colburn_j: 0.0178458  j_over_f: 0.0850104  Mouromtseff_Mo: 566.736
+--- HX effectiveness (single-stream isothermal-wall limit) ---
+NTU: 0.673688  effectiveness_eps: 0.490175
+--- validation (Shah & London, square duct, const-q: Nu_inf=3.61, fRe=56.9) ---
+Nu_over_Nuinf: 2.20401  fRe_Darcy: 104.963  fRe_over_56p9: 1.84469
+--- thermal entry length (Graetz) ---
+Lt_m: 0.17725  Lt_over_L: 0.590833
+--- convective Bejan ---
+Convec_Bejan: 5.02056e+08
+--- entropy generation (EGM) ---
+Irrev_Bejan: NA (out of scope, guideline 2.4)   W_exergy_loss_W: NA
+--- density / Boussinesq diagnostic ---
+rho_ratio_in_out: 1.24905  beta_dT_wall_to_bulk: 0.337454  beta_dT_coolant: 0.224142
+--- energy balance ---
+Q_removed_W: 9.26781  energy_balance_error_pct: -1.40628
+--- provenance ---
+solver: buoyantSimpleFoam (laminar)  OF: openfoam2412
+nCells: 291600  last_time: 6000  final_resid_Ux:   T_or_h:   p_rgh: 
+Carnot_COP: 0.20
+=====================================================================

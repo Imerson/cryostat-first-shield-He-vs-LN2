@@ -1,0 +1,29 @@
+FoamFile
+{
+    version 2.0;
+    format ascii;
+    class dictionary;
+    location "system/coax_lumped";
+    object fvSolution;
+}
+solvers
+{
+    "(h|e|T)"
+    {
+        solver smoothSolver;
+        smoother symGaussSeidel;
+        tolerance 1e-8;
+        relTol 0.1;
+    }
+}
+SIMPLE
+{
+    nNonOrthogonalCorrectors 1;
+}
+relaxationFactors
+{
+    equations
+    {
+        "(h|e|T)" 0.9;
+    }
+}

@@ -1,0 +1,2 @@
+case,fluid,model,Q_W,Re,Nu,f_Darcy,Nu_over_Nuinf,fRe,fRe_over_56p9,Nu_over_f,PF,St,j,j_over_f,Mo,NTU,eps,Lt_over_L,Be,Wpump_W,dP_Pa,h_W_m2K,mdot_kg_s,Tw_K,Tb_K,dTcool_K,rho_ratio,beta_dT_wall,Qrem_W,ebal_pct,nCells
+He_18bar_Re2300,He_50K_18bar,compressible,9.4,2300,6.44919,0.0642798,1.78648,147.844,2.59831,100.33,16.0995,0.00395486,0.00314457,0.04892,5722.55,0.118709,0.111934,2.71783,3.25295e+09,4.28948e-06,0.11,30.1048,0.0007314,6.70511548e+01,46.235,2.47008,1.05489,0.416323,9.39621,-0.0403191,291600

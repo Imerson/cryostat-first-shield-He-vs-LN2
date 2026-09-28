@@ -1,0 +1,11 @@
+# heat-load summary  case=s1_50K_agg800 time=2900  warm=300.0K cold=50.0K  harness=65 lines (25 drive/25 flux/10 read/5 pump) SS_UT085
+# component                 Q[W]
+radiation_on_cold          3.255523e+00
+conduction_coax_CFD        1.029089e+00
+conduction_harness_target  1.029048e+00
+convection                 0.000000e+00
+TOTAL                      4.284612e+00
+#  coax_L1: 25x SS_UT085 (drive) CFD=395.803 mW target=395.788 mW
+#  coax_L2: 25x SS_UT085 (flux) CFD=395.804 mW target=395.788 mW
+#  coax_L3: 10x SS_UT085 (readout+readin) CFD=158.321 mW target=158.315 mW
+#  coax_L4: 5x SS_UT085 (pump) CFD=79.161 mW target=79.158 mW

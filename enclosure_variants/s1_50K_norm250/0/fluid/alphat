@@ -1,0 +1,52 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/fluid";
+    object      alphat;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+dimensions      [1 -1 -1 0 0 0 0];
+internalField   uniform 0;
+
+boundaryField
+{
+    coldPlate { type calculated; value uniform 0; }
+    warmPlate { type calculated; value uniform 0; }
+    farfield  { type calculated; value uniform 0; }
+    shield { type calculated; value uniform 0; }
+    fluid_to_coax01 { type calculated; value uniform 0; }
+    fluid_to_coax02 { type calculated; value uniform 0; }
+    fluid_to_coax03 { type calculated; value uniform 0; }
+    fluid_to_coax04 { type calculated; value uniform 0; }
+    fluid_to_coax05 { type calculated; value uniform 0; }
+    fluid_to_coax06 { type calculated; value uniform 0; }
+    fluid_to_coax07 { type calculated; value uniform 0; }
+    fluid_to_coax08 { type calculated; value uniform 0; }
+    fluid_to_coax09 { type calculated; value uniform 0; }
+    fluid_to_coax10 { type calculated; value uniform 0; }
+    fluid_to_coax11 { type calculated; value uniform 0; }
+    fluid_to_coax12 { type calculated; value uniform 0; }
+    fluid_to_coax13 { type calculated; value uniform 0; }
+    fluid_to_coax14 { type calculated; value uniform 0; }
+    fluid_to_coax15 { type calculated; value uniform 0; }
+    fluid_to_coax16 { type calculated; value uniform 0; }
+    fluid_to_coax17 { type calculated; value uniform 0; }
+    fluid_to_coax18 { type calculated; value uniform 0; }
+    fluid_to_coax19 { type calculated; value uniform 0; }
+    fluid_to_coax20 { type calculated; value uniform 0; }
+    fluid_to_coax21 { type calculated; value uniform 0; }
+    fluid_to_coax22 { type calculated; value uniform 0; }
+    fluid_to_coax23 { type calculated; value uniform 0; }
+    fluid_to_coax24 { type calculated; value uniform 0; }
+}

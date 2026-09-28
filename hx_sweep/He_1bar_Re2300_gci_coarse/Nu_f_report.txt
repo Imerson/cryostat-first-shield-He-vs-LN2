@@ -1,0 +1,35 @@
+=====================================================================
+ Consolidated metrics report  (true SI units, no manual corrections)
+ Case:  He_1bar_Re2300_gci_coarse      Fluid: He_50K_1bar
+ Geometry: mini-channel (Dh=0.01 m = 10 mm; Kandlikar mini, NOT micro)
+ Heat duty Q_wall: 9.4 W (matched-duty He-vs-N2 basis; Stage-1 load ~9.4 W)
+ Flow model: compressible variable-density (ideal-gas He; Boussinesq NOT assumed)
+=====================================================================
+--- raw CFD ---
+Tin_K: 4.50000000e+01  Tout_bulk_K: 4.74703654e+01  Tout_area_K: 4.98243136e+01  Tw_K: 6.70858975e+01  Tb_K: 46.2352
+dP_Pa(true): 1.947  Umean_m_s: 1.40381  mdot_kg_s: 0.0007314  Qvol_m3_s: 0.000701906
+rho_in: 1.06986  rho_out: 1.01417  rho_ratio_in_out: 1.05491
+--- dimensional ---
+h_W_m2K: 30.0549  Wpump_W(true): 0.00136661  wall_superheat_Tw_minus_Tb_K: 20.8507
+--- core dimensionless ---
+Re: 2300  Nu: 6.4385  f_Darcy: 0.0632094  Nu_over_f: 101.86  PF_Nu_f13: 16.1631
+St: 0.0039483  Colburn_j: 0.00313936  j_over_f: 0.049666  Mouromtseff_Mo: 566.736
+--- HX effectiveness (single-stream isothermal-wall limit) ---
+NTU: 0.118513  effectiveness_eps: 0.11176
+--- validation (Shah & London, square duct, const-q: Nu_inf=3.61, fRe=56.9) ---
+Nu_over_Nuinf: 1.78352  fRe_Darcy: 145.382  fRe_over_56p9: 2.55504
+--- thermal entry length (Graetz) ---
+Lt_m: 0.81535  Lt_over_L: 2.71783
+--- convective Bejan ---
+Convec_Bejan: 3.19877e+09
+--- entropy generation (EGM) ---
+Irrev_Bejan: NA (out of scope, guideline 2.4)   W_exergy_loss_W: NA
+--- density / Boussinesq diagnostic ---
+rho_ratio_in_out: 1.05491  beta_dT_wall_to_bulk: 0.417014  beta_dT_coolant: 0.0494074
+--- energy balance ---
+Q_removed_W: 9.39732  energy_balance_error_pct: -0.0285106
+--- provenance ---
+solver: buoyantSimpleFoam (laminar)  OF: openfoam2412
+nCells: 86400  last_time: 6000  final_resid_Ux: 2.0617912e-05  T_or_h: 1.7728783e-05  p_rgh: 0.0018305044
+Carnot_COP: 0.20
+=====================================================================

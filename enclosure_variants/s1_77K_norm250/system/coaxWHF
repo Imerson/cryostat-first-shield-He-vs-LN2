@@ -1,0 +1,8 @@
+type        surfaceFieldValue;
+libs        (fieldFunctionObjects);
+writeControl    timeStep;
+operation       areaIntegrate;
+regionType      patch;
+name            domain1_to_coax_L1;
+fields          (wallHeatFlux);
+writeFields     false;

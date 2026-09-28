@@ -1,0 +1,150 @@
+FoamFile
+{
+    version         2;
+    format          ascii;
+    class           dictionary;
+    location        "system";
+    object          controlDict;
+}
+
+application     chtMultiRegionSimpleFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         5200;
+
+deltaT          1;
+
+writeControl    timeStep;
+
+writeInterval   50;
+
+purgeWrite      3;
+
+writeFormat ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+functions
+{
+    WHF_coax_L1
+    {
+        type wallHeatFlux; libs (fieldFunctionObjects); region coax_L1;
+        writeControl writeTime; executeControl timeStep; executeInterval 1;
+        patches ( warmPlate OVC );
+    }
+    WHF_coax_L2
+    {
+        type wallHeatFlux; libs (fieldFunctionObjects); region coax_L2;
+        writeControl writeTime; executeControl timeStep; executeInterval 1;
+        patches ( warmPlate OVC );
+    }
+    WHF_coax_L3
+    {
+        type wallHeatFlux; libs (fieldFunctionObjects); region coax_L3;
+        writeControl writeTime; executeControl timeStep; executeInterval 1;
+        patches ( warmPlate OVC );
+    }
+    WHF_coax_L4
+    {
+        type wallHeatFlux; libs (fieldFunctionObjects); region coax_L4;
+        writeControl writeTime; executeControl timeStep; executeInterval 1;
+        patches ( warmPlate OVC );
+    }
+    WallHeatFlux_domain0
+    {
+        type            wallHeatFlux;
+        libs            ( fieldFunctionObjects );
+        region          domain0;
+        writeControl    writeTime;
+        executeControl  timeStep;
+        executeInterval 1;
+        qr              qr;
+        patches         ( OVC shield_slave );
+    }
+    patchInt_domain0_OVC_WHF
+    {
+        type            surfaceFieldValue;
+        libs            ( fieldFunctionObjects );
+        region          domain0;
+        writeControl    writeTime;
+        operation       areaIntegrate;
+        regionType      patch;
+        name            OVC;
+        fields          ( wallHeatFlux );
+        writeFields     false;
+    }
+    patchInt_domain0_shieldslave_WHF
+    {
+        type            surfaceFieldValue;
+        libs            ( fieldFunctionObjects );
+        region          domain0;
+        writeControl    writeTime;
+        operation       areaIntegrate;
+        regionType      patch;
+        name            shield_slave;
+        fields          ( wallHeatFlux );
+        writeFields     false;
+    }
+    WallHeatFlux_domain1
+    {
+        type            wallHeatFlux;
+        libs            ( fieldFunctionObjects );
+        region          domain1;
+        writeControl    writeTime;
+        executeControl  timeStep;
+        executeInterval 1;
+        qr              qr;
+        patches         ( OVC shield coldPlate domain1_to_coax_L1 domain1_to_coax_L2 domain1_to_coax_L3 domain1_to_coax_L4 );
+    }
+    patchInt_domain1_OVC_WHF
+    {
+        type            surfaceFieldValue;
+        libs            ( fieldFunctionObjects );
+        region          domain1;
+        writeControl    writeTime;
+        operation       areaIntegrate;
+        regionType      patch;
+        name            OVC;
+        fields          ( wallHeatFlux );
+        writeFields     false;
+    }
+    patchInt_domain1_shield_WHF
+    {
+        type            surfaceFieldValue;
+        libs            ( fieldFunctionObjects );
+        region          domain1;
+        writeControl    writeTime;
+        operation       areaIntegrate;
+        regionType      patch;
+        name            shield;
+        fields          ( wallHeatFlux );
+        writeFields     false;
+    }
+    patchInt_domain1_coldPlate_WHF
+    {
+        type            surfaceFieldValue;
+        libs            ( fieldFunctionObjects );
+        region          domain1;
+        writeControl    writeTime;
+        operation       areaIntegrate;
+        regionType      patch;
+        name            coldPlate;
+        fields          ( wallHeatFlux );
+        writeFields     false;
+    }
+}
+
+// ************************************************************************* //

@@ -1,0 +1,198 @@
+%% Supplementary Information -- v2 (TSEP)
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.3cm]{geometry}
+\usepackage[T1]{fontenc}\usepackage{lmodern}\usepackage{microtype}
+\usepackage{amsmath,amssymb,booktabs,array,tabularx,caption,float,graphicx,xcolor}
+\captionsetup{font=small,labelfont=bf,labelsep=period}
+\usepackage[numbers,sort&compress]{natbib}\bibliographystyle{unsrtnat}
+\usepackage{hyperref}\hypersetup{colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue}
+\renewcommand{\thetable}{S\arabic{table}}\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\theequation}{S\arabic{equation}}\renewcommand{\thesection}{S\arabic{section}}
+\newcommand{\TODO}[1]{\textcolor{red}{[#1]}}
+\newcommand{\LNtwo}{LN$_2$}\renewcommand{\Re}{\mathit{Re}}\newcommand{\Nu}{\mathit{Nu}}
+\graphicspath{{../figures/}}
+\title{\textbf{Supplementary Information}\\[4pt]\large Helium gas or liquid nitrogen for the first thermal
+shield of a 4\,K cryostat: conjugate heat-transfer budget, coolant operating maps and work ledger}
+\author{Imerson Joao}\date{}
+\begin{document}\maketitle
+
+\noindent All cases, scripts and tabulated results: \href{https://github.com/Imerson/Pre-cooling-a-superconducting-qubit-dilution-refrigerator}{github.com/Imerson/Pre-cooling-a-superconducting-qubit-dilution-refrigerator} (release v2).
+
+\section{Enclosure model}
+
+\begin{table}[H]\centering\small
+\caption{Regions, patches and boundary conditions of the enclosure CHT cases.}
+\begin{tabularx}{\textwidth}{l l l X}
+\toprule
+Region & Patch & $T$ condition & Radiation condition \\
+\midrule
+\texttt{domain0} (OVC--shield gap) & warmPlate, OVC & fixed $T_{\mathrm{hot}}$ & grey diffuse, $\varepsilon=0.04$ \\
+ & shield\_slave & fixed $T_{\mathrm{cold}}$ & grey diffuse, $\varepsilon=0.02$ \\
+\texttt{domain1} (inner gap) & warmPlate & fixed $T_{\mathrm{hot}}$ & grey diffuse, $\varepsilon=0.04$ \\
+ & coldPlate, shield\_bottom & fixed $T_{\mathrm{cold}}$ & grey diffuse, $\varepsilon=0.04$ \\
+ & shield & fixed $T_{\mathrm{cold}}$ & grey diffuse, $\varepsilon=0.02$ \\
+ & domain1\_to\_coax\_L$k$ & conjugate (mapped) & grey diffuse, $\varepsilon=0.02$ \\
+\texttt{coax\_L1..L4} (solids) & warm cap / cold cap & fixed $T_{\mathrm{hot}}$ / $T_{\mathrm{cold}}$ & -- \\
+ & lateral & conjugate to domain1 & -- \\
+\bottomrule
+\end{tabularx}\end{table}
+
+\begin{table}[H]\centering\small
+\caption{Gas-region settings that make the gaps behave as vacuum. Radiation in OpenFOAM's
+\texttt{viewFactor} model is solved in fluid regions, so each gap is a fluid region made inert.}
+\begin{tabular}{l l}
+\toprule
+Setting & Value \\
+\midrule
+pressure $p=p_{\mathrm{rgh}}$ & $10^{-3}$\,Pa (\texttt{pRefValue} $10^{-3}$) \\
+gravity & $(0,0,0)$ \\
+transport & constant, $\mu=10^{-11}$\,Pa\,s, $\Pr=0.67$ \\
+density limits & $\rho_{\max}=10^{-4}$, $\rho_{\min}=10^{-12}$\,kg\,m$^{-3}$ \\
+radiation solver frequency & every 10 iterations \\
+agglomeration & \texttt{nFacesInCoarsestLevel} 250, \texttt{featureAngle} 20, \texttt{mergeLevels} 1 \\
+\bottomrule
+\end{tabular}\end{table}
+
+\begin{table}[H]\centering\small
+\caption{Harness representation. Cable UT-085-SS-SS: 304 stainless outer conductor
+$A=1.585$\,mm$^2$, PTFE dielectric $A=2.001$\,mm$^2$, 304 stainless centre conductor
+$A=0.205$\,mm$^2$. Material $k(T)$ from the NIST cryogenic fits
+$\log_{10}k=\sum_n a_n(\log_{10}T)^n$. Each modelled cylinder carries $n_k$ lines with
+$\kappa_{\mathrm{eff}}(T)=(n_k/A_{\mathrm{model}})\sum_iA_ik_i(T)$; $A_{\mathrm{model}}$ is
+the calibrated effective conduction area of the 20\,mm cylinder.}
+\begin{tabular}{l l r r}
+\toprule
+Bundle & Family & $n_k$ & share of harness conduction \\
+\midrule
+coax\_L1 & drive & 25 & 38.5\,\% \\
+coax\_L2 & flux & 25 & 38.5\,\% \\
+coax\_L3 & readout & 10 & 15.4\,\% \\
+coax\_L4 & pump & 5 & 7.7\,\% \\
+\bottomrule
+\end{tabular}\end{table}
+
+\begin{table}[H]\centering\scriptsize
+\caption{Deployed $\kappa_{\mathrm{eff}}(T)=\sum_{n=0}^{5}c_nT^n$ [W\,m$^{-1}$K$^{-1}$, $T$ in K]
+per bundle and stage span (\texttt{kappaCoeffs<8>}, last two coefficients zero). Fit error
+$<0.5$\,\% over each span.}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{l l r r r r r r}
+\toprule
+Span & Bundle & $c_0$ & $c_1$ & $c_2$ & $c_3$ & $c_4$ & $c_5$ \\
+\midrule
+300$\to$50\,K & L1 & $-2.1522\times10^{-1}$ & $3.1627\times10^{-2}$ & $-2.3184\times10^{-4}$ & $9.9921\times10^{-7}$ & $-2.1908\times10^{-9}$ & $1.9383\times10^{-12}$ \\
+ & L2 & $-2.1519\times10^{-1}$ & $3.1622\times10^{-2}$ & $-2.3181\times10^{-4}$ & $9.9907\times10^{-7}$ & $-2.1905\times10^{-9}$ & $1.9380\times10^{-12}$ \\
+ & L3 & $-8.6092\times10^{-2}$ & $1.2651\times10^{-2}$ & $-9.2741\times10^{-5}$ & $3.9970\times10^{-7}$ & $-8.7636\times10^{-10}$ & $7.7535\times10^{-13}$ \\
+ & L4 & $-4.3044\times10^{-2}$ & $6.3253\times10^{-3}$ & $-4.6369\times10^{-5}$ & $1.9984\times10^{-7}$ & $-4.3816\times10^{-10}$ & $3.8766\times10^{-13}$ \\
+300$\to$77\,K & L1 & $-1.3459\times10^{-1}$ & $2.9103\times10^{-2}$ & $-2.0205\times10^{-4}$ & $8.3171\times10^{-7}$ & $-1.7398\times10^{-9}$ & $1.4706\times10^{-12}$ \\
+ & L2 & $-1.3457\times10^{-1}$ & $2.9099\times10^{-2}$ & $-2.0202\times10^{-4}$ & $8.3159\times10^{-7}$ & $-1.7396\times10^{-9}$ & $1.4704\times10^{-12}$ \\
+ & L3 & $-5.3837\times10^{-2}$ & $1.1642\times10^{-2}$ & $-8.0824\times10^{-5}$ & $3.3269\times10^{-7}$ & $-6.9596\times10^{-10}$ & $5.8824\times10^{-13}$ \\
+ & L4 & $-2.6917\times10^{-2}$ & $5.8206\times10^{-3}$ & $-4.0410\times10^{-5}$ & $1.6634\times10^{-7}$ & $-3.4796\times10^{-10}$ & $2.9411\times10^{-13}$ \\
+50$\to$4\,K & L1 & $-4.8624\times10^{-4}$ & $9.1378\times10^{-4}$ & $3.6621\times10^{-5}$ & $-9.0343\times10^{-7}$ & $8.4798\times10^{-9}$ & $-2.8699\times10^{-11}$ \\
+ & L2 & $-4.8624\times10^{-4}$ & $9.1378\times10^{-4}$ & $3.6621\times10^{-5}$ & $-9.0343\times10^{-7}$ & $8.4798\times10^{-9}$ & $-2.8699\times10^{-11}$ \\
+ & L3 & $-1.9450\times10^{-4}$ & $3.6551\times10^{-4}$ & $1.4648\times10^{-5}$ & $-3.6137\times10^{-7}$ & $3.3919\times10^{-9}$ & $-1.1480\times10^{-11}$ \\
+ & L4 & $-9.7247\times10^{-5}$ & $1.8275\times10^{-4}$ & $7.3242\times10^{-6}$ & $-1.8068\times10^{-7}$ & $1.6959\times10^{-9}$ & $-5.7398\times10^{-12}$ \\
+77$\to$4\,K & L1 & $-7.4665\times10^{-4}$ & $1.2814\times10^{-3}$ & $4.9472\times10^{-5}$ & $-1.2245\times10^{-6}$ & $1.1714\times10^{-8}$ & $-4.2617\times10^{-11}$ \\
+ & L2 & $-7.4665\times10^{-4}$ & $1.2814\times10^{-3}$ & $4.9472\times10^{-5}$ & $-1.2245\times10^{-6}$ & $1.1714\times10^{-8}$ & $-4.2617\times10^{-11}$ \\
+ & L3 & $-2.9865\times10^{-4}$ & $5.1254\times10^{-4}$ & $1.9788\times10^{-5}$ & $-4.8978\times10^{-7}$ & $4.6855\times10^{-9}$ & $-1.7046\times10^{-11}$ \\
+ & L4 & $-1.4932\times10^{-4}$ & $2.5626\times10^{-4}$ & $9.8938\times10^{-6}$ & $-2.4488\times10^{-7}$ & $2.3427\times10^{-9}$ & $-8.5230\times10^{-12}$ \\
+\bottomrule
+\end{tabular}\end{table}
+
+\paragraph{Free-molecular gas conduction bound.} At $p<10^{-4}$\,mbar the mean free path
+exceeds the gap and gas heat transport is free-molecular, $\dot Q_{\mathrm{gas}}=\alpha\Lambda pA\Delta T$
+\citep{37-Corruccini1959FreeMolecular}; it is linear in pressure and below 1\,\% of the
+harness conduction at the operating pressure, so it is carried as a budget line.
+
+\begin{table}[H]\centering\small
+\caption{View-factor agglomeration refinement and row normalisation. Closure = mean row sum
+$\sum_jF_{ij}$ of the generated matrix (unity for a closed enclosure); loads with the matrix as
+generated and, at the production level, with rows normalised.}
+\begin{tabular}{l l r r r}
+\toprule
+Case & Coarsest-level faces & Closure (mean; range) & Radiation, as generated & Radiation, normalised \\
+\midrule
+300$\to$50\,K & 60 & -- & 9.46 W & -- \\
+300$\to$50\,K & 250 (production) & 0.99--1.01; 0.50--1.13 & 8.41 W & 7.36 W \\
+300$\to$50\,K & 400 & 0.98--0.99 & 6.49 W & -- \\
+300$\to$50\,K & 800 & -- & 3.26 W & -- \\
+300$\to$50\,K & closed form & -- & \multicolumn{2}{c}{7.07 W} \\
+300$\to$77\,K & 250 (production) & 0.99 & 8.38 W & 7.34 W (closed form 7.04 W) \\
+50$\to$4\,K & 250 (production) & 1.00 & 5.29 mW & 3.16 mW (closed form 3.15 mW) \\
+77$\to$4\,K & 250 (production) & 1.00 & 29.7 mW & 17.8 mW (closed form 17.7 mW) \\
+\bottomrule
+\end{tabular}\end{table}
+
+\paragraph{Row normalisation.} Each fluid region of the enclosure model is a closed surface, so
+every row of the view-factor matrix must sum to unity. The generated matrix (\texttt{viewFactorsGen},
+Gauss quadrature tolerance 0.01) is stored sparsely, one entry per visible face pair; the
+normalisation divides each row by its sum and leaves rows with a sum below 0.2 (none occurred)
+untouched. The solve was then restarted from the converged production field for 600 further
+iterations. Script \texttt{normalise\_F.py} in the repository.
+
+\begin{table}[H]\centering\small
+\caption{Emissivity sensitivity (production view factors) and MLI-equivalent variant.}
+\begin{tabular}{l r r r}
+\toprule
+Case & $\varepsilon$ warm / cold & Radiation [W] & Total [W] \\
+\midrule
+300$\to$50\,K, low & 0.02 / 0.01 & 5.45 & 6.48 \\
+300$\to$50\,K, baseline & 0.04 / 0.02 & 8.41 & 9.44 \\
+300$\to$50\,K, high & 0.06 / 0.03 & 11.48 & 12.51 \\
+300$\to$77\,K, low & 0.02 / 0.01 & 5.44 & 6.40 \\
+300$\to$77\,K, baseline & 0.04 / 0.02 & 8.38 & 9.35 \\
+300$\to$77\,K, high & 0.06 / 0.03 & 11.44 & 12.40 \\
+300$\to$50\,K, MLI-eq. & 0.04 / 0.003 & 1.81 & 2.84 \\
+300$\to$77\,K, MLI-eq. & 0.04 / 0.003 & 1.81 & 2.77 \\
+\bottomrule
+\end{tabular}\end{table}
+
+\section{Cold-plate sweep: full results}
+\input{table_S6}
+
+\begin{table}[H]\centering\small
+\caption{Grid convergence index study for both fluids at $\Re=2300$ (Celik et al.\ 2008); meshes 86\,400 /
+291\,600 / 984\,150 cells, refinement ratio 1.5, production mesh = medium.}
+\begin{tabular}{l l r r r r r r r}
+\toprule
+Fluid & Quantity & Coarse & Medium & Fine & $p$ & Richardson & GCI$_{\mathrm{medium}}$ & GCI$_{\mathrm{fine}}$ \\
+\midrule
+He, 1\,bar & $\Nu$ & 6.439 & 6.449 & 6.457 & 0.64 & 6.485 & 0.70\,\% & 0.54\,\% \\
+He, 1\,bar & $f$ & 0.0632 & 0.0642 & 0.0647 & 1.40 & 0.0655 & 2.5\,\% & 1.4\,\% \\
+He, 1\,bar & $h$ [W\,m$^{-2}$K$^{-1}$] & 30.05 & 30.10 & 30.14 & 0.64 & 30.27 & 0.70\,\% & 0.54\,\% \\
+\LNtwo, 3\,bar & $\Nu$ & 10.513 & 10.436 & 10.382 & 0.87 & 10.26 & 2.2\,\% & 1.5\,\% \\
+\LNtwo, 3\,bar & $f$ & 0.0592 & 0.0599 & 0.0603 & 1.71 & 0.0607 & 1.6\,\% & 0.8\,\% \\
+\LNtwo, 3\,bar & $h$ [W\,m$^{-2}$K$^{-1}$] & 153.2 & 152.1 & 151.3 & 0.87 & 149.5 & 2.2\,\% & 1.5\,\% \\
+\bottomrule
+\end{tabular}\end{table}
+
+\paragraph{Property correction and energy accounting.} The helium transport properties of the
+earlier version of this comparison ($\mu=2.73\,\mu$Pa\,s, $k=0.0185$\,W\,m$^{-1}$K$^{-1}$)
+correspond to helium near 15\,K; the present runs use the 50\,K values ($6.36\,\mu$Pa\,s,
+0.0467\,W\,m$^{-1}$K$^{-1}$, CoolProp/NIST). The mixing-cup outlet temperature is the
+mass-flux-weighted average $\sum\phi_fT_f/\sum\phi_f$ over the outlet faces
+(\texttt{surfaceFieldValue}, \texttt{weightedAverage} with \texttt{phi}); the
+\texttt{weightedAreaAverage} operation, which multiplies the mass flux by the face area a second
+time, biases the outlet temperature low on a graded mesh and was the cause of the 2--10\,\% energy
+imbalances reported earlier. The delivered wall heat flux was verified with the solver-native
+\texttt{wallHeatFlux} function object (9.395\,W).
+
+\section{Hardware efficiencies used in the real ledger}
+\begin{table}[H]\centering\small
+\caption{Stage efficiencies as fractions of Carnot.}
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+Stage & $\eta$ range & Source \\
+\midrule
+4\,K cryocooler stage & 0.008--0.015 & PT415: 1.5\,W at 4.2\,K with 40\,W at 45\,K for 10.7\,kW
+\citep{Bluefors2026PT415}; input allocated by Carnot work gives 0.031 for both stages combined;
+Radebaugh: ``at 4\,K efficiencies of about 1\,\% of Carnot or less are typical'' \citep{Radebaugh2009Cryocoolers} \\
+He first stage (45--80\,K) & 0.10--0.15 & Radebaugh: 10--15\,\% of Carnot for the best commercial 80\,K
+coolers; large plants up to 30\,\% \citep{Radebaugh2009Cryocoolers, Claudet2010LHCExergy} \\
+LN$_2$ supply & 0.30--0.40 & ideal liquefaction work 0.213\,kWh\,kg$^{-1}$ \citep{BarronNellis2016Cryogenic};
+plant consumption 0.5--0.7\,kWh\,kg$^{-1}$ \citep{Karabuga2018N2Liquefaction}; latent heat 199\,kJ\,kg$^{-1}$ \\
+\bottomrule
+\end{tabularx}\end{table}
+
+\bibliography{precooling_refs}
+\end{document}

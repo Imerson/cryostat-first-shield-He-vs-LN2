@@ -1,0 +1,12 @@
+FoamFile { version 2.0; format ascii; class volScalarField; location "0"; object IDefault; }
+dimensions [1 0 -3 0 0 0 0];
+internalField uniform 0;
+boundaryField {
+    coldPlate    { type greyDiffusiveRadiation; emissivityMode lookup; emissivity uniform 0.02; value uniform 0; }
+    warmPlate    { type greyDiffusiveRadiation; emissivityMode lookup; emissivity uniform 0.04; value uniform 0; }
+    farfield     { type greyDiffusiveRadiation; emissivityMode lookup; emissivity uniform 0.04; value uniform 0; }
+    OVC          { type greyDiffusiveRadiation; emissivityMode lookup; emissivity uniform 0.04; value uniform 0; }
+    OVC_slave    { type greyDiffusiveRadiation; emissivityMode lookup; emissivity uniform 0.04; value uniform 0; }
+    shield       { type greyDiffusiveRadiation; emissivityMode lookup; emissivity uniform 0.02; value uniform 0; }
+    shield_slave { type greyDiffusiveRadiation; emissivityMode lookup; emissivity uniform 0.02; value uniform 0; }
+}

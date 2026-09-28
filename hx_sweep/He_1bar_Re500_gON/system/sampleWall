@@ -1,0 +1,10 @@
+FoamFile { version 2.0; format ascii; class dictionary; object sampleWall; }
+type sets; libs (sampling); interpolationScheme cellPoint; setFormat raw; writeControl writeTime;
+fields (T);
+sets
+(
+    wallCentre  { type uniform; axis x; start (0.0005 0.0 0.005);   end (0.2995 0.0 0.005);   nPoints 300; }
+    wallCentre2 { type uniform; axis x; start (0.0005 0.018 0.005); end (0.2995 0.018 0.005); nPoints 300; }
+    midChan     { type uniform; axis x; start (0.0005 0.005 0.005); end (0.2995 0.005 0.005); nPoints 300; }
+    profileY    { type uniform; axis y; start (0.15 0.0 0.005);     end (0.15 0.01 0.005);    nPoints 200; }
+);

@@ -1,0 +1,2 @@
+    patch heatedWall y+ : min = 2.1340578, max = 9.4681119, average = 5.1899194
+    patch adiabaticWalls y+ : min = 2.1600322, max = 9.611805, average = 5.5633426

@@ -1,0 +1,35 @@
+=====================================================================
+ Consolidated metrics report  (true SI units, no manual corrections)
+ Case:  LN2_3bar_Re500      Fluid: LN2_77K_3bar
+ Geometry: mini-channel (Dh=0.01 m = 10 mm; Kandlikar mini, NOT micro)
+ Heat duty Q_wall: 9.4 W (matched-duty He-vs-N2 basis; Stage-1 load ~9.4 W)
+ Flow model: incompressible Boussinesq (beta*dT<<1 valid)
+=====================================================================
+--- raw CFD ---
+Tin_K: 7.70000000e+01  Tout_bulk_K: 7.81284635e+01  Tout_area_K: 7.88898965e+01  Tw_K: 8.50247298e+01  Tb_K: 77.5642
+dP_Pa(true): 0.202094  Umean_m_s: 0.010115  mdot_kg_s: 0.00408747  Qvol_m3_s: 5.0575e-06
+rho_in: 808.2  rho_out: 808.2  rho_ratio_in_out: 1
+--- dimensional ---
+h_W_m2K: 83.9976  Wpump_W(true): 1.02209e-06  wall_superheat_Tw_minus_Tb_K: 7.46053
+--- core dimensionless ---
+Re: 499.996  Nu: 5.76511  f_Darcy: 0.162934  Nu_over_f: 35.3831  PF_Nu_f13: 10.5553
+St: 0.00504388  Colburn_j: 0.00875284  j_over_f: 0.0537202  Mouromtseff_Mo: 45958.5
+--- HX effectiveness (single-stream isothermal-wall limit) ---
+NTU: 0.151251  effectiveness_eps: 0.140368
+--- validation (Shah & London, square duct, const-q: Nu_inf=3.61, fRe=56.9) ---
+Nu_over_Nuinf: 1.59698  fRe_Darcy: 81.4663  fRe_over_56p9: 1.43175
+--- thermal entry length (Graetz) ---
+Lt_m: 0.571495  Lt_over_L: 1.90498
+--- convective Bejan ---
+Convec_Bejan: 1.2576e+09
+--- entropy generation (EGM) ---
+Irrev_Bejan: NA (out of scope, guideline 2.4)   W_exergy_loss_W: NA
+--- density / Boussinesq diagnostic ---
+rho_ratio_in_out: 1  beta_dT_wall_to_bulk: 0.0419058  beta_dT_coolant: 0.00633856
+--- energy balance ---
+Q_removed_W: 9.40037  energy_balance_error_pct: 0.00393617
+--- provenance ---
+solver: buoyantBoussinesqSimpleFoam (laminar)  OF: openfoam2412
+nCells: 291600  last_time: 2276  final_resid_Ux: 8.681389e-13  T_or_h: 9.9917491e-08  p_rgh: 3.0280483e-09
+Carnot_COP: 0.34529148
+=====================================================================

@@ -1,0 +1,11 @@
+GATE CHECK (full CFD): s1_77K_norm250 @ t=3500  warm=300.0K cold=77.0K
+================================================================
+  [PASS] no_solver_errors                 log=log.chtMultiRegionSimpleFoam
+  [PASS] energy_cons_domain0              net sum(whf+qr)=-5.27e-04 W (2.2%)
+  [PASS] energy_cons_domain1              net sum(whf+qr)=+8.35e-07 W (0.0%)
+  [PASS] radiation_active                 radiation on cold = 7337.429 mW
+  [PASS] G3.1_conduction_CFD_vs_harness   CFD=962.05 mW target=962.02 mW err=0.0%
+  [PASS] G3.4_keff_fit                    max k_eff poly(order 5) fit err = 0.06%
+  [PASS] G3.5_harness_accounting          65 lines; W/cable=14.801 mW; total cond=962.05 mW
+----------------------------------------------------------------
+  7/7 gates passed

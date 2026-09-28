@@ -1,0 +1,35 @@
+=====================================================================
+ Consolidated metrics report  (true SI units, no manual corrections)
+ Case:  LN2_3bar_Re10000      Fluid: LN2_77K_3bar
+ Geometry: mini-channel (Dh=0.01 m = 10 mm; Kandlikar mini, NOT micro)
+ Heat duty Q_wall: 9.4 W (matched-duty He-vs-N2 basis; Stage-1 load ~9.4 W)
+ Flow model: incompressible Boussinesq (beta*dT<<1 valid)
+=====================================================================
+--- raw CFD ---
+Tin_K: 7.70000000e+01  Tout_bulk_K: 7.70564372e+01  Tout_area_K: 7.70676650e+01  Tw_K: 7.78351278e+01  Tb_K: 77.0282
+dP_Pa(true): 18.5635  Umean_m_s: 0.2023  mdot_kg_s: 0.0817494  Qvol_m3_s: 0.00010115
+rho_in: 808.2  rho_out: 808.2  rho_ratio_in_out: 1
+--- dimensional ---
+h_W_m2K: 776.608  Wpump_W(true): 0.0018777  wall_superheat_Tw_minus_Tb_K: 0.806928
+--- core dimensionless ---
+Re: 9999.93  Nu: 53.3019  f_Darcy: 0.0374161  Nu_over_f: 1424.57  PF_Nu_f13: 159.364
+St: 0.00233168  Colburn_j: 0.00404625  j_over_f: 0.108142  Mouromtseff_Mo: 45958.5
+--- HX effectiveness (single-stream isothermal-wall limit) ---
+NTU: 0.0699205  effectiveness_eps: 0.0675321
+--- validation (Shah & London, square duct, const-q: Nu_inf=3.61, fRe=56.9) ---
+Nu_over_Nuinf: 14.7651  fRe_Darcy: 374.158  fRe_over_56p9: 6.57571
+--- thermal entry length (Graetz) ---
+Lt_m: 11.4299  Lt_over_L: 38.0997
+--- convective Bejan ---
+Convec_Bejan: 1.15518e+11
+--- entropy generation (EGM) ---
+Irrev_Bejan: NA (out of scope, guideline 2.4)   W_exergy_loss_W: NA
+--- density / Boussinesq diagnostic ---
+rho_ratio_in_out: 1  beta_dT_wall_to_bulk: 0.00453251  beta_dT_coolant: 0.000317008
+--- energy balance ---
+Q_removed_W: 9.40274  energy_balance_error_pct: 0.0291489
+--- provenance ---
+solver: buoyantBoussinesqSimpleFoam (laminar)  OF: openfoam2412
+nCells: 291600  last_time: 1376  final_resid_Ux: 3.5380442e-09  T_or_h: 4.0914067e-08  p_rgh: 7.6412319e-09
+Carnot_COP: 0.34529148
+=====================================================================

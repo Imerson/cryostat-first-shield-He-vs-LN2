@@ -1,0 +1,4 @@
+# Wall heat-flux
+# Time          	patch           	min             	max             	integral        
+6000            	heatedWall	6.26330395e+02	6.26330395e+02	9.39495593e+00
+6000            	adiabaticWalls	0.00000000e+00	0.00000000e+00	0.00000000e+00

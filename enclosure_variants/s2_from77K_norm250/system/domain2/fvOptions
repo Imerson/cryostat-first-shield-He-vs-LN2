@@ -1,0 +1,9 @@
+FoamFile { version 2.0; format ascii; class dictionary; location "system/domain2"; object fvOptions; }
+amplifier_heatSource
+{
+    type            scalarSemiImplicitSource;
+    active          yes;
+    selectionMode   all;
+    volumeMode      absolute;
+    injectionRateSuSp { h (0.010 0); }
+}

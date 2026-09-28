@@ -1,0 +1,17 @@
+
+==================================================================
+GATE CHECK: s1_50K_agg800  @ t=2900
+==================================================================
+  [PASS] no_solver_errors       0 error lines in log.chtMultiRegionSimpleFoam
+  [PASS] resid_domain0          h residual trough(last30) = 9.83e-08
+  [PASS] resid_domain1          h residual trough(last30) = 9.59e-08
+  [FAIL] T_no_rail_hits         29000 rail hits (limiter 1.0/80.0)
+  [PASS] T_physical             final Min/max T = 50.0/300.0 K (allowed 48.5-301.5)
+  [PASS] energy_cons_domain0    net=∑(whf+qr)=-4.515e-09 W (0.00% of peak flux 1.18e+01)
+  [FAIL] vf_closure_domain0     61% rows within ±10% (n=1169, mean=0.902)
+  [PASS] energy_cons_domain1    net=∑(whf+qr)=+4.566e-09 W (0.00% of peak flux 3.72e+00)
+  [PASS] vf_closure_domain1     85% rows within ±10% (n=1563, mean=0.959)
+  [PASS] radiation_active       total |∑qr| over regions = 1.427e+01 W
+------------------------------------------------------------------
+  8/10 gates passed  ->  2 GATE(S) FAILED
+==================================================================
