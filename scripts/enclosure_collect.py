@@ -54,7 +54,7 @@ def main():
     order = ['s1_50K_base', 's1_77K_base', 's2_from50K_base', 's2_from77K_base', 's1_50K_mli', 's1_77K_mli']
     labs = ['300$\\to$50 K', '300$\\to$77 K', '50$\\to$4 K', '77$\\to$4 K', '300$\\to$50 K\nMLI-eq.', '300$\\to$77 K\nMLI-eq.']
     d = df.set_index('case'); keep = [(o, l) for o, l in zip(order, labs) if o in d.index]
-    fig, ax = plt.subplots(figsize=(7.0, 3.9)); x = np.arange(len(keep))
+    fig, ax = plt.subplots(figsize=(6.0, 3.6)); x = np.arange(len(keep))
     rad = np.array([d.loc[o, 'radiation_W'] for o, _ in keep]); con = np.array([d.loc[o, 'conduction_W'] for o, _ in keep])
     ax.bar(x, rad, 0.55, color=C_RAD, label='radiation'); ax.bar(x, con, 0.55, bottom=rad, color=C_CON, label='harness conduction')
     for i, (o, _) in enumerate(keep):
@@ -65,14 +65,14 @@ def main():
     ax.set_yscale('log'); ax.set_ylim(1e-3, 80); ax.set_xticks(x); ax.set_xticklabels([l for _, l in keep], fontsize=8)
     ax.set_ylabel('stage heat load [W]'); ax.legend(fontsize=8, loc='upper right')
     ax.text(0.5, 30, 'error bars: emissivity $\\pm$50 %', fontsize=7.5, color='k')
-    fig.savefig(os.path.join(FIG, 'fig2_cascade_loads.png')); plt.close(fig)
+    fig.savefig(os.path.join(FIG, 'fig2_cascade_loads.png')); fig.savefig(os.path.join(FIG, 'fig2_cascade_loads.pdf')); plt.close(fig)
     # ---- Fig 3: agglomeration ----
     lv = [(60, 9.455681, np.nan), (250, 8.411264, 98.3)]
     for n, cl in ((400, 98.3), (800, np.nan)):
         k = f's1_50K_agg{n}'
         if k in d.index: lv.append((n, d.loc[k, 'radiation_W'], cl))
     lv.sort(); n_, q_, c_ = zip(*lv)
-    fig, ax = plt.subplots(figsize=(5.8, 3.5))
+    fig, ax = plt.subplots(figsize=(4.8, 3.3))
     ax.plot(n_, q_, 'o-', color=C_CON, ms=6); ax.axhline(7.073, ls='--', color='#B85042'); ax.text(65, 6.75, 'closed-form grey-body value 7.07 W', color='#B85042', fontsize=8)
     for n, q, c in lv:
         ax.annotate(f'{q:.2f} W', (n, q), textcoords='offset points', xytext=(5, 6), fontsize=7)
@@ -81,6 +81,6 @@ def main():
         ax.annotate('row-normalised $F$', (250, d.loc['s1_50K_norm250', 'radiation_W']), textcoords='offset points', xytext=(10, 4), fontsize=7.5, color='#50708E')
     ax.plot([], [], 'o-', color=C_CON, label='as generated (agglomeration sweep)'); ax.legend(fontsize=7.5, loc='lower left')
     ax.set_xscale('log'); ax.set_xlabel('coarsest-level faces per patch (view-factor agglomeration)'); ax.set_ylabel('first-stage radiative load [W]')
-    fig.savefig(os.path.join(FIG, 'fig3_radiation_sweep.png')); plt.close(fig)
+    fig.savefig(os.path.join(FIG, 'fig3_radiation_sweep.png')); fig.savefig(os.path.join(FIG, 'fig3_radiation_sweep.pdf')); plt.close(fig)
 
 if __name__ == '__main__': main()

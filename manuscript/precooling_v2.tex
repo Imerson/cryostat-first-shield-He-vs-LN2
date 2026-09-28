@@ -15,6 +15,7 @@
 \usepackage{lineno}
 \usepackage{url}
 \usepackage{xcolor}
+\usepackage{rotating}
 \usepackage[hidelinks]{hyperref}
 \newcommand{\TODO}[1]{\textcolor{red}{[#1]}}
 \newcommand{\LNtwo}{LN$_2$}
@@ -22,6 +23,7 @@
 \newcommand{\Nu}{\mathit{Nu}}
 \renewcommand{\Pr}{\mathit{Pr}}
 \graphicspath{{../figures/}}
+\DeclareGraphicsExtensions{.pdf,.png}
 
 \journal{Thermal Science and Engineering Progress}
 
@@ -48,7 +50,7 @@ radiation and the conduction of a 65-line coaxial harness; the view-factor matri
 require row normalisation in a low-emissivity enclosure, after which the model reproduces the
 closed-form loads to 4\,\%. (2)~The two coolants are compared in a channelled cold plate at a
 matched 9.4\,W duty over Reynolds numbers 500--10\,000, laminar to turbulent, and helium
-pressures of 1--18\,bar, with NIST-referenced properties, three-grid verification for both
+pressures of 1--18\,bar, with properties from the National Institute of Standards and Technology (NIST) reference equations of state, three-grid verification for both
 fluids and energy closure below 0.2\,\%. (3)~The routes are priced in room-temperature power
 with ideal Carnot multipliers and with published hardware efficiencies. The warmer shield
 costs nothing at the first stage, 8.3 against 8.4\,W; its penalty is 106\,mW at the 4\,K
@@ -116,9 +118,13 @@ $\sigma$ & Stefan--Boltzmann constant \\
 \end{tabular}\\[6pt]
 \noindent\textbf{Subscripts}\quad 0 ambient; 1 first stage; 2 second (4\,K) stage;
 b bulk; c conduction; r radiation; sat saturation; w wall.\\[4pt]
-\noindent\textbf{Acronyms}\quad CHT conjugate heat transfer; GCI grid convergence index;
-HX heat exchanger; MLI multi-layer insulation; OVC outer vacuum can; PTR pulse-tube refrigerator;
-SST shear-stress transport.
+\noindent\textbf{Acronyms}\quad CFD computational fluid dynamics; CHT conjugate heat transfer;
+DTT Divertor Tokamak Test facility; GCI grid convergence index; ITER International Thermonuclear
+Experimental Reactor; LHC Large Hadron Collider; LHD Large Helical Device; MLI multi-layer
+insulation; NIST National Institute of Standards and Technology; NTU number of transfer units;
+OVC outer vacuum can; PTFE polytetrafluoroethylene; PTR pulse-tube refrigerator; SIMPLE
+semi-implicit method for pressure-linked equations; SST shear-stress transport; STL
+stereolithography (surface file format).
 \end{multicols}
 
 % =====================================================================
@@ -131,10 +137,10 @@ conduction along supports and wiring, and it does so at a temperature where refr
 one to two orders of magnitude cheaper than at 4\,K~\cite{21-Weisend2016Cryostat,
 BarronNellis2016Cryogenic, Shu2024AdvancedCryostats}. Two ways of cooling this first shield
 are in wide use. Large superconducting systems circulate pressurised helium gas through
-cooling tubes on the shield: the ITER thermal shield runs on helium at 80\,K and
-1.8\,MPa~\cite{Nam2014ITERThermalShield}, the DTT shield on the same loop
-conditions~\cite{Barone2020DTTShield}, the LHD shields on gaseous helium in parallel
-paths~\cite{Imagawa2002LHDShield}, and the LHC shields on helium at
+cooling tubes on the shield: the thermal shield of the International Thermonuclear Experimental Reactor (ITER) runs on helium at 80\,K and
+1.8\,MPa~\cite{Nam2014ITERThermalShield}, the shield of the Divertor Tokamak Test facility (DTT) on the same loop
+conditions~\cite{Barone2020DTTShield}, the shields of the Large Helical Device (LHD) on gaseous helium in parallel
+paths~\cite{Imagawa2002LHDShield}, and the shields of the Large Hadron Collider (LHC) on helium at
 50--75\,K~\cite{Lebrun2000LHCCryogenics, Claudet2010LHCExergy}. Magnet and detector
 cryostats, and the older generation of helium cryostats, use a liquid-nitrogen bath or loop
 at 77\,K~\cite{23-Pieterman1986MRICooling, 24-Iwasa2009SuperconductingMagnets}; Li et
@@ -163,7 +169,7 @@ stage total, not where the load lands. Second, wiring loads are measured and mod
 cable~\cite{6-Krinner2019CryogenicSetup, 22-Raicu2025CryogenicThermal,
 Snodgrass2022RegeneratorLoads}, again as conduction integrals that assign the harness a
 single resistance and leave it uncoupled from the radiation field. Third, surface-to-surface
-radiation in CFD codes has been validated on enclosure benchmarks and applied to fusion
+radiation in computational fluid dynamics (CFD) codes has been validated on enclosure benchmarks and applied to fusion
 vacuum vessels~\cite{Koncar2018CFDRadiation}, but not coupled to temperature-dependent
 harness conduction in a cryostat shield, and the behaviour of agglomerated view-factor
 matrices in such enclosures has not been examined. Fourth, cryogenic heat exchangers are
@@ -196,7 +202,7 @@ regimes, pressures and bases of comparison, and where is each fluid's best opera
 \item[Q3 (work ledger).] What do the two routes cost in room-temperature power, with ideal
 Carnot multipliers and with the efficiencies of real hardware?
 \end{description}
-Q1 is answered with a three-dimensional multi-region CHT model that resolves view-factor
+Q1 is answered with a three-dimensional multi-region conjugate heat-transfer (CHT) model that resolves view-factor
 radiation and temperature-dependent harness conduction. Its stage-integrated loads are
 verified against closed-form budgets; its contribution is the spatial distribution of the
 load and the split between harness families. Q2 is answered with a grid-converged cold-plate
@@ -208,27 +214,28 @@ Karabuga2018N2Liquefaction}. The dilution unit or any payload below 4\,K is outs
 the results apply to any 4\,K cryostat with a wired first shield.
 
 
-\begin{figure}[tbp]
+\begin{sidewaysfigure}[p]
 \centering
-\includegraphics[width=\textwidth]{figA_cryostat_routes.png}
+\includegraphics[width=0.95\textheight]{figA_cryostat_routes}
 \caption{Cross-section of the cryostat class studied, with (a)~the helium-gas route and
-(b)~the liquid-nitrogen route for the first shield. The stack from the 300\,K plate to the
-4\,K plate and the channelled first-stage plate are modelled; the stages below 4\,K are shown
-for context only.}
+(b)~the liquid-nitrogen route for the first shield. The dashed region from the 300\,K plate to
+the 4\,K plate is the enclosure CHT model and the channelled first-stage plate is the cold-plate
+model; the greyed stages below 4\,K are shown for context only and are not modelled.}
 \label{fig:routes}
-\end{figure}
+\end{sidewaysfigure}
 
-\begin{figure}[tbp]
+\begin{sidewaysfigure}[p]
 \centering
-\includegraphics[width=\textwidth]{fig1_schematic.png}
+\includegraphics[width=0.95\textheight]{fig1_schematic}
 \caption{The three first-shield cooling routes and the two models. (a)~Reference architecture
 with a conductively coupled PTR first stage; (b)~circulated helium gas through a channelled
 cold plate; (c)~liquid nitrogen through the same cold plate. The dashed box is the domain of the
 passive enclosure CHT model (Q1); the dotted box is the domain of the active cold-plate model
 (Q2). The loads $\dot Q_1 = \dot Q_{r,1}+\dot Q_{c,1}$ and $\dot Q_2 = \dot Q_{r,2}+\dot Q_{c,2}$
-enter the work ledger (Q3).}
+enter the work ledger (Q3), $\dot W=\sum_i\dot Q_i(T_0-T_i)/(T_i\eta_i)$, with $\eta_i=1$ (ideal)
+or the measured fraction of Carnot (real).}
 \label{fig:schematic}
-\end{figure}
+\end{sidewaysfigure}
 
 % =====================================================================
 \section{Models and methods}
@@ -267,7 +274,7 @@ plain) continuity, momentum and energy equations for a single-phase coolant,
 \nabla\cdot(\rho\mathbf U h)&=\nabla\cdot\Big[\Big(\frac{k}{c_p}+\frac{\mu_t}{\Pr_t}\Big)\nabla h\Big],
 \label{eq:energy}
 \end{align}
-with $\mu_t=0$ for laminar runs and $\mu_t$ from the $k$--$\omega$ SST
+with $\mu_t=0$ for laminar runs and $\mu_t$ from the $k$--$\omega$ shear-stress transport (SST)
 model~\cite{Menter1994SST} for $\Re\ge 5000$ ($\Pr_t=0.85$). The sweep is run as pure
 forced convection ($\mathbf g=0$) so that the ranking does not depend on the orientation of
 the plate; the buoyancy parameter $\mathrm{Gr}/\Re^2$ is reported for every run, and three
@@ -281,7 +288,7 @@ approximation, $\rho=\rho_0[1-\beta(T-T_0)]$, valid because $\beta\Delta T<0.03$
 
 The domain is a $0.718\times0.718\times0.335$\,m section of a cryostat between the warm plate
 and the first-stage cold plate (Fig.~\ref{fig:domain}; Table~\ref{tab:enclosure}). Two vacuum
-gap regions (outer: OVC to shield; inner: warm plate to cold plate and shield) and four solid
+gap regions (outer: outer vacuum can (OVC) to shield; inner: warm plate to cold plate and shield) and four solid
 cylinders of 20\,mm diameter spanning the 0.335\,m height are meshed with a
 $30\times30\times14$ background grid refined to level~2 around the cylinders
 (0.2--0.4$\times10^{6}$ cells in total). Each cylinder lumps one functional family of a
@@ -294,7 +301,7 @@ family is represented by an effective conductivity
 \end{equation}
 where $n_k$ is the number of lines in the family, $A_i$ the cross-section of cable component
 $i$ (outer conductor 1.585\,mm$^2$ and centre conductor 0.205\,mm$^2$ of 304 stainless steel,
-PTFE dielectric 2.001\,mm$^2$), $k_i(T)$ the NIST cryogenic conductivity fits, and
+polytetrafluoroethylene (PTFE) dielectric 2.001\,mm$^2$), $k_i(T)$ the NIST cryogenic conductivity fits, and
 $A_{\mathrm{model}}$ the effective conduction area of the modelled cylinder, calibrated once per
 geometry so that the resolved conduction reproduces the harness integral
 $n_k L^{-1}\sum_i A_i\int k_i\,\mathrm{d}T$ (Supplementary Table~S4 lists the calibrated
@@ -303,7 +310,7 @@ stage span; fit error below 0.5\,\%; Fig.~\ref{fig:harness}).
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=\textwidth]{figC_harness_lumping.png}
+\includegraphics[width=0.9\textwidth]{figC_harness_lumping}
 \caption{Harness representation: (a)~the 65 coaxial lines in four functional families, each
 lumped into one 20\,mm cylinder; (b)~the UT-085 cable cross-section with the component
 areas of Eq.~(\ref{eq:keff}); (c)~the component conductivities and the resulting effective
@@ -318,7 +325,7 @@ conductivity of the drive bundle.}
 \label{tab:enclosure}
 \begin{tabularx}{\textwidth}{l X}
 \toprule
-Domain & $0.718\times0.718\times0.335$\,m; OVC and shield as snapped STL surfaces; four coax
+Domain & $0.718\times0.718\times0.335$\,m; OVC and shield as snapped stereolithography (STL) surfaces; four coax
 cylinders $\varnothing 20$\,mm at radius 0.15\,m \\
 Regions & \texttt{domain0} (OVC--shield gap), \texttt{domain1} (warm plate--cold plate/shield gap),
 \texttt{coax\_L1..L4} (solids) \\
@@ -328,13 +335,13 @@ Temperatures & fixed: warm plate and OVC at $T_{\mathrm{hot}}$; shield and cold 
 $T_{\mathrm{cold}}$; cases (300, 50), (300, 77), (50, 4), (77, 4)\,K \\
 Emissivity (baseline) & warm surfaces 0.04 (polished Al); shield and cold plate 0.02
 (polished Cu-plated steel); harness 0.02 \\
-Emissivity (variants) & $\pm50$\,\% (0.02/0.01 and 0.06/0.03); MLI-equivalent 0.003 on all
+Emissivity (variants) & $\pm50$\,\% (0.02/0.01 and 0.06/0.03); multi-layer-insulation (MLI) equivalent 0.003 on all
 first-stage surfaces \\
 Radiation & \texttt{viewFactor}, grey diffuse, one band, solved every 10 iterations;
 agglomeration 250 faces per patch at the coarsest level (verification at 400 and 800) \\
 Harness contact & bundles fixed at $T_{\mathrm{hot}}$ at the warm cap and $T_{\mathrm{cold}}$ at the
 cold cap; no contact resistance; lateral surfaces exchange by radiation only \\
-Solver & \texttt{chtMultiRegionSimpleFoam}, SIMPLE, residuals $<10^{-7}$, 2900 iterations
+Solver & \texttt{chtMultiRegionSimpleFoam}, semi-implicit method for pressure-linked equations (SIMPLE), residuals $<10^{-7}$, 2900 iterations
 from a uniform initial field \\
 \bottomrule
 \end{tabularx}
@@ -342,9 +349,11 @@ from a uniform initial field \\
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=0.8\textwidth]{fig1_domain.png}
-\caption{Cut-away of the enclosure CHT domain for the 300\,$\to$\,50\,K case, coloured by
-temperature. The four harness bundles span the gap from the warm plate to the cold plate.}
+\includegraphics[width=0.85\textwidth]{fig1_domain_v2}
+\caption{Cut-away of the enclosure CHT domain for the 300\,$\to$\,50\,K case. The warm plate,
+outer vacuum can and first shield are cut open on the near side; the four harness bundles,
+coloured by their computed temperature, span the gap from the warm plate to the cold plate. The
+vacuum gaps between the surfaces carry radiation only.}
 \label{fig:domain}
 \end{figure}
 
@@ -408,7 +417,7 @@ $U$ at $\Re=2300$ [m\,s$^{-1}$] & 1.52 (1\,bar), 0.084 (18\,bar) & 0.047 \\
 Solver & \texttt{buoyantSimpleFoam}, \texttt{heRhoThermo}/perfect gas &
 \texttt{buoyantBoussinesqSimpleFoam} \\
 Mesh & \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr\textwidth-4.3cm\relax}}{$180\times18\times18$ cells per duct, two-sided wall grading (ratio 6),
-$2.92\times10^{5}$ cells; GCI on 86k/292k/984k for both fluids} \\
+$2.92\times10^{5}$ cells; grid convergence index (GCI) study on 86k/292k/984k cells for both fluids} \\
 Convergence & \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr\textwidth-4.3cm\relax}}{residuals $<10^{-6}$ (He) and $<10^{-7}$ (\LNtwo); energy
 balance closure reported per run} \\
 \bottomrule
@@ -423,7 +432,7 @@ results here use the 50\,K values of Table~\ref{tab:hx}.
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=\textwidth]{figB_coldplate_geometry.png}
+\includegraphics[width=\textwidth]{figB_coldplate_geometry}
 \caption{Cold-plate heat-exchanger model: (a)~the five heated square ducts with boundary
 conditions and dimensions; (b)~the graded duct cross-section with the two sampling lines
 used for the wall-temperature profiles.}
@@ -444,8 +453,7 @@ and turbulent results against the Gnielinski correlation~\cite{Gnielinski1976}. 
 temperature profiles along the heated-wall centreline are extracted for every run.
 
 \paragraph{Grid convergence.} Three systematically refined meshes (refinement ratio 1.5) were
-run for both fluids at $\Re=2300$ and the discretisation uncertainty expressed as a grid
-convergence index~\cite{45-Celik2008GCI} (Section~\ref{sec:res-q2}). For the turbulent runs the
+run for both fluids at $\Re=2300$ and the discretisation uncertainty expressed as a GCI~\cite{45-Celik2008GCI} (Section~\ref{sec:res-q2}). For the turbulent runs the
 first-cell $y^+$ on the graded mesh averages 2.5--5.6 with a maximum of 9.5, within the range handled
 by the low-Reynolds wall treatment of the SST model.
 
@@ -459,7 +467,7 @@ A load $\dot Q_i$ absorbed at $T_i$ and rejected at $T_0=300$\,K costs
 \end{equation}
 where $\eta_i$ is the stage efficiency as a fraction of Carnot. The ideal ledger sets
 $\eta_i=1$: the multiplier is 5.0 at 50\,K, 2.9 at 77\,K and 74 at 4\,K. The real ledger uses
-published hardware. A commercial two-stage PTR delivers 1.5\,W at 4.2\,K together with 40\,W at
+published hardware. A commercial two-stage PTR (Cryomech PT415) delivers 1.5\,W at 4.2\,K together with 40\,W at
 45\,K for 10.7\,kW of input~\cite{Bluefors2026PT415}; allocating the input in proportion to the
 Carnot work of each stage gives $\eta_2\approx0.011$ at 4.2\,K and $\eta_1\approx0.045$ at 45\,K
 (Supplementary S3), consistent with the 1\,\% and 10--15\,\% of Carnot that
@@ -496,7 +504,7 @@ production values are retained as an upper band.
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=0.7\textwidth]{fig3_radiation_sweep.png}
+\includegraphics[width=0.7\textwidth]{fig3_radiation_sweep}
 \caption{First-stage radiative load (300\,$\to$\,50\,K) against the view-factor
 agglomeration level with the matrix as generated (circles) and with its rows normalised to
 unity at the production level (square), compared with the closed-form grey-body value. The
@@ -536,7 +544,7 @@ parentheses), with the unnormalised production value and the $\pm50$\,\% emissiv
 upper and lower bounds.}
 \label{tab:loads}
 \footnotesize
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X r r r r r}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.1cm} r r r r >{\centering\arraybackslash}X}
 \toprule
 Case & Radiation & Conduction & Total & Prod. & $\varepsilon\pm50\,\%$ \\
 \midrule
@@ -544,8 +552,8 @@ Case & Radiation & Conduction & Total & Prod. & $\varepsilon\pm50\,\%$ \\
 300\,$\to$\,77\,K & 7.34 W (7.04) & 0.962 W (0.962) & 8.30 W & 9.35 W & 6.4--12.4 W \\
 50\,$\to$\,4\,K & 3.16 mW (3.15) & 70.3 mW (70.3) & 73.5 mW & 75.6 mW & -- \\
 77\,$\to$\,4\,K & 17.8 mW (17.7) & 162.1 mW (162.1) & 179.9 mW & 191.8 mW & -- \\
-300\,$\to$\,50\,K, MLI & 1.81 W$^{a}$ (1.47) & 1.029 W & 2.84 W & -- & -- \\
-300\,$\to$\,77\,K, MLI & 1.81 W$^{a}$ (1.46) & 0.962 W & 2.77 W & -- & -- \\
+300\,$\to$\,50\,K MLI & 1.81 W$^{a}$ (1.47) & 1.029 W & 2.84 W & -- & -- \\
+300\,$\to$\,77\,K MLI & 1.81 W$^{a}$ (1.46) & 0.962 W & 2.77 W & -- & -- \\
 \bottomrule
 \multicolumn{6}{l}{\scriptsize $^{a}$production-level matrix; the closure bias of $+23$\,\% applies as at the bare-shield level.}
 \end{tabularx}
@@ -553,7 +561,7 @@ Case & Radiation & Conduction & Total & Prod. & $\varepsilon\pm50\,\%$ \\
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=0.85\textwidth]{fig2_cascade_loads.png}
+\includegraphics[width=0.85\textwidth]{fig2_cascade_loads}
 \caption{Stage loads for the four enclosure cases and the two MLI-equivalent variants
 (production view factors), decomposed by mechanism, with the $\pm50$\,\% emissivity band.
 The first stage is radiation-dominated and nearly identical between routes; the 4\,K stage
@@ -640,7 +648,7 @@ or subcooled loop is a requirement, not a refinement.
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=\textwidth]{fig5_operating_maps.png}
+\includegraphics[width=\textwidth]{fig5_operating_maps}
 \caption{Operating maps at 9.4\,W duty: (a)~heat-transfer coefficient, (b)~wall superheat,
 (c)~pumping power with the helium pressure series at $\Re=2300$, and (d)~maximum wall
 temperature with the nitrogen saturation temperatures at 1 and 3\,bar. Circles: laminar;
@@ -672,7 +680,7 @@ Fig.~\ref{fig:maps}d.
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=\textwidth]{fig6_wall_profiles.png}
+\includegraphics[width=\textwidth]{fig6_wall_profiles}
 \caption{(a)~Heated-wall centreline temperature rise above the inlet and (b)~cross-channel
 temperature profile at $x/L=0.5$ for both fluids at $\Re=500$, 2300 and $10^4$.}
 \label{fig:profiles}
@@ -729,7 +737,7 @@ Energy-balance closure & 0.06\,\% & 0.001\,\% & -- \\
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=0.75\textwidth]{fig7_pareto.png}
+\includegraphics[width=0.75\textwidth]{fig7_pareto}
 \caption{Wall superheat against pumping power for both fluids over the Reynolds sweep
 (labels: $\Re$), with the helium pressure series at $\Re=2300$.}
 \label{fig:pareto}
@@ -801,7 +809,7 @@ MLI-eq. & \LNtwo, 77\,K & 2.77 & 179.9 & 21.3 & 1240 (910--1690) \\
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=\textwidth]{fig8_ledger.png}
+\includegraphics[width=\textwidth]{fig8_ledger}
 \caption{Room-temperature power of the two routes for (a)~the bare polished shield and
 (b)~the MLI-equivalent shield: ideal Carnot multipliers split by stage (solid) and hardware
 efficiencies (hatched), with emissivity and efficiency ranges as error bars.}

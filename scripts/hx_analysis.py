@@ -60,7 +60,7 @@ def load():
 
 def fig_maps(df):
     p = df[df.gci == 'production']
-    fig, ax = plt.subplots(2, 2, figsize=(9.2, 6.8)); ax = ax.ravel()
+    fig, ax = plt.subplots(2, 2, figsize=(6.5, 5.6)); ax = ax.ravel()
     for fl, col, lab in (('He', C_HE, 'He gas, 1 bar'), ('LN2', C_N2, 'LN$_2$, 3 bar')):
         s = p[(p.fluid == fl) & (p.P_bar.isin([1, 3]))].sort_values('Re_target')
         lam, tur = s[~s.turbulent], s[s.turbulent]
@@ -77,15 +77,15 @@ def fig_maps(df):
     ax[3].axhline(TSAT_N2_3BAR, color=C_N2, ls='--', lw=1); ax[3].text(600, TSAT_N2_3BAR + 0.6, 'N$_2$ saturation, 3 bar (87.9 K)', color=C_N2, fontsize=7.5)
     ax[3].axhline(77.36, color='grey', ls=':', lw=1); ax[3].text(600, 77.9, 'N$_2$ saturation, 1 bar', color='grey', fontsize=7)
     for a in ax: a.set_xscale('log'); a.set_xlabel('$Re$')
-    ax[0].set_yscale('log'); ax[0].set_ylabel('$h$ [W m$^{-2}$ K$^{-1}$]'); ax[0].legend(fontsize=7)
+    ax[0].set_yscale('log'); ax[0].set_ylabel('$h$ [W m$^{-2}$ K$^{-1}$]'); ax[0].legend(fontsize=7.5)
     ax[1].set_yscale('log'); ax[1].set_ylabel('wall superheat $T_w-T_b$ [K]')
     ax[2].set_yscale('log'); ax[2].set_ylabel('pumping power [mW]'); ax[2].legend(fontsize=7)
     ax[3].set_ylabel('maximum wall temperature [K]'); ax[3].legend(fontsize=7, loc='upper right')
     for a, t in zip(ax, 'abcd'): a.set_title(f'({t})', loc='left', fontsize=9)
-    fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.png')); plt.close(fig)
+    fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.png')); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.pdf')); plt.close(fig)
 
 def fig_profiles(df):
-    fig, ax = plt.subplots(1, 2, figsize=(9.2, 3.4))
+    fig, ax = plt.subplots(1, 2, figsize=(6.5, 3.0))
     for fl, col in (('He', C_HE), ('LN2', C_N2)):
         for Re, ls in ((500, ':'), (2300, '-'), (10000, '--')):
             P = 1 if fl == 'He' else 3
@@ -100,11 +100,11 @@ def fig_profiles(df):
     ax[0].set_xlabel('$x/L$ along heated-wall centreline'); ax[0].set_ylabel('$T_w - T_{in}$ [K]'); ax[0].set_yscale('log'); ax[0].legend(fontsize=7, ncol=2)
     ax[1].set_xlabel('$T - T_{in}$ [K] at $x/L=0.5$'); ax[1].set_ylabel('$z/D_h$ (0 = heated wall)')
     for a, t in zip(ax, 'ab'): a.set_title(f'({t})', loc='left', fontsize=9)
-    fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig6_wall_profiles.png')); plt.close(fig)
+    fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig6_wall_profiles.png')); fig.savefig(os.path.join(FIG, 'fig6_wall_profiles.pdf')); plt.close(fig)
 
 def fig_pareto(df):
     p = df[df.gci == 'production']
-    fig, ax = plt.subplots(figsize=(6.0, 4.0))
+    fig, ax = plt.subplots(figsize=(5.0, 3.6))
     for fl, col, lab in (('He', C_HE, 'He 1 bar'), ('LN2', C_N2, 'LN$_2$ 3 bar')):
         s = p[(p.fluid == fl) & (p.P_bar.isin([1, 3]))].sort_values('Re_target')
         ax.plot(s.Wpump_W * 1e3, s.dT_super, 'o-', color=col, ms=5, label=lab)
@@ -114,7 +114,7 @@ def fig_pareto(df):
         ax.plot(s.Wpump_W * 1e3, s.dT_super, mk, color=C_HE, ms=7, mfc='none', label=f'He {P} bar, $Re$=2300')
     ax.set_xscale('log'); ax.set_yscale('log')
     ax.set_xlabel('pumping power [mW]'); ax.set_ylabel('wall superheat $T_w-T_b$ [K]')
-    ax.legend(fontsize=7.5); fig.savefig(os.path.join(FIG, 'fig7_pareto.png')); plt.close(fig)
+    ax.legend(fontsize=7.5); fig.savefig(os.path.join(FIG, 'fig7_pareto.png')); fig.savefig(os.path.join(FIG, 'fig7_pareto.pdf')); plt.close(fig)
 
 def matched_pumping(df):
     """Interpolate LN2 superheat/h at the pumping power of each He point (log-log)."""

@@ -55,7 +55,7 @@ def main():
             rows.append(r)
     df = pd.DataFrame(rows); df.to_csv(os.path.join(DATA, 'ledger.csv'), index=False); print(df.to_string())
     # ---- figure: grouped bars, ideal and real, bare and MLI ----
-    fig, axes = plt.subplots(1, 2, figsize=(9.0, 3.8))
+    fig, axes = plt.subplots(1, 2, figsize=(6.5, 3.4))
     for ax, shield, ttl in zip(axes, ('base', 'mli'), ('(a) bare polished shield', '(b) MLI-equivalent shield ($\\varepsilon$ = 0.003)')):
         d = df[df.case.str.endswith(shield)]
         if d.empty: ax.set_title(ttl + ' [pending]'); continue
@@ -72,6 +72,6 @@ def main():
         for xi, (wi, wr) in enumerate(zip(d.W_ideal_W, d.W_real_mid_W)):
             ax.text(xi - w / 2 - 0.12, wi * 1.05, f'{wi:.0f} W', ha='right', fontsize=7); ax.text(xi + w / 2 + 0.12, wr * 1.05, f'{wr:.0f} W', ha='left', fontsize=7)
     axes[0].legend(fontsize=7, loc='upper left')
-    fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig8_ledger.png')); plt.close(fig)
+    fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig8_ledger.png')); fig.savefig(os.path.join(FIG, 'fig8_ledger.pdf')); plt.close(fig)
 
 if __name__ == '__main__': main()
