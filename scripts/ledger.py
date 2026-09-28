@@ -55,7 +55,7 @@ def main():
             rows.append(r)
     df = pd.DataFrame(rows); df.to_csv(os.path.join(DATA, 'ledger.csv'), index=False); print(df.to_string())
     # ---- figure: grouped bars, ideal and real, bare and MLI ----
-    fig, axes = plt.subplots(1, 2, figsize=(6.5, 3.4))
+    fig, axes = plt.subplots(1, 2, figsize=(5.4, 3.0))
     for ax, shield, ttl in zip(axes, ('base', 'mli'), ('(a) bare polished shield', '(b) MLI-equivalent shield ($\\varepsilon$ = 0.003)')):
         d = df[df.case.str.endswith(shield)]
         if d.empty: ax.set_title(ttl + ' [pending]'); continue

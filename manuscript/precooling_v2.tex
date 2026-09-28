@@ -11,7 +11,6 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{tabularx}
-\usepackage{multicol}
 \usepackage{lineno}
 \usepackage{url}
 \usepackage{xcolor}
@@ -75,9 +74,10 @@ cryostat \sep thermal shield \sep conjugate heat transfer \sep liquid nitrogen \
 
 % =====================================================================
 \section*{Nomenclature}
-\begin{multicols}{2}\footnotesize
-\noindent\textbf{Roman}\\[2pt]
-\begin{tabular}{@{}p{1.1cm}p{4.6cm}@{}}
+{\footnotesize
+\noindent\begin{minipage}[t]{0.52\textwidth}
+\textbf{Roman symbols}\\[2pt]
+\begin{tabular}{@{}p{1.2cm}>{\raggedright\arraybackslash}p{5.0cm}@{}}
 $A$ & area [m$^2$] \\
 $c_p$ & specific heat [J\,kg$^{-1}$K$^{-1}$] \\
 $D_{\mathrm h}$ & hydraulic diameter [m] \\
@@ -103,9 +103,11 @@ $U$ & mean velocity [m\,s$^{-1}$] \\
 $\dot W$ & wall power [W] \\
 $\dot W_{\mathrm p}$ & pumping power [W] \\
 $y^+$ & wall coordinate [--] \\
-\end{tabular}\\[6pt]
-\noindent\textbf{Greek}\\[2pt]
-\begin{tabular}{@{}p{1.1cm}p{4.6cm}@{}}
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.46\textwidth}
+\textbf{Greek symbols}\\[2pt]
+\begin{tabular}{@{}p{1.2cm}>{\raggedright\arraybackslash}p{4.4cm}@{}}
 $\beta$ & thermal expansion coefficient [K$^{-1}$] \\
 $\varepsilon$ & emissivity; HX effectiveness [--] \\
 $\eta_i$ & stage efficiency, fraction of Carnot [--] \\
@@ -116,6 +118,7 @@ $\sigma$ & Stefan--Boltzmann constant \\
 \end{tabular}\\[6pt]
 \noindent\textbf{Subscripts}\quad 0 ambient; 1 first stage; 2 second (4\,K) stage;
 b bulk; c conduction; r radiation; sat saturation; w wall.\\[4pt]
+\end{minipage}\\[6pt]
 \noindent\textbf{Acronyms}\quad CFD computational fluid dynamics; CHT conjugate heat transfer;
 DTT Divertor Tokamak Test facility; GCI grid convergence index; ITER International Thermonuclear
 Experimental Reactor; LHC Large Hadron Collider; LHD Large Helical Device; MLI multi-layer
@@ -123,7 +126,8 @@ insulation; NIST National Institute of Standards and Technology; NTU number of t
 OVC outer vacuum can; PTFE polytetrafluoroethylene; PTR pulse-tube refrigerator; SIMPLE
 semi-implicit method for pressure-linked equations; SST shear-stress transport; STL
 stereolithography (surface file format).
-\end{multicols}
+}
+
 
 % =====================================================================
 \linenumbers

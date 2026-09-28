@@ -54,7 +54,7 @@ def main():
     order = ['s1_50K_base', 's1_77K_base', 's2_from50K_base', 's2_from77K_base', 's1_50K_mli', 's1_77K_mli']
     labs = ['300$\\to$50 K', '300$\\to$77 K', '50$\\to$4 K', '77$\\to$4 K', '300$\\to$50 K\nMLI-eq.', '300$\\to$77 K\nMLI-eq.']
     d = df.set_index('case'); keep = [(o, l) for o, l in zip(order, labs) if o in d.index]
-    fig, ax = plt.subplots(figsize=(6.0, 3.6)); x = np.arange(len(keep))
+    fig, ax = plt.subplots(figsize=(5.4, 3.3)); x = np.arange(len(keep))
     rad = np.array([d.loc[o, 'radiation_W'] for o, _ in keep]); con = np.array([d.loc[o, 'conduction_W'] for o, _ in keep])
     ax.bar(x, rad, 0.55, color=C_RAD, label='radiation'); ax.bar(x, con, 0.55, bottom=rad, color=C_CON, label='harness conduction')
     for i, (o, _) in enumerate(keep):
@@ -72,7 +72,7 @@ def main():
         k = f's1_50K_agg{n}'
         if k in d.index: lv.append((n, d.loc[k, 'radiation_W'], cl))
     lv.sort(); n_, q_, c_ = zip(*lv)
-    fig, ax = plt.subplots(figsize=(4.8, 3.3))
+    fig, ax = plt.subplots(figsize=(4.4, 3.1))
     ax.plot(n_, q_, 'o-', color=C_CON, ms=6); ax.axhline(7.073, ls='--', color='#B85042'); ax.text(65, 6.75, 'closed-form grey-body value 7.07 W', color='#B85042', fontsize=8)
     for n, q, c in lv:
         ax.annotate(f'{q:.2f} W', (n, q), textcoords='offset points', xytext=(5, 6), fontsize=7)

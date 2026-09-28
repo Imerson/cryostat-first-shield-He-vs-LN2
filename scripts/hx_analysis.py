@@ -60,7 +60,7 @@ def load():
 
 def fig_maps(df):
     p = df[df.gci == 'production']
-    fig, ax = plt.subplots(2, 2, figsize=(6.5, 5.6)); ax = ax.ravel()
+    fig, ax = plt.subplots(2, 2, figsize=(5.4, 4.7)); ax = ax.ravel()
     for fl, col, lab in (('He', C_HE, 'He gas, 1 bar'), ('LN2', C_N2, 'LN$_2$, 3 bar')):
         s = p[(p.fluid == fl) & (p.P_bar.isin([1, 3]))].sort_values('Re_target')
         lam, tur = s[~s.turbulent], s[s.turbulent]
@@ -85,7 +85,7 @@ def fig_maps(df):
     fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.png')); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.pdf')); plt.close(fig)
 
 def fig_profiles(df):
-    fig, ax = plt.subplots(1, 2, figsize=(6.5, 3.0))
+    fig, ax = plt.subplots(1, 2, figsize=(5.4, 2.6))
     for fl, col in (('He', C_HE), ('LN2', C_N2)):
         for Re, ls in ((500, ':'), (2300, '-'), (10000, '--')):
             P = 1 if fl == 'He' else 3
@@ -104,7 +104,7 @@ def fig_profiles(df):
 
 def fig_pareto(df):
     p = df[df.gci == 'production']
-    fig, ax = plt.subplots(figsize=(5.0, 3.6))
+    fig, ax = plt.subplots(figsize=(4.6, 3.3))
     for fl, col, lab in (('He', C_HE, 'He 1 bar'), ('LN2', C_N2, 'LN$_2$ 3 bar')):
         s = p[(p.fluid == fl) & (p.P_bar.isin([1, 3]))].sort_values('Re_target')
         ax.plot(s.Wpump_W * 1e3, s.dT_super, 'o-', color=col, ms=5, label=lab)
