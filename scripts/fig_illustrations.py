@@ -20,70 +20,71 @@ def arrow(ax, p, q, color, lw=1.3, ls='-', ms=9):
 
 # ---------------------------------------------------------------- Fig A
 def cryostat(ax, route):
-    ax.set_xlim(-2.6, 11.8); ax.set_ylim(0.0, 12.2); ax.axis('off'); ax.set_aspect('equal')
+    ax.set_xlim(-3.3, 12.5); ax.set_ylim(0.0, 12.3); ax.axis('off'); ax.set_aspect('equal')
     col = C_HE if route == 'he' else C_N2
-    # OVC (300 K) -- outer can
-    ax.add_patch(Rectangle((0.3, 0.3), 9.4, 11.2, fc='none', ec=C_WARM, lw=3))
-    ax.text(5.0, 11.75, 'outer vacuum can, 300 K', ha='center', color=C_WARM, fontsize=9.6)
-    # vacuum label
-    ax.text(0.5, 10.9, 'vacuum', fontsize=8.4, color=C_GREY, style='italic')
-    # warm plate (300K) top
-    ax.add_patch(Rectangle((0.3, 10.3), 9.4, 0.35, fc=C_WARM, ec='none')); ax.text(5.0, 10.47, '300 K plate', ha='center', va='center', color='w', fontsize=8.4)
-    # first shield: hangs from first-stage plate; MLI option drawn as dashed golden line
     T1 = '50 K' if route == 'he' else '77 K'
+    LINES = (3.9, 4.7, 5.9, 6.7)               # harness x positions: labels live at x < 3.8 or x > 6.9
+    # outer vacuum can and warm plate
+    ax.add_patch(Rectangle((0.3, 0.3), 9.4, 11.2, fc='none', ec=C_WARM, lw=3))
+    ax.text(5.0, 11.75, 'outer vacuum can, 300 K', ha='center', color=C_WARM, fontsize=9.5)
+    ax.text(0.55, 10.95, 'vacuum', fontsize=8, color=C_GREY, style='italic')
+    ax.add_patch(Rectangle((0.3, 10.3), 9.4, 0.35, fc=C_WARM, ec='none'))
+    ax.text(0.6, 10.47, 'warm plate, 300 K', ha='left', va='center', color='w', fontsize=8.2)
+    # first-stage plate, shield walls, MLI variant
     ax.add_patch(Rectangle((1.3, 7.3), 7.4, 0.35, fc=C_S1, ec='none'))
-    ax.text(5.0, 7.47, f'first-stage plate  {T1}', ha='center', va='center', color='w', fontsize=9.0)
-    ax.plot([1.3, 1.3, 8.7, 8.7], [7.3, 1.0, 1.0, 7.3], color=C_S1, lw=2.2)       # shield walls + bottom
+    ax.text(1.45, 7.47, f'first stage {T1}', ha='left', va='center', color='w', fontsize=7.8)
+    ax.plot([1.3, 1.3, 8.7, 8.7], [7.3, 1.0, 1.0, 7.3], color=C_S1, lw=2.2)
     ax.plot([1.15, 1.15, 8.85, 8.85], [7.2, 0.85, 0.85, 7.2], color=C_MLI, lw=1.0, ls='--')
-    ax.text(8.95, 2.6, 'MLI\n(variant)', fontsize=7.8, color='#8a6d1a', va='center')
-    ax.text(1.45, 5.75, f'first shield {T1}', fontsize=8.4, color=C_S1)
-    # 4 K plate + shield
-    ax.add_patch(Rectangle((2.2, 4.6), 5.6, 0.32, fc=C_S2, ec='none')); ax.text(5.0, 4.76, '4 K plate', ha='center', va='center', color='w', fontsize=9.0)
-    ax.plot([2.2, 2.2, 7.8, 7.8], [4.6, 1.5, 1.5, 4.6], color=C_S2, lw=1.8)
-    # below 4 K: still, cold plate, mixing chamber (greyed = not modelled)
-    for y, lab in ((3.7, 'still  ~0.8 K'), (2.9, 'cold plate  ~0.1 K'), (2.1, 'mixing chamber  ~0.01 K')):
-        ax.add_patch(Rectangle((3.0, y), 4.0, 0.22, fc='#d8d8d8', ec='none')); ax.text(5.0, y + 0.11, lab, ha='center', va='center', fontsize=7.8, color='#555')
-    ax.text(5.0, 1.75, 'dilution unit / payload: not modelled', ha='center', fontsize=7.8, color='#777', style='italic')
-    # harness lines from 300 K plate to 4 K plate (and greyed below)
-    for x in (3.4, 4.2, 5.8, 6.6):
-        ax.plot([x, x], [10.3, 4.92], color='#333', lw=1.0); ax.plot([x, x], [4.6, 2.32], color='#bbb', lw=0.8)
-        ax.plot([x - 0.12, x + 0.12], [7.47, 7.47], color='k', lw=2.0)   # heat sink at first stage
-    ax.text(7.0, 9.3, 'coaxial\nharness\n(65 lines)', fontsize=7.8, va='center')
-    ax.text(7.0, 7.95, 'heat sink', fontsize=7.2, va='center')
-    # radiation arrows 300 K -> shield
-    for x in (2.0, 2.6):
-        arrow(ax, (x, 10.25), (x, 7.7), C_WARM, lw=0.9, ls=(0, (2, 1.5)), ms=7)
-    ax.text(1.5, 9.0, 'radiation\n$\\dot Q_{r,1}$', fontsize=7.8, color=C_WARM, ha='center')
-    ax.text(4.55, 8.9, '$\\dot Q_{c,1}$', fontsize=7.8)
-    arrow(ax, (2.9, 7.25), (2.9, 4.97), C_S1, lw=0.9, ls=(0, (2, 1.5)), ms=7)
-    ax.text(2.6, 6.1, '$\\dot Q_{r,2}$', fontsize=7.8, color=C_S1, ha='right'); ax.text(4.55, 6.1, '$\\dot Q_{c,2}$', fontsize=7.8)
-    # coolant loop through the first-stage plate
+    ax.text(5.0, 0.55, 'dashed: MLI-equivalent variant, $\\varepsilon$ = 0.003', ha='center', va='center', fontsize=7.2, color='#8a6d1a')
+    ax.text(1.45, 5.7, f'first shield {T1}', fontsize=8.2, color=C_S1, ha='left', va='center')
+    # channelled cold plate under the first-stage plate
     ax.add_patch(Rectangle((1.3, 7.02), 7.4, 0.26, fc='#e9eef0', ec=col, lw=0.7))
-    for x in (2.2, 3.0, 4.9, 5.05, 6.2, 7.4, 8.1):
+    for x in (1.7, 2.4, 3.1, 7.4, 8.1):
         ax.add_patch(Rectangle((x - 0.11, 7.06), 0.22, 0.18, fc='w', ec=col, lw=0.8))
-    ax.text(5.0, 6.72, 'channelled cold plate (Q2 model)', fontsize=7.2, color=col, ha='center', va='top')
-    # pipes out of the cryostat to the plant (left side)
-    ax.plot([1.3, -0.9, -0.9], [7.2, 7.2, 9.6], color=col, lw=1.6)
-    ax.plot([1.3, -1.6, -1.6], [7.08, 7.08, 9.6], color=col, lw=1.6)
-    
+    ax.text(1.45, 6.75, 'channelled\ncold plate', fontsize=7.4, color=col, ha='left', va='top')
+    # 4 K plate and the stages below (not modelled)
+    ax.add_patch(Rectangle((2.2, 4.6), 5.6, 0.32, fc=C_S2, ec='none'))
+    ax.text(5.0, 4.76, '4 K plate', ha='center', va='center', color='w', fontsize=8.6)
+    ax.plot([2.2, 2.2, 7.8, 7.8], [4.6, 1.5, 1.5, 4.6], color=C_S2, lw=1.8)
+    for y, lab in ((3.7, 'still  ~0.8 K'), (2.9, 'cold plate  ~0.1 K'), (2.1, 'mixing chamber  ~0.01 K')):
+        ax.add_patch(Rectangle((3.0, y), 4.0, 0.22, fc='#d8d8d8', ec='none')); ax.text(5.0, y + 0.11, lab, ha='center', va='center', fontsize=7.4, color='#555')
+    ax.text(5.0, 1.7, 'dilution unit / payload: not modelled', ha='center', fontsize=7.4, color='#777', style='italic')
+    # harness lines (warm plate to 4 K plate) with heat sinks at the first stage
+    for x in LINES:
+        ax.plot([x, x], [10.3, 4.92], color='#333', lw=1.0)
+        ax.plot([x - 0.12, x + 0.12], [7.47, 7.47], color='k', lw=2.0)
+    ax.text(6.95, 9.3, 'coaxial\nharness\n(65 lines)', fontsize=7.4, va='center', ha='left')
+    ax.text(6.95, 7.95, 'heat sink', fontsize=7.0, va='center', ha='left')
+    # radiation, stage 1 (left strip) and residual radiation, stage 2
+    for x in (2.75, 3.25):
+        arrow(ax, (x, 10.25), (x, 7.7), C_WARM, lw=0.9, ls=(0, (2, 1.5)), ms=7)
+    ax.text(1.4, 9.1, 'radiation\n$\\dot Q_{r,1}$', fontsize=7.6, color=C_WARM, ha='left', va='center')
+    ax.text(5.3, 8.9, '$\\dot Q_{c,1}$', fontsize=7.6, ha='center')
+    arrow(ax, (7.3, 6.95), (7.3, 4.97), C_S1, lw=0.9, ls=(0, (2, 1.5)), ms=7)
+    ax.text(7.45, 6.0, '$\\dot Q_{r,2}$', fontsize=7.6, color=C_S1, ha='left', va='center')
+    ax.text(5.3, 6.0, '$\\dot Q_{c,2}$', fontsize=7.6, ha='center')
+    # coolant pipes to the plant (left margin)
+    ax.plot([1.3, -1.0, -1.0], [7.2, 7.2, 9.6], color=col, lw=1.6)
+    ax.plot([1.3, -1.9, -1.9], [7.08, 7.08, 9.6], color=col, lw=1.6)
+    ax.text(-0.85, 8.4, 'in', fontsize=7.5, color=col, ha='left')
+    ax.text(-2.05, 8.4, 'out', fontsize=7.5, color=col, ha='right')
     if route == 'he':
-        ax.add_patch(FancyBboxPatch((-2.45, 9.6), 2.35, 1.7, boxstyle='round,pad=0.02,rounding_size=0.1', fc='#f6e3df', ec=col, lw=1))
-        ax.text(-1.28, 10.45, 'He cryoplant\n+ circulator\n45 K, 1--18 bar', ha='center', va='center', fontsize=7.5, color=col)
+        ax.add_patch(FancyBboxPatch((-3.1, 9.6), 2.75, 1.75, boxstyle='round,pad=0.02,rounding_size=0.1', fc='#f6e3df', ec=col, lw=1))
+        ax.text(-1.72, 10.47, 'He cryoplant\n+ circulator\n45 K, 1--18 bar', ha='center', va='center', fontsize=7.4, color=col)
         ttl = '(a) helium-gas route, first stage 50 K (nominal)'
-        ax.text(-0.75, 8.3, 'in', fontsize=7.8, color=col); ax.text(-2.05, 8.3, 'out', fontsize=7.8, color=col)
     else:
-        ax.add_patch(FancyBboxPatch((-2.45, 9.6), 2.35, 1.7, boxstyle='round,pad=0.02,rounding_size=0.1', fc='#dfe6ec', ec=col, lw=1))
-        ax.text(-1.28, 10.45, 'LN$_2$ dewar\n+ pump\n77 K, 3 bar', ha='center', va='center', fontsize=7.5, color=col)
+        ax.add_patch(FancyBboxPatch((-3.1, 9.6), 2.75, 1.75, boxstyle='round,pad=0.02,rounding_size=0.1', fc='#dfe6ec', ec=col, lw=1))
+        ax.text(-1.72, 10.47, 'LN$_2$ dewar\n+ pump\n77 K, 3 bar', ha='center', va='center', fontsize=7.4, color=col)
         ttl = '(b) liquid-nitrogen route, first stage 77 K'
-        ax.text(-0.75, 8.3, 'in', fontsize=7.8, color=col); ax.text(-2.05, 8.3, 'out', fontsize=7.8, color=col)
-    # 4 K cryocooler stub (both routes)
-    ax.add_patch(Rectangle((9.75, 4.4), 1.4, 0.7, fc='#ddd', ec='k', lw=0.6)); ax.plot([7.8, 9.75], [4.76, 4.76], color='k', lw=1.2)
-    ax.text(10.45, 4.75, '4 K\ncryocooler', ha='center', va='center', fontsize=7.2)
+    # 4 K cryocooler outside the can (feedthrough)
+    ax.plot([7.8, 10.1], [4.76, 4.76], color='k', lw=1.2)
+    ax.add_patch(Rectangle((10.1, 4.4), 2.0, 0.72, fc='#ddd', ec='k', lw=0.6))
+    ax.text(11.1, 4.76, '4 K\ncryocooler', ha='center', va='center', fontsize=6.8)
     if route == 'he':
-        ax.text(10.45, 3.6, '(or PTR\n2nd stage)', ha='center', fontsize=6.6, color='#666')
-    ax.set_title(ttl, fontsize=10.2, loc='left')
+        ax.text(11.1, 3.9, '(or PTR\n2nd stage)', ha='center', va='top', fontsize=6.4, color='#666')
+    ax.set_title(ttl, fontsize=10, loc='left')
 
-fig, axes = plt.subplots(1, 2, figsize=(10.5, 5.6), gridspec_kw={'wspace': 0.0})
+fig, axes = plt.subplots(1, 2, figsize=(11.0, 5.4), gridspec_kw={'wspace': 0.0})
 cryostat(axes[0], 'he'); cryostat(axes[1], 'n2')
 fig.savefig(os.path.join(FIG, 'figA_cryostat_routes.png'), dpi=300, bbox_inches='tight'); fig.savefig(os.path.join(FIG, 'figA_cryostat_routes.pdf'), bbox_inches='tight'); plt.close(fig)
 
