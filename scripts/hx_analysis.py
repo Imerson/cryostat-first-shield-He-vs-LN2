@@ -75,7 +75,7 @@ def fig_maps(df):
     ax[2].plot(hp.Re, hp.Wpump_W * 1e3, 'v', color=C_HE, ms=6, mfc='none', label='He at 5, 18 bar')
     for _, r in hp.iterrows(): ax[2].annotate(f'{r.P_bar} bar', (r.Re, r.Wpump_W * 1e3), textcoords='offset points', xytext=(6, -3), fontsize=7)
     ax[3].axhline(TSAT_N2_3BAR, color=C_N2, ls='--', lw=1); ax[3].text(9800, TSAT_N2_3BAR + 0.7, 'N$_2$ saturation, 3 bar (87.9 K)', color=C_N2, fontsize=7, ha='right', va='bottom')
-    ax[3].axhline(77.36, color='grey', ls=':', lw=1); ax[3].text(560, 76.3, 'N$_2$ saturation, 1 bar (77.4 K)', color='grey', fontsize=7, ha='left', va='top')
+    ax[3].axhline(77.36, color='grey', ls=':', lw=1); ax[3].text(9800, 75.9, 'N$_2$ saturation, 1 bar (77.4 K)', color='grey', fontsize=7, ha='right', va='top')
     ax[3].set_ylim(44, 102)
     for a in ax: a.set_xscale('log'); a.set_xlabel('$Re$')
     ax[0].set_yscale('log'); ax[0].set_ylabel('$h$ [W m$^{-2}$ K$^{-1}$]')
