@@ -60,7 +60,7 @@ def load():
 
 def fig_maps(df):
     p = df[df.gci == 'production']
-    fig, ax = plt.subplots(2, 2, figsize=(5.4, 4.7)); ax = ax.ravel()
+    fig, ax = plt.subplots(2, 2, figsize=(5.4, 5.1)); ax = ax.ravel()
     for fl, col, lab in (('He', C_HE, 'He gas, 1 bar'), ('LN2', C_N2, 'LN$_2$, 3 bar')):
         s = p[(p.fluid == fl) & (p.P_bar.isin([1, 3]))].sort_values('Re_target')
         lam, tur = s[~s.turbulent], s[s.turbulent]
@@ -69,20 +69,23 @@ def fig_maps(df):
             ax[0].plot(sub.Re, sub.h_W_m2K, mk + '-', color=col, ms=5, label=f'{lab} ({"SST" if mk=="s" else "laminar"})')
             ax[1].plot(sub.Re, sub.dT_super, mk + '-', color=col, ms=5)
             ax[2].plot(sub.Re, sub.Wpump_W * 1e3, mk + '-', color=col, ms=5)
-        ax[3].plot(s.Re, s.Tw_max, 'o-', color=col, ms=5, label=f'{lab}: $T_{{w,max}}$')
+        ax[3].plot(s.Re, s.Tw_max, 'o-', color=col, ms=5)
     # He pressure series
     hp = p[(p.fluid == 'He') & (p.Re_target == 2300)].sort_values('P_bar')
     ax[2].plot(hp.Re, hp.Wpump_W * 1e3, 'v', color=C_HE, ms=6, mfc='none', label='He at 5, 18 bar')
     for _, r in hp.iterrows(): ax[2].annotate(f'{r.P_bar} bar', (r.Re, r.Wpump_W * 1e3), textcoords='offset points', xytext=(6, -3), fontsize=7)
-    ax[3].axhline(TSAT_N2_3BAR, color=C_N2, ls='--', lw=1); ax[3].text(600, TSAT_N2_3BAR + 0.6, 'N$_2$ saturation, 3 bar (87.9 K)', color=C_N2, fontsize=7.5)
-    ax[3].axhline(77.36, color='grey', ls=':', lw=1); ax[3].text(600, 77.9, 'N$_2$ saturation, 1 bar', color='grey', fontsize=7)
+    ax[3].axhline(TSAT_N2_3BAR, color=C_N2, ls='--', lw=1); ax[3].text(9800, TSAT_N2_3BAR + 0.7, 'N$_2$ saturation, 3 bar (87.9 K)', color=C_N2, fontsize=7, ha='right', va='bottom')
+    ax[3].axhline(77.36, color='grey', ls=':', lw=1); ax[3].text(560, 76.3, 'N$_2$ saturation, 1 bar (77.4 K)', color='grey', fontsize=7, ha='left', va='top')
+    ax[3].set_ylim(44, 102)
     for a in ax: a.set_xscale('log'); a.set_xlabel('$Re$')
-    ax[0].set_yscale('log'); ax[0].set_ylabel('$h$ [W m$^{-2}$ K$^{-1}$]'); ax[0].legend(fontsize=7.5)
+    ax[0].set_yscale('log'); ax[0].set_ylabel('$h$ [W m$^{-2}$ K$^{-1}$]')
     ax[1].set_yscale('log'); ax[1].set_ylabel('wall superheat $T_w-T_b$ [K]')
-    ax[2].set_yscale('log'); ax[2].set_ylabel('pumping power [mW]'); ax[2].legend(fontsize=7)
-    ax[3].set_ylabel('maximum wall temperature [K]'); ax[3].legend(fontsize=7, loc='upper right')
+    ax[2].set_yscale('log'); ax[2].set_ylabel('pumping power [mW]')
+    ax[3].set_ylabel('maximum wall temperature [K]')
     for a, t in zip(ax, 'abcd'): a.set_title(f'({t})', loc='left', fontsize=9)
-    fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.png')); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.pdf')); plt.close(fig)
+    h0, l0 = ax[0].get_legend_handles_labels(); h2, l2 = ax[2].get_legend_handles_labels()
+    fig.legend(h0 + h2, l0 + l2, loc='lower center', ncol=3, fontsize=7.5, frameon=False, bbox_to_anchor=(0.5, 0.0))
+    fig.tight_layout(rect=[0, 0.075, 1, 1]); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.png')); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.pdf')); plt.close(fig)
 
 def fig_profiles(df):
     fig, ax = plt.subplots(1, 2, figsize=(5.4, 2.6))
