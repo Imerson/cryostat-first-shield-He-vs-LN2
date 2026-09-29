@@ -88,7 +88,7 @@ def fig_maps(df):
     fig.tight_layout(rect=[0, 0.075, 1, 1]); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.png')); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.pdf')); plt.close(fig)
 
 def fig_profiles(df):
-    fig, ax = plt.subplots(1, 2, figsize=(5.4, 2.6))
+    fig, ax = plt.subplots(1, 2, figsize=(5.4, 3.1))
     for fl, col in (('He', C_HE), ('LN2', C_N2)):
         for Re, ls in ((500, ':'), (2300, '-'), (10000, '--')):
             P = 1 if fl == 'He' else 3
@@ -96,14 +96,16 @@ def fig_profiles(df):
             prof = sorted(glob.glob(os.path.join(d, 'postProcessing', 'sampleWall', '*', 'wallCentre_T.xy')))
             if not prof: continue
             a = np.loadtxt(prof[-1]); Tin = 45.0 if fl == 'He' else 77.0
-            ax[0].plot(a[:, 0] / L, a[:, 1] - Tin, ls, color=col, lw=1.3, label=f'{fl} $Re$={Re}')
+            ax[0].plot(a[:, 0] / L, a[:, 1] - Tin, ls, color=col, lw=1.3, label=f'{"He" if fl == "He" else "LN$_2$"}, $Re$ = {Re}')
             prof2 = sorted(glob.glob(os.path.join(d, 'postProcessing', 'sampleWall', '*', 'profileZ_T.xy')))
             if prof2:
                 b = np.loadtxt(prof2[-1]); ax[1].plot(b[:, 1] - Tin, b[:, 0] / DH, ls, color=col, lw=1.3)
-    ax[0].set_xlabel('$x/L$ along heated-wall centreline'); ax[0].set_ylabel('$T_w - T_{in}$ [K]'); ax[0].set_yscale('log'); ax[0].legend(fontsize=7, ncol=2)
+    ax[0].set_xlabel('$x/L$ along heated-wall centreline'); ax[0].set_ylabel('$T_w - T_{in}$ [K]'); ax[0].set_yscale('log'); ax[0].set_ylim(1e-2, 80)
     ax[1].set_xlabel('$T - T_{in}$ [K] at $x/L=0.5$'); ax[1].set_ylabel('$z/D_h$ (0 = heated wall)')
     for a, t in zip(ax, 'ab'): a.set_title(f'({t})', loc='left', fontsize=9)
-    fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig6_wall_profiles.png')); fig.savefig(os.path.join(FIG, 'fig6_wall_profiles.pdf')); plt.close(fig)
+    h, l = ax[0].get_legend_handles_labels()
+    fig.legend(h, l, loc='lower center', ncol=3, fontsize=7.5, frameon=False, bbox_to_anchor=(0.5, 0.0))
+    fig.tight_layout(rect=[0, 0.12, 1, 1]); fig.savefig(os.path.join(FIG, 'fig6_wall_profiles.png')); fig.savefig(os.path.join(FIG, 'fig6_wall_profiles.pdf')); plt.close(fig)
 
 def fig_pareto(df):
     p = df[df.gci == 'production']
