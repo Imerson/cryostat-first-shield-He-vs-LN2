@@ -393,43 +393,55 @@ margin $T_{\mathrm{sat}}-T_{\mathrm{w,max}}$ is reported for every run to confir
 operation. Table~\ref{tab:hx} lists the operating quantities and Fig.~\ref{fig:hxgeom} the geometry.
 
 \begin{table}[tbp]
-\centering\small
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.18}
+\setlength{\tabcolsep}{4pt}
 \caption{Cold-plate model: geometry, coolant states, properties and numerics. Properties from
 the NIST reference equations of state via CoolProp~\cite{Bell2014CoolProp}, evaluated at the
 inlet state and held constant except for the helium density (ideal gas) and the nitrogen
 buoyancy term.}
 \label{tab:hx}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.6cm} X X}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{4.4cm} >{\raggedright\arraybackslash}p{4.4cm}}
 \toprule
- & Helium gas & Liquid nitrogen \\
+\multicolumn{3}{l}{\textbf{Shared geometry and duty}} \\
 \midrule
-Geometry & \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr\textwidth-4.3cm\relax}}{five parallel square ducts, $D_{\mathrm h}=10$\,mm, $L=0.30$\,m,
-one wall heated, $A_{\mathrm{heated}}=0.015$\,m$^2$, $A_{\mathrm{cs}}=5\times10^{-4}$\,m$^2$} \\
-Duty & \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr\textwidth-4.3cm\relax}}{9.4\,W uniform flux on the heated wall, $q_{\mathrm w}=627$\,W\,m$^{-2}$} \\
-Inlet $T$, $p$ & 45\,K; 1, 5, 18\,bar & 77\,K; 3\,bar ($T_{\mathrm{sat}}=87.9$\,K) \\
-$\rho$ [kg\,m$^{-3}$] & 0.961 (1\,bar), 4.80 (5\,bar), 17.3 (18\,bar) at 50\,K & 808 \\
+Channels & \multicolumn{2}{>{\raggedright\arraybackslash}p{9.4cm}}{five parallel square ducts, one wall heated} \\
+Dimensions & \multicolumn{2}{>{\raggedright\arraybackslash}p{9.4cm}}{$D_{\mathrm h}=10$\,mm, $L=0.30$\,m; $A_{\mathrm{heated}}=0.015$\,m$^2$, $A_{\mathrm{cs}}=5\times10^{-4}$\,m$^2$} \\
+Duty & \multicolumn{2}{>{\raggedright\arraybackslash}p{9.4cm}}{9.4\,W, uniform flux $q_{\mathrm w}=627$\,W\,m$^{-2}$ on the heated wall} \\
+Mesh & \multicolumn{2}{>{\raggedright\arraybackslash}p{9.4cm}}{$180\times18\times18$ cells per duct, wall-graded (ratio 6); $2.92\times10^{5}$ cells; GCI on 86k / 292k / 984k} \\
+Gravity & \multicolumn{2}{>{\raggedright\arraybackslash}p{9.4cm}}{off (forced convection); on for three sensitivity runs} \\
+\midrule
+ & \textbf{Helium gas} & \textbf{Liquid nitrogen} \\
+\midrule
+\multicolumn{3}{l}{\textit{Coolant state}} \\
+Inlet temperature & 45\,K & 77\,K \\
+Loop pressure & 1, 5 or 18\,bar & 3\,bar ($T_{\mathrm{sat}}=87.9$\,K) \\
+Phase & ideal gas, variable density & single-phase liquid (margin reported) \\
+\addlinespace[3pt]
+\multicolumn{3}{l}{\textit{Properties at the inlet state}} \\
+Density $\rho$ [kg\,m$^{-3}$] & 0.961 / 4.80 / 17.3 at 1 / 5 / 18\,bar & 808 \\
 $c_p$ [J\,kg$^{-1}$K$^{-1}$] & 5201 & 2038 \\
-$\mu$ [$\mu$Pa\,s] & 6.36 & 163.5 \\
+Viscosity $\mu$ [$\mu$Pa\,s] & 6.36 & 163.5 \\
 $k$ [W\,m$^{-1}$K$^{-1}$] & 0.0467 & 0.1457 \\
-$\Pr$ & 0.71 & 2.29 \\
+Prandtl number $\Pr$ & 0.71 & 2.29 \\
 $\beta$ [K$^{-1}$] & $1/T$ (ideal gas) & $5.6\times10^{-3}$ \\
-$\Re$ & \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr\textwidth-4.3cm\relax}}{500, 1000, 1500, 2300 (laminar); 5000, 10\,000 ($k$--$\omega$ SST)} \\
-Gravity & \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr\textwidth-4.3cm\relax}}{off (forced convection) for the sweep; on, parallel to the heated wall, for three sensitivity runs} \\
+\addlinespace[3pt]
+\multicolumn{3}{l}{\textit{Flow range}} \\
+Reynolds numbers & \multicolumn{2}{>{\raggedright\arraybackslash}p{9.4cm}}{500, 1000, 1500, 2300 (laminar); 5000, 10\,000 ($k$--$\omega$ SST)} \\
 $\dot m$ at $\Re=2300$ [kg\,s$^{-1}$] & $7.31\times10^{-4}$ & $1.88\times10^{-2}$ \\
-$U$ at $\Re=2300$ [m\,s$^{-1}$] & 1.52 (1\,bar), 0.084 (18\,bar) & 0.047 \\
-Solver & \texttt{buoyantSimpleFoam}, \texttt{heRhoThermo}/perfect gas &
-\texttt{buoyantBoussinesqSimpleFoam} \\
-Mesh & \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr\textwidth-4.3cm\relax}}{$180\times18\times18$ cells per duct, two-sided wall grading (ratio 6),
-$2.92\times10^{5}$ cells; grid convergence index (GCI) study on 86k/292k/984k cells for both fluids} \\
-Convergence & \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr\textwidth-4.3cm\relax}}{residuals $<10^{-6}$ (He) and $<10^{-7}$ (\LNtwo); energy
-balance closure reported per run} \\
+$U$ at $\Re=2300$ [m\,s$^{-1}$] & 1.52 (1\,bar); 0.084 (18\,bar) & 0.047 \\
+\addlinespace[3pt]
+\multicolumn{3}{l}{\textit{Numerics}} \\
+Solver & \texttt{buoyantSimpleFoam} (ideal gas) & \texttt{buoyantBoussinesqSimpleFoam} \\
+Convergence & residuals $<10^{-6}$ & residuals $<10^{-7}$ \\
+Energy closure & \multicolumn{2}{>{\raggedright\arraybackslash}p{9.4cm}}{per run; $<0.2$\,\% for every forced-convection case} \\
 \bottomrule
-\end{tabularx}
+\end{tabular}
 \end{table}
 
 \paragraph{Property correction.} An earlier version of this comparison used helium
-transport properties that correspond to about 15\,K ($\mu=2.7\,\mu$Pa\,s, $k=0.019$\,W\,m$^{-1}$K$^{-1}$),
-which understated the helium heat-transfer coefficient by a factor of about 2.5. All helium
+transport properties that correspond to about 15\,K, namely $\mu=2.7\,\mu$Pa\,s and
+$k=0.019$\,W\,m$^{-1}$\,K$^{-1}$, which understated the helium heat-transfer coefficient by a factor of about 2.5. All helium
 results here use the 50\,K values of Table~\ref{tab:hx}.
 
 
@@ -546,8 +558,8 @@ changes the ledger verdict in Section~\ref{sec:res-q3}.
 parentheses), with the unnormalised production value and the $\pm50$\,\% emissivity band as
 upper and lower bounds.}
 \label{tab:loads}
-\footnotesize
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.6cm} r r r r >{\centering\arraybackslash}p{1.9cm}}
+\footnotesize\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.35cm} r r r r >{\centering\arraybackslash}p{1.55cm}}
 \toprule
 Case & Radiation & Conduction & Total & Prod. & $\varepsilon\pm50\,\%$ [W] \\
 \midrule
@@ -617,6 +629,7 @@ than the liquid.
 
 \begin{table}[tbp]
 \centering\small
+\setlength{\tabcolsep}{4pt}\footnotesize
 \caption{Grid convergence at $\Re=2300$ (Celik et al.~\cite{45-Celik2008GCI}; meshes of
 86k, 292k and 984k cells, refinement ratio 1.5). The production mesh is the medium one.}
 \label{tab:gci}
@@ -709,6 +722,7 @@ superheat. No single number ranks the coolants; the operating point and the pres
 
 \begin{table}[tbp]
 \centering\small
+\setlength{\tabcolsep}{4pt}\footnotesize
 \caption{Design point, $\Re=2300$, 9.4\,W, forced convection. He at 1\,bar (18\,bar in
 parentheses where pressure matters); \LNtwo\ at 3\,bar. GCI on $\Nu$ and $h$: 0.7\,\% (He),
 2.2\,\% (\LNtwo).}
@@ -924,7 +938,7 @@ could have influenced the work reported in this paper.
 \section*{Data availability}
 All OpenFOAM cases (enclosure baseline and variants, cold-plate sweep, grid studies), the
 post-processing and figure scripts, and the tabulated results are available at
-\href{https://github.com/Imerson/Pre-cooling-a-superconducting-qubit-dilution-refrigerator}{github.com/Imerson/Pre-cooling-a-superconducting-qubit-dilution-refrigerator} (release v2); an archived copy will be deposited on Zenodo on acceptance.
+\\ {\footnotesize\url{https://github.com/Imerson/Pre-cooling-a-superconducting-qubit-dilution-refrigerator}} (release v2); an archived copy will be deposited on Zenodo on acceptance.
 
 \section*{Acknowledgements}
 The author thanks Dr.\ Konstantina Vogiatzaki and Dr.\ Natalia Ares for supervision and
