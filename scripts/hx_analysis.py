@@ -60,7 +60,7 @@ def load():
 
 def fig_maps(df):
     p = df[df.gci == 'production']
-    fig, ax = plt.subplots(2, 2, figsize=(5.4, 5.1)); ax = ax.ravel()
+    fig, ax = plt.subplots(2, 2, figsize=(5.4, 5.3)); ax = ax.ravel()
     for fl, col, lab in (('He', C_HE, 'He gas, 1 bar'), ('LN2', C_N2, 'LN$_2$, 3 bar')):
         s = p[(p.fluid == fl) & (p.P_bar.isin([1, 3]))].sort_values('Re_target')
         lam, tur = s[~s.turbulent], s[s.turbulent]
@@ -84,11 +84,11 @@ def fig_maps(df):
     ax[3].set_ylabel('maximum wall temperature [K]')
     for a, t in zip(ax, 'abcd'): a.set_title(f'({t})', loc='left', fontsize=9)
     h0, l0 = ax[0].get_legend_handles_labels(); h2, l2 = ax[2].get_legend_handles_labels()
-    fig.legend(h0 + h2, l0 + l2, loc='lower center', ncol=3, fontsize=7.5, frameon=False, bbox_to_anchor=(0.5, 0.0))
-    fig.tight_layout(rect=[0, 0.075, 1, 1]); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.png')); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.pdf')); plt.close(fig)
+    fig.legend(h0 + h2, l0 + l2, loc='lower center', ncol=3, fontsize=9, frameon=False, bbox_to_anchor=(0.5, 0.0), handlelength=2.2, columnspacing=1.2)
+    fig.tight_layout(rect=[0, 0.09, 1, 1]); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.png')); fig.savefig(os.path.join(FIG, 'fig5_operating_maps.pdf')); plt.close(fig)
 
 def fig_profiles(df):
-    fig, ax = plt.subplots(1, 2, figsize=(5.4, 3.1))
+    fig, ax = plt.subplots(1, 2, figsize=(5.4, 3.3))
     for fl, col in (('He', C_HE), ('LN2', C_N2)):
         for Re, ls in ((500, ':'), (2300, '-'), (10000, '--')):
             P = 1 if fl == 'He' else 3
@@ -104,8 +104,8 @@ def fig_profiles(df):
     ax[1].set_xlabel('$T - T_{in}$ [K] at $x/L=0.5$'); ax[1].set_ylabel('$z/D_h$ (0 = heated wall)')
     for a, t in zip(ax, 'ab'): a.set_title(f'({t})', loc='left', fontsize=9)
     h, l = ax[0].get_legend_handles_labels()
-    fig.legend(h, l, loc='lower center', ncol=3, fontsize=7.5, frameon=False, bbox_to_anchor=(0.5, 0.0))
-    fig.tight_layout(rect=[0, 0.12, 1, 1]); fig.savefig(os.path.join(FIG, 'fig6_wall_profiles.png')); fig.savefig(os.path.join(FIG, 'fig6_wall_profiles.pdf')); plt.close(fig)
+    fig.legend(h, l, loc='lower center', ncol=3, fontsize=9, frameon=False, bbox_to_anchor=(0.5, 0.0), handlelength=2.2, columnspacing=1.2)
+    fig.tight_layout(rect=[0, 0.15, 1, 1]); fig.savefig(os.path.join(FIG, 'fig6_wall_profiles.png')); fig.savefig(os.path.join(FIG, 'fig6_wall_profiles.pdf')); plt.close(fig)
 
 def fig_pareto(df):
     p = df[df.gci == 'production']
