@@ -1,0 +1,13 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      regionProperties;
+}
+regions
+(
+    fluid   (domain0 domain1)
+    solid   (coax_L1 coax_L2 coax_L3 coax_L4)
+);

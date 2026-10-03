@@ -1,0 +1,5 @@
+# The suite core (parsers, gates, runner) is PURE PYTHON 3.6+ stdlib only.
+# Nothing below is required to run gate checks or the self-test.
+#
+# Optional, only for the pytest wrapper:
+pytest>=7.0

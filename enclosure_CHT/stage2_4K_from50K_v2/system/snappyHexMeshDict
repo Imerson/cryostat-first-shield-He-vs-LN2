@@ -1,0 +1,48 @@
+FoamFile { version 2.0; format ascii; class dictionary; object snappyHexMeshDict; }
+castellatedMesh true; snap true; addLayers false;
+geometry
+{
+    OVC.stl    { type triSurfaceMesh; name OVC; }
+    shield.stl { type triSurfaceMesh; name shield; }
+    coax_box_L1 { type searchableBox; min (0.07680 0.01613 0); max (0.12680 0.06613 0.2447); }
+    coax_box_L2 { type searchableBox; min (-0.06613 0.07680 0); max (-0.01613 0.12680 0.2447); }
+    coax_box_L3 { type searchableBox; min (-0.12680 -0.06613 0); max (-0.07680 -0.01613 0.2447); }
+    coax_box_L4 { type searchableBox; min (0.01613 -0.12680 0); max (0.06613 -0.07680 0.2447); }
+
+}
+castellatedMeshControls
+{
+    maxLocalCells 500000; maxGlobalCells 500000; minRefinementCells 5;
+    nCellsBetweenLevels 3; resolveFeatureAngle 30;
+    features ();
+    refinementSurfaces
+    {
+        OVC    { level (0 0); patchInfo { type wall; } }
+        shield { level (1 1); faceType boundary; faceZone shield; patchInfo { type wall; } }
+    }
+    refinementRegions
+    {
+        coax_box_L1 { mode inside; levels ((1E15 2)); }
+        coax_box_L2 { mode inside; levels ((1E15 2)); }
+        coax_box_L3 { mode inside; levels ((1E15 2)); }
+        coax_box_L4 { mode inside; levels ((1E15 2)); }
+
+    }
+    locationInMesh (0.008 0.003 0.123);
+    allowFreeStandingZoneFaces true;
+}
+snapControls
+{
+    nSmoothPatch 3; tolerance 2.0; nSolveIter 30; nRelaxIter 5;
+    nFeatureSnapIter 10; implicitFeatureSnap true; explicitFeatureSnap false;
+    multiRegionFeatureSnap false;
+}
+addLayersControls { relativeSizes true; layers {}; expansionRatio 1.0; finalLayerThickness 0.3; minThickness 0.1; }
+meshQualityControls
+{
+    maxNonOrtho 65; maxBoundarySkewness 20; maxInternalSkewness 4; maxConcave 80;
+    minFlatness 0.5; minVol 1e-13; minTetQuality -1e30; minArea -1; minTwist 0.02;
+    minDeterminant 0.001; minFaceWeight 0.05; minVolRatio 0.01; minTriangleTwist -1;
+    nSmoothScale 4; errorReduction 0.75;
+}
+debug 0; mergeTolerance 1e-6;

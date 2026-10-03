@@ -1,0 +1,25 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p_rgh;
+}
+dimensions      [1 -1 -2 0 0 0 0];
+internalField   uniform 0.001;
+
+boundaryField
+{
+    OVC
+    {
+        type            fixedFluxPressure;
+        gradient        uniform 0;
+        value           uniform 0.001;
+    }
+    shield_slave
+    {
+        type            fixedFluxPressure;
+        gradient        uniform 0;
+        value           uniform 0.001;
+    }
+}

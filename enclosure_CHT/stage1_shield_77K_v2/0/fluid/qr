@@ -1,0 +1,52 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/fluid";
+    object      qr;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+dimensions      [1 0 -3 0 0 0 0];
+internalField   uniform 0;
+
+boundaryField
+{
+    coldPlate { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    warmPlate { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.04; qro uniform 0; value uniform 0; }
+    farfield  { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.04; qro uniform 0; value uniform 0; }
+    shield   { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax01 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax02 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax03 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax04 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax05 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax06 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax07 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax08 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax09 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax10 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax11 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax12 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax13 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax14 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax15 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax16 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax17 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax18 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax19 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax20 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax21 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax22 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax23 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+    fluid_to_coax24 { type greyDiffusiveRadiationViewFactor; emissivityMode lookup; emissivity uniform 0.02; qro uniform 0; value uniform 0; }
+}

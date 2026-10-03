@@ -1,0 +1,41 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+dimensions      [0 1 -1 0 0 0 0];
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    OVC
+    {
+        type            noSlip;
+    }
+    shield
+    {
+        type            noSlip;
+    }
+    coldPlate
+    {
+        type            noSlip;
+    }
+    domain1_to_coax_L1
+    {
+        type            noSlip;
+    }
+    domain1_to_coax_L2
+    {
+        type            noSlip;
+    }
+    domain1_to_coax_L3
+    {
+        type            noSlip;
+    }
+    domain1_to_coax_L4
+    {
+        type            noSlip;
+    }
+}

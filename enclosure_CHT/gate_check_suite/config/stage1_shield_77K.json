@@ -1,0 +1,253 @@
+{
+  "name": "Stage 1 -- 300 K -> 77 K shield",
+  "_comment_paths": "case_dir is auto-set to this file's folder unless overridden with --case. log_file/checkmesh_log are relative to the case dir.",
+  "case_dir": null,
+  "fluid_region": "domain1",
+  "solid_regions": [
+    "coax_L1",
+    "coax_L2",
+    "coax_L3",
+    "coax_L4"
+  ],
+  "solver": "chtMultiRegionSimpleFoam",
+  "time": null,
+  "log_file": "../log.chtMultiRegionSimpleFoam_77K_32ray",
+  "checkmesh_log": null,
+  "temperatures": {
+    "T_cold": 77.0,
+    "T_warm": 300.0
+  },
+  "radiating_patches": [
+    "warmPlate",
+    "coldPlate",
+    "shield_bottom",
+    "shield",
+    "domain1_to_coax_L1",
+    "domain1_to_coax_L2",
+    "domain1_to_coax_L3",
+    "domain1_to_coax_L4"
+  ],
+  "residual_fields": [
+    "Ux",
+    "Uy",
+    "Uz",
+    "h",
+    "p_rgh",
+    "G"
+  ],
+  "expected_T_bc": {
+    "warmPlate": {
+      "type": "fixedValue",
+      "value": 300.0
+    },
+    "shield": {
+      "type": "fixedValue",
+      "value": 77.0
+    },
+    "coldPlate": {
+      "type": "fixedValue",
+      "value": 77.0
+    },
+    "shield_bottom": {
+      "type": "fixedValue",
+      "value": 77.0
+    }
+  },
+  "regime": {
+    "expected_pressure_Pa": 0.001,
+    "pressure_tol_factor": 10.0,
+    "rho_max_kgm3": 1e-05,
+    "mu": 1e-11,
+    "Cp": 5193.0,
+    "Pr": 0.67,
+    "molWeight": 4.003,
+    "gap_m": 0.05,
+    "gap_area_m2": 0.05,
+    "rayleigh_max": 1000.0
+  },
+  "radiation_check": {
+    "_comment": "Grey two-surface enclosure warmPlate->shield. Areas default to measured patch areas; F~1 for closely spaced surfaces. Loose 30% band -- sanity, not validation.",
+    "hot_patch": "warmPlate",
+    "cold_patch": "shield",
+    "eps_hot": 0.04,
+    "T_hot": 300.0,
+    "eps_cold": 0.02,
+    "T_cold": 77.0,
+    "F": 1.0
+  },
+  "harness": {
+    "_source": "Krinner et al. 2019, EPJ Quantum Technol 6:2 (doi:10.1140/epjqt/s40507-019-0072-0; arXiv:1806.07862), Fig.1 cabled Bluefors XLD400: 25 drive + 25 flux + 4 read-out + 6 read-in + 5 pump = 65 lines. Each modeled coax represents one functional bundle.",
+    "_status": "Cable cross-sections/materials are PLACEHOLDER (typical UT-085-SS-SS coax; PhBr twisted pair). VERIFY against Krinner Table 2 / cable datasheets and NIST k(T) before publication.",
+    "n_cables_total": 65,
+    "cable_types": {
+      "SS_coax_UT085": {
+        "_role": "drive / read / pump RF lines, 300 K -> 4 K stainless-steel semi-rigid coax",
+        "_verify": true,
+        "components": [
+          {
+            "material": "SS304",
+            "area_m2": 1.6e-06,
+            "role": "outer_conductor"
+          },
+          {
+            "material": "PTFE",
+            "area_m2": 1.99e-06,
+            "role": "dielectric"
+          },
+          {
+            "material": "SS304",
+            "area_m2": 2.04e-07,
+            "role": "center_conductor"
+          }
+        ]
+      },
+      "TwP_flux": {
+        "_role": "flux lines, 300 K -> 4 K phosphor-bronze twisted pair (Krinner: Cu RRR=100 or PhBr)",
+        "_verify": true,
+        "components": [
+          {
+            "material": "PhosphorBronze",
+            "area_m2": 3.14e-08,
+            "role": "conductor_A"
+          },
+          {
+            "material": "PhosphorBronze",
+            "area_m2": 3.14e-08,
+            "role": "conductor_B"
+          }
+        ]
+      }
+    },
+    "coax_assignment": {
+      "coax_L1": {
+        "line_family": "drive",
+        "type": "SS_coax_UT085",
+        "n_cables": 25
+      },
+      "coax_L2": {
+        "line_family": "flux",
+        "type": "TwP_flux",
+        "n_cables": 25
+      },
+      "coax_L3": {
+        "line_family": "readout",
+        "type": "SS_coax_UT085",
+        "n_cables": 10,
+        "_note": "4 read-out + 6 read-in"
+      },
+      "coax_L4": {
+        "line_family": "pump",
+        "type": "SS_coax_UT085",
+        "n_cables": 5
+      }
+    },
+    "A_model_source": "mesh",
+    "kappa_poly_order": 3,
+    "cp_solid": 200.0,
+    "rho_solid": 8000.0
+  },
+  "coax": [
+    {
+      "_comment": "Effective cross-sections = n_cables x per-component cable area (Krinner harness). So (A/L)*int k dT here = n_cables x per-cable conduction integral. coax_L1 = 25 drive lines (SS_coax_UT085).",
+      "patch": "domain1_to_coax_L1",
+      "length_m": 0.335,
+      "segments": [
+        {
+          "material": "SS304",
+          "area_m2": 4e-05
+        },
+        {
+          "material": "PTFE",
+          "area_m2": 4.975e-05
+        },
+        {
+          "material": "SS304",
+          "area_m2": 5.1e-06
+        }
+      ]
+    },
+    {
+      "_comment": "coax_L2 = 25 flux lines (TwP_flux, phosphor-bronze twisted pair).",
+      "patch": "domain1_to_coax_L2",
+      "length_m": 0.335,
+      "segments": [
+        {
+          "material": "PhosphorBronze",
+          "area_m2": 7.85e-07
+        },
+        {
+          "material": "PhosphorBronze",
+          "area_m2": 7.85e-07
+        }
+      ]
+    },
+    {
+      "_comment": "coax_L3 = 10 read lines (4 out + 6 in, SS_coax_UT085).",
+      "patch": "domain1_to_coax_L3",
+      "length_m": 0.335,
+      "segments": [
+        {
+          "material": "SS304",
+          "area_m2": 1.6e-05
+        },
+        {
+          "material": "PTFE",
+          "area_m2": 1.99e-05
+        },
+        {
+          "material": "SS304",
+          "area_m2": 2.04e-06
+        }
+      ]
+    },
+    {
+      "_comment": "coax_L4 = 5 pump lines (SS_coax_UT085).",
+      "patch": "domain1_to_coax_L4",
+      "length_m": 0.335,
+      "segments": [
+        {
+          "material": "SS304",
+          "area_m2": 8e-06
+        },
+        {
+          "material": "PTFE",
+          "area_m2": 9.95e-06
+        },
+        {
+          "material": "SS304",
+          "area_m2": 1.02e-06
+        }
+      ]
+    }
+  ],
+  "network_check": {
+    "cold_patches": [
+      "shield",
+      "coldPlate",
+      "shield_bottom"
+    ]
+  },
+  "thresholds": {
+    "residual_max": 1e-05,
+    "T_margin_K": 1.0,
+    "steady_rel": 0.01,
+    "energy_balance_rel": 0.01,
+    "rad_closure_rel": 0.02,
+    "interface_rel": 0.02,
+    "viewfactor_rowsum_tol": 0.001,
+    "radiation_rel": 0.3,
+    "conduction_rel": 0.15,
+    "network_rel": 0.25,
+    "gas_conduction_frac": 0.01,
+    "kappa_fit_rel": 0.02,
+    "max_non_ortho": 70,
+    "max_skewness": 4.0,
+    "bake_rel": 0.15
+  },
+  "calibration": {
+    "_note": "Effective conductance area the solver actually sees for the coax solid (placeholder block is short-and-fat, so A_eff != cap area or V/L). Calibrated in one pass; conduction is linear in k_eff. Identical across all four cases (same geometry).",
+    "A_eff_m2": 0.00393,
+    "length_m": 0.335,
+    "calibration_factor_vs_estimate": 8.5
+  }
+}

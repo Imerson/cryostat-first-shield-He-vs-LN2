@@ -1,0 +1,6 @@
+RESULT stage1_shield_50K_v2 coarse nFaces=60 endT=3200 radiation=9.455681e+00 conduction=1.029089e+00 total=1.048477e+01
+RESULT stage1_shield_50K_v2 medium nFaces=250 endT=3200 radiation=8.411264e+00 conduction=1.029089e+00 total=9.440353e+00
+RESULT stage1_shield_50K_v2 fine nFaces=500 endT=3200 radiation=3.575180e+00 conduction=1.029089e+00 total=4.604269e+00
+RESULT stage2_4K_from50K_v2 coarse nFaces=60 endT=4600 radiation=5.287053e-03 conduction=7.029416e-02 total=7.558122e-02
+RESULT stage2_4K_from50K_v2 medium nFaces=250 endT=4900 radiation=3.442605e-03 conduction=7.029455e-02 total=7.373715e-02
+RESULT stage2_4K_from50K_v2 fine nFaces=500 endT=4800 radiation=3.442605e-03 conduction=7.029452e-02 total=7.373712e-02

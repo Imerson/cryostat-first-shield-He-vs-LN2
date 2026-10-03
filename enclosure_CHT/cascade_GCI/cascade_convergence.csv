@@ -1,0 +1,7 @@
+stage,case,level,nFaces_coarsest,radiation_W,conduction_W,total_W,analytic_radiation_W,note
+stage1,stage1_shield_50K_v2,coarse,60,9.455681,1.029089,10.484770,7.073,over-predicts (coarse VF)
+stage1,stage1_shield_50K_v2,medium(production),250,8.411264,1.029089,9.440353,7.073,trustworthy; ~19% above analytic; VF closure 99/91%
+stage1,stage1_shield_50K_v2,fine,500,3.575180,1.029089,4.604269,7.073,ANOMALY: VF closure degraded at heavy agglom -> discard
+stage2,stage2_4K_from50K_v2,coarse,60,0.005287,0.070294,0.075581,0.003146,radiation over-predicts (negligible vs conduction)
+stage2,stage2_4K_from50K_v2,medium,250,0.003443,0.070294,0.073737,0.003146,CONVERGED (=fine); matches analytic ~9%
+stage2,stage2_4K_from50K_v2,fine,500,0.003443,0.070294,0.073737,0.003146,CONVERGED (identical to medium) -> grid-independent

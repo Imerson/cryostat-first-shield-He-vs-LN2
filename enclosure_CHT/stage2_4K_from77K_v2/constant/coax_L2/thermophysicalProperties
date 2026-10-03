@@ -1,0 +1,31 @@
+/*--- effective T-dependent coax conductivity (harness k_eff) ---*\
+// coax_L2: 25x SS_UT085; Tc=4.0 Th=77.0; A_model(calib)=2.8447e-03; L=0.2447; fit_err=0.15%; Q_target=62.325 mW
+\*-------------------------------------------------------------------*/
+FoamFile { version 2.0; format ascii; class dictionary; object thermophysicalProperties; }
+
+thermoType
+{
+    type            heSolidThermo;
+    mixture         pureMixture;
+    transport       polynomial;
+    thermo          hPolynomial;
+    equationOfState rhoConst;
+    specie          specie;
+    energy          sensibleEnthalpy;
+}
+
+mixture
+{
+    specie          { molWeight 60.0; }
+    equationOfState { rho 8000.0; }
+    thermodynamics
+    {
+        Hf 0;
+        Sf 0;
+        CpCoeffs<8> ( 200.0 0 0 0 0 0 0 0 );
+    }
+    transport
+    {
+        kappaCoeffs<8> ( -7.46647378e-04 1.28136556e-03 4.94716439e-05 -1.22448181e-06 1.17138946e-08 -4.26168962e-11 0.00000000e+00 0.00000000e+00 );
+    }
+}

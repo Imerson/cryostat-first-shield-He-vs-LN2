@@ -1,0 +1,55 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p_rgh;
+}
+dimensions      [1 -1 -2 0 0 0 0];
+internalField   uniform 0.001;
+
+boundaryField
+{
+    OVC
+    {
+        type            fixedFluxPressure;
+        gradient        uniform 0;
+        value           uniform 0.001;
+    }
+    shield
+    {
+        type            fixedFluxPressure;
+        gradient        uniform 0;
+        value           uniform 0.001;
+    }
+    coldPlate
+    {
+        type            fixedFluxPressure;
+        gradient        uniform 0;
+        value           uniform 0.001;
+    }
+    domain1_to_coax_L1
+    {
+        type            fixedFluxPressure;
+        gradient        uniform 0;
+        value           uniform 0.001;
+    }
+    domain1_to_coax_L2
+    {
+        type            fixedFluxPressure;
+        gradient        uniform 0;
+        value           uniform 0.001;
+    }
+    domain1_to_coax_L3
+    {
+        type            fixedFluxPressure;
+        gradient        uniform 0;
+        value           uniform 0.001;
+    }
+    domain1_to_coax_L4
+    {
+        type            fixedFluxPressure;
+        gradient        uniform 0;
+        value           uniform 0.001;
+    }
+}

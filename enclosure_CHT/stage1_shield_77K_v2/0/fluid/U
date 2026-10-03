@@ -1,0 +1,52 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    location    "0/fluid";
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+dimensions      [0 1 -1 0 0 0 0];
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    coldPlate { type noSlip; }
+    warmPlate { type noSlip; }
+    farfield  { type noSlip; }
+    shield { type noSlip; }
+    fluid_to_coax01 { type noSlip; }
+    fluid_to_coax02 { type noSlip; }
+    fluid_to_coax03 { type noSlip; }
+    fluid_to_coax04 { type noSlip; }
+    fluid_to_coax05 { type noSlip; }
+    fluid_to_coax06 { type noSlip; }
+    fluid_to_coax07 { type noSlip; }
+    fluid_to_coax08 { type noSlip; }
+    fluid_to_coax09 { type noSlip; }
+    fluid_to_coax10 { type noSlip; }
+    fluid_to_coax11 { type noSlip; }
+    fluid_to_coax12 { type noSlip; }
+    fluid_to_coax13 { type noSlip; }
+    fluid_to_coax14 { type noSlip; }
+    fluid_to_coax15 { type noSlip; }
+    fluid_to_coax16 { type noSlip; }
+    fluid_to_coax17 { type noSlip; }
+    fluid_to_coax18 { type noSlip; }
+    fluid_to_coax19 { type noSlip; }
+    fluid_to_coax20 { type noSlip; }
+    fluid_to_coax21 { type noSlip; }
+    fluid_to_coax22 { type noSlip; }
+    fluid_to_coax23 { type noSlip; }
+    fluid_to_coax24 { type noSlip; }
+}

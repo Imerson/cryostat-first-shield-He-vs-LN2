@@ -1,0 +1,8 @@
+# Cryostat passive heat-load comparison -- full CFD (radiation + conduction + convection)
+# Model: vacuum (p=0.001 Pa, g=0) viewFactor radiation + 65-line Krinner coax harness (CFD k_eff) ; convection=0
+# conduction cable: UT-085-SS-SS stainless, NIST k(T); 25 drive/25 flux/10 read/5 pump
+case,warm_K,cold_K,radiation_W,conduction_W,convection_W,total_W,cooling_budget_W,pct_of_budget
+stage1_shield_50K_v2,300,50,8.411,1.029,0,9.44,30.0,31.5%
+stage1_shield_77K_v2,300,77,8.383,0.962,0,9.345,30.0,31.2%
+stage2_4K_from50K_v2,50,4,0.005287,0.07029,0,0.07558,0.7,10.8%
+stage2_4K_from77K_v2,77,4,0.02974,0.1621,0,0.1918,0.7,27.4%
