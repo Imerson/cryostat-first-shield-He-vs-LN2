@@ -91,3 +91,51 @@ def main():
     fig.tight_layout(rect=[0, 0.085, 1, 1]); fig.savefig(os.path.join(FIG, 'fig8_ledger.png')); fig.savefig(os.path.join(FIG, 'fig8_ledger.pdf')); plt.close(fig)
 
 if __name__ == '__main__': main()
+
+
+# ----------------------------------------------------------------------------------------------
+# Coupled operating points: the 4 K-stage load evaluated at the first-stage plate temperature that
+# each route's cold plate actually reaches (hx_sweep area-mean wall temperature), instead of the
+# nominal 50 / 77 K.  Harness conduction from the NIST conductivity fits (304 SS, PTFE) with the
+# cable areas and lengths of the enclosure model (reproduces 70.3 / 162.0 mW and 1029 / 962 mW);
+# residual radiation scaled from the row-normalised 50 K value with (T1^4 - 4^4).
+# ----------------------------------------------------------------------------------------------
+NIST_SS304 = [-1.4087, 1.3982, 0.2543, -0.6260, 0.2334, 0.4256, -0.4658, 0.1650, -0.0199]
+NIST_PTFE = [2.7380, -30.677, 89.430, -136.99, 124.69, -69.556, 23.320, -4.3135, 0.33829]
+A_SS, A_PTFE, N_LINES, L_S1, L_S2 = 1.790e-6, 2.001e-6, 65, 0.335, 0.245
+RAD2_50K, RAD1_50K, RAD1_77K, RAD1_50K_MLI, RAD1_77K_MLI = 3.162e-3, 7.3637, 7.3374, 1.6908, 1.6848
+
+def _k(c, T):
+    l = np.log10(T); return 10 ** sum(a * l ** i for i, a in enumerate(c))
+def _integ(c, a, b):
+    T = np.linspace(a, b, 4000); return np.trapezoid(_k(c, T), T) if hasattr(np, 'trapezoid') else np.trapz(_k(c, T), T)
+def harness_conduction(Ta, Tb, L): return N_LINES / L * (A_SS * _integ(NIST_SS304, Ta, Tb) + A_PTFE * _integ(NIST_PTFE, Ta, Tb))
+def loads_at(route, T1, mli):
+    base, Tb = (RAD1_50K_MLI if mli else RAD1_50K, 50) if route == 'He' else (RAD1_77K_MLI if mli else RAD1_77K, 77)
+    Q1 = base * (300 ** 4 - T1 ** 4) / (300 ** 4 - Tb ** 4) + harness_conduction(T1, 300, L_S1)
+    Q2 = harness_conduction(4.0, T1, L_S2) + RAD2_50K * (T1 ** 4 - 4 ** 4) / (50 ** 4 - 4 ** 4)
+    return Q1, Q2
+SCENARIOS = [  # (label, He plate T [K], LN2 plate T [K], He pumping power [W] charged at a 50 % circulator efficiency)
+    ('nominal 50 / 77 K (decoupled)', 50.0, 77.0, 0.0),
+    ('matched Re = 2300 (He 1 bar laminar, LN2 laminar)', 67.05, 81.24, 1.39e-3),
+    ('own design points (He Re = 1e4, LN2 Re = 2300)', 50.28, 81.24, 65.1e-3),
+    ('both turbulent, Re = 1e4', 50.28, 77.84, 65.1e-3)]
+def coupled_ledger():
+    rows = []
+    for mli in (False, True):
+        for lab, Th, Tn, Wp in SCENARIOS:
+            for route, T1 in (('He', Th), ('LN2', Tn)):
+                Q1, Q2 = loads_at(route, T1, mli); Tm = 50.0 if route == 'He' else 77.0
+                r = ledger_row(f'{route}_{"mli" if mli else "base"}_{lab}', Q1, Q2, Tm, route)
+                if route == 'He':
+                    for k in ('W_real_lo_W', 'W_real_hi_W', 'W_real_mid_W'): r[k] += Wp / 0.5
+                r.update(scenario=lab, shield='mli' if mli else 'base', T_plate_K=T1); rows.append(r)
+    df = pd.DataFrame(rows); df.to_csv(os.path.join(DATA, 'ledger_coupled.csv'), index=False)
+    for (sh, lab), g in df.groupby(['shield', 'scenario'], sort=False):
+        he, n2 = g[g.route == 'He'].iloc[0], g[g.route == 'LN2'].iloc[0]
+        print(f"[{sh}] {lab:50s} He {he.T_plate_K:5.1f} K: Q2={he.Q2_W*1e3:5.1f} mW ideal={he.W_ideal_W:5.1f} real={he.W_real_mid_W:5.0f} | "
+              f"LN2 {n2.T_plate_K:5.1f} K: Q2={n2.Q2_W*1e3:5.1f} mW ideal={n2.W_ideal_W:5.1f} real={n2.W_real_mid_W:5.0f} | "
+              f"ideal LN2 by {100*(1-n2.W_ideal_W/he.W_ideal_W):+.0f} %, real He by {100*(1-he.W_real_mid_W/n2.W_real_mid_W):.0f} % ({100*(1-he.W_real_lo_W/n2.W_real_lo_W):.0f}-{100*(1-he.W_real_hi_W/n2.W_real_hi_W):.0f})")
+    return df
+
+if __name__ == '__main__': coupled_ledger()

@@ -59,8 +59,11 @@ at 1\,bar floats 21\,K above; the hottest point of the helium plate reaches 77\,
 top of the laminar range, and at 18\,bar helium's pumping power is 8.5 times below nitrogen's at matched
 Reynolds number. The ideal ledger favours nitrogen by 21\,\% for a bare shield and helium by
 9\,\% with multi-layer insulation; with hardware efficiencies and the liquefaction energy of
-the nitrogen consumed, helium is cheaper by 36--51\,\%, and nitrogen becomes competitive only
-if the harness conduction to 4\,K is cut by about a factor of three. Operating maps,
+the nitrogen consumed, the equivalent room-temperature power favours helium by 36--51\,\% at
+the nominal shield temperatures and by 13--56\,\% once each route is charged with the plate
+temperature its own cold plate reaches, the low end at a common laminar flow where the helium
+plate floats to 67\,K. Nitrogen becomes competitive only if the harness conduction to 4\,K is
+cut by about a factor of three. Operating maps,
 uncertainty bands and the complete case set are provided.
 \end{abstract}
 
@@ -165,8 +168,9 @@ helium-gas intercepts on supports and in insulation~\cite{Li1990SMESIntercepts},
 multi-stage shields for transmission-line cryostats~\cite{Miles2008MultiStageShields},
 fusion thermal shields~\cite{Groth2024DEMOFeederShield, Barone2020DTTShield}, and
 single-shield helium cryostats brought to zero boil-off by load
-minimisation~\cite{Zhang2024ZeroLHeCryostat}. These are one-dimensional: they return a
-stage total, not where the load lands. Second, wiring loads are measured and modelled per
+minimisation~\cite{Zhang2024ZeroLHeCryostat}. These return a stage total or a shield
+temperature field, from one-dimensional budgets or, for the feeder shields, finite-element
+models, but not where the wiring load lands or how it couples to the radiation field. Second, wiring loads are measured and modelled per
 cable~\cite{6-Krinner2019CryogenicSetup, 22-Raicu2025CryogenicThermal,
 Snodgrass2022RegeneratorLoads}, again as conduction integrals that assign the harness a
 single resistance and leave it uncoupled from the radiation field. Third, surface-to-surface
@@ -369,9 +373,11 @@ wall temperatures, the stage-integrated radiative and conductive loads are analy
 CHT model must reproduce them; that agreement is the model's verification, not its result. The
 model contributes what the closed forms cannot: the distribution of radiative flux over the
 shield (which sets local shield temperatures once a real, finitely conductive shield is
-considered), the partition of conduction among harness families, the coupling between the
-harness and the surrounding radiation field, and the first-stage duty that sets the
-cold-plate load. For the cold plate the closed forms are the fully developed duct limits and
+considered), the coupling between the harness and the surrounding radiation field, the
+first-stage duty that sets the cold-plate load, and the dependence of the 4\,K-stage load on
+the first-stage temperature that closes the loop between the cold-plate and ledger models
+(Section~\ref{sec:res-q3}). The partition of conduction among harness families follows from
+the cable counts and is not claimed as a result. For the cold plate the closed forms are the fully developed duct limits and
 the Gnielinski correlation; what the model adds there is the developing-flow Nusselt map
 across Reynolds number and pressure, the departure of a single-wall-heated duct from the
 correlations for uniformly heated ducts, and the wall-temperature distributions, including the
@@ -532,7 +538,17 @@ reciprocity, $A_iF_{ij}=A_jF_{ji}$; the least-squares rectification procedures c
 Taylor and Luck~\cite{TaylorLuck1995VFRectification} enforce both and would be the next
 refinement. The corrected method converges under agglomeration refinement: the normalised load
 is 7.36\,W at 250 faces, 7.32\,W at 400 and 7.27\,W at 800, 4.1, 3.6 and 2.8\,\% above the
-closed form, where the uncorrected matrix gave 8.41, 6.49 and 3.26\,W.
+closed form, where the uncorrected matrix gave 8.41, 6.49 and 3.26\,W. Two further checks
+quantify what normalisation does and does not repair. Global conservation, the net radiative
+power summed over every surface of a closed region, must vanish: the generated matrices leave
+1.5\,W unbalanced at 400 faces and 14\,W at 800, the normalised ones 0.10, 0.13 and 0.36\,W
+at 250, 400 and 800 faces (1.3, 1.8 and 4.9\,\% of the load). Reciprocity, which
+normalisation does not enforce, was audited with the coarse-face areas rebuilt from the mesh
+(script \texttt{reciprocity.py}): the area-weighted error
+$\sum|A_iF_{ij}-A_jF_{ji}|/\sum A_iF_{ij}$ of the normalised matrices is 3.9, 5.5 and 12.6\,\% at 250, 400 and 800 faces in the outer gap region.
+Both residuals grow with refinement, which is why the production level is 250 faces and why
+the 3--4\,\% gap to the closed form is reported as the accuracy of the method rather than
+refined away.
 
 \begin{figure}[tbp]
 \centering
@@ -657,7 +673,11 @@ and a heat-flux wall condition that uses the local conductivity (delivered 9.399
 plate mean falls from 87.4 to 83.0\,K and the hottest face from 106.1 to 97.3\,K, while the
 friction factor and pumping power rise by 5\,\%; at $\Re=2300$ the changes are +5\,\% in
 $\Nu$, $-1.0$\,K in the mean and $-2.9$\,K in the hottest face (79.7 to 76.9\,K), with the
-pumping power unchanged. The constant-property helium results are therefore conservative
+pumping power unchanged. The 0.5\,K by which that hottest face clears the 77.4\,K limit is
+within the uncertainty of the quantity: the three-grid study moves it by 0.17\,K (79.85,
+79.74 and 79.68\,K), and the property fits and the constant $c_p$ add a few tenths, so the
+hottest-face optimum of Section~\ref{sec:res-q2-maps} is stated as a range, $\Re\approx2300$
+to 5000 with a pumping-power ratio of 4 to 30, rather than as a point. The constant-property helium results are therefore conservative
 toward helium by up to 14\,\% in $h$ at the lowest Reynolds number and by 5\,\% at the design
 point; the rankings of Sections~\ref{sec:res-q2-maps}--\ref{sec:res-q2-bases} are not
 affected, and the one statement they touch, the hottest-face optimum, is qualified where it is
@@ -863,7 +883,7 @@ where the first-stage load is large and helium where insulation has removed it, 
 regime of the MLI-wrapped shields surveyed by Shu et al.~\cite{Shu2024AdvancedCryostats} and of the
 single-layer intercepts of Singh et al.~\cite{Singh2025CryostatThermalProtection}.
 
-With hardware efficiencies the verdict is not close in either case. The 4\,K stage at
+With hardware efficiencies, and the shields at their nominal temperatures, the verdict is not close in either case. The 4\,K stage at
 0.8--1.5\,\% of Carnot turns the 106\,mW penalty into 520--980\,W, more than the whole
 first-stage bill of either route, and the helium route costs 840\,W (640--1100) against
 1300\,W (960--1770) for nitrogen with the bare shield and 610 against 1240\,W with MLI.
@@ -885,10 +905,59 @@ lever is $\Delta\dot Q_2$: because 86\,\% of it is harness conduction, a harness
 bundles or by lower-conductivity outer conductors, brings the bare-shield break-even to
 1.3\,\% of Carnot, within the range of real hardware.
 
+\paragraph{Coupled operating points.} The ledger above holds each shield at its nominal
+temperature, 50 or 77\,K, but Section~\ref{sec:res-q2-maps} shows that neither cold plate sits
+there: the helium plate averages 67\,K at $\Re=2300$ and reaches 50\,K only at $\Re=10^4$, and
+the nitrogen plate averages 81.2\,K at $\Re=2300$ and 77.8\,K at $10^4$, 4.2 and 0.8\,K above
+the bath, because the duty must cross the wall superheat. The harness is heat-sunk at the
+plate, so the 4\,K-stage load follows the plate temperature, not the coolant temperature.
+Table~\ref{tab:coupled} re-evaluates the ledger with the first-stage temperature set to the
+area-mean plate temperature of the cold-plate model at four operating points, using the
+harness integral behind Eq.~(\ref{eq:keff}) and the $T_1^4$ scaling of the residual
+radiation, both of which the enclosure model reproduces to 0.5\,\%; the helium pumping power
+is charged at a 50\,\% circulator efficiency. At matched laminar flow the helium plate's 67\,K
+costs it 62\,mW at the 4\,K stage and the nitrogen plate's 81\,K costs 21\,mW, and the
+hardware advantage of helium shrinks from 36 to 13\,\% (bare shield) and from 51 to 26\,\%
+(MLI). When each route runs at the flow its own design implies, helium turbulent at
+$\Re=10^4$ to hold 50\,K and nitrogen laminar at $\Re=2300$, the advantage is 41 and 56\,\%;
+with both turbulent it is 36 and 52\,\%. The ideal ledger moves the other way: at matched
+laminar flow nitrogen is cheaper by 25\,\% for the bare shield and by 4\,\% even with MLI.
+These are equivalent room-temperature powers under the stated efficiencies and supply
+energies, not measured plant consumption. What they establish is the sign and the order of
+the difference, and that the helium route's advantage exists only where its plate is actually
+held near 50\,K, which the flow rate, not the coolant, decides.
+
+\begin{table}[tbp]
+\centering\footnotesize\setlength{\tabcolsep}{3.5pt}
+\caption{Work ledger at coupled operating points: first-stage temperature $T_1$ equal to the
+area-mean plate temperature of the cold-plate model (He at 1\,bar; 18\,bar changes only the
+negligible pumping term); $\dot Q_2$ from the harness integral and the scaled residual
+radiation; equivalent room-temperature power with ideal multipliers and with mid-range
+hardware efficiencies (ranges in \texttt{data/ledger\_coupled.csv}).}
+\label{tab:coupled}
+\begin{tabular}{l r r r r r}
+\toprule
+Operating point (He / \LNtwo) & $T_1$ [K] & $\dot Q_2$ [mW] & $\dot W_{\mathrm{ideal}}$ [W] & $\dot W_{\mathrm{real}}$ [W] & He advantage, real \\
+\midrule
+\multicolumn{6}{l}{\textit{bare shield}} \\
+nominal, decoupled & 50 / 77 & 73 / 180 & 47.4 / 37.3 & 840 / 1300 & 36\,\% \\
+matched $\Re=2300$, both laminar & 67.1 / 81.2 & 135 / 201 & 51.7 / 38.8 & 1250 / 1450 & 13\,\% \\
+own design points: He $\Re=10^4$, \LNtwo\ $\Re=2300$ & 50.3 / 81.2 & 74 / 201 & 47.5 / 38.8 & 850 / 1450 & 41\,\% \\
+both turbulent, $\Re=10^4$ & 50.3 / 77.8 & 74 / 184 & 47.5 / 37.6 & 850 / 1330 & 36\,\% \\
+\addlinespace[2pt]
+\multicolumn{6}{l}{\textit{MLI-equivalent shield}} \\
+nominal, decoupled & 50 / 77 & 73 / 180 & 19.0 / 21.0 & 610 / 1240 & 51\,\% \\
+matched $\Re=2300$, both laminar & 67.1 / 81.2 & 135 / 201 & 23.4 / 22.5 & 1020 / 1380 & 26\,\% \\
+own design points & 50.3 / 81.2 & 74 / 201 & 19.1 / 22.5 & 610 / 1380 & 56\,\% \\
+both turbulent, $\Re=10^4$ & 50.3 / 77.8 & 74 / 184 & 19.1 / 21.3 & 610 / 1270 & 52\,\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \begin{table}[tbp]
 \centering\small
-\caption{Work ledger: stage loads (row-normalised view factors), ideal and hardware-based
-room-temperature power. Ranges: emissivity $\pm50$\,\% (ideal) and the stage-efficiency and
+\caption{Work ledger at the nominal shield temperatures: stage loads (row-normalised view
+factors) and equivalent room-temperature power, ideal and hardware-based. Ranges: emissivity $\pm50$\,\% (ideal) and the stage-efficiency and
 nitrogen supply-energy ranges of Supplementary Table~S9 (real).}
 \label{tab:ledger}
 \begin{tabular}{l l r r r r}
@@ -921,9 +990,11 @@ located, sized and attributed: 106\,mW at the 4\,K stage, 86\,\% of it conductio
 harness whose drive and flux families carry three quarters. It is a property of the wiring,
 not of the cryogen, and Eq.~(\ref{eq:breakeven}) shows that, at the efficiencies of present
 hardware, the wiring is the variable that moves the break-even most. Lumped budgets give the same
-total; what the resolved model adds is the attribution to bundles that can be heat-sunk, and
-the confirmation that the residual radiation, whatever the shield temperature, is a minor
-term. This is the design steer that Li et al.'s optimisation of intercepts on supports and in
+total, and its split among bundles follows from the cable counts; what the resolved model
+adds is the coupling of the harness to the radiation field, the flux distribution over the
+shield, the closure behaviour of the view-factor matrix, the confirmation that the residual
+radiation is a minor term at any shield temperature, and the dependence of the 4\,K load on
+the plate temperature that the coupled ledger of Table~\ref{tab:coupled} uses. This is the design steer that Li et al.'s optimisation of intercepts on supports and in
 insulation~\cite{Li1990SMESIntercepts} cannot give for a wired cryostat.
 
 \paragraph{The helium plate floats.} A cold plate cooled by circulated helium gas at
@@ -946,9 +1017,12 @@ integral of Eq.~(\ref{eq:keff}) with the shield at 67\,K gives a 4\,K-stage cond
 point forfeits 54\,mW, 59\,\% of the 92\,mW conduction penalty that separates the routes, and
 about 4\,W of the 7.9\,W ideal advantage. The 65\,mW of pumping power that buys the 50\,K
 plate at $\Re=10^4$ is negligible against that, so on the helium route the flow rate is set by
-the 4\,K ledger and not by the pumping power. On the nitrogen route the plate is pinned by the
-bath and the coupling is absent, which is the operational argument for nitrogen restated in
-the model's own terms.
+the 4\,K ledger and not by the pumping power. The nitrogen plate is not pinned by the bath
+either: it sits 4.2\,K above it at $\Re=2300$ and 0.8\,K at $10^4$, worth 21 and 4\,mW at
+the 4\,K stage, a smaller and flow-insensitive coupling because the liquid's superheat is
+small. Table~\ref{tab:coupled} carries both couplings into the ledger, and the operational
+argument for nitrogen, a plate temperature that the flow rate barely moves, is what remains of
+the bath-pinning idea.
 
 \paragraph{The basis of comparison decides the ranking.} Matched Reynolds number, matched mass
 flow and matched pumping power rank the fluids differently in magnitude and, for pumping
@@ -960,8 +1034,9 @@ as the form such a comparison should take.
 
 \paragraph{Ideal and real ledgers disagree, and the disagreement is informative.} The ideal
 ledger prefers nitrogen for a bare shield and helium for an insulated one; the hardware
-ledger prefers helium in both cases by 36--51\,\%, because the 4\,K stage of a commercial
-cooler converts each milliwatt of penalty into 5--9\,W at the wall. The nitrogen route
+ledger prefers helium in both cases, by 36--51\,\% at the nominal shield temperatures and by
+13--56\,\% at the coupled operating points of Table~\ref{tab:coupled}, because the 4\,K
+stage of a commercial cooler converts each milliwatt of penalty into 5--9\,W at the wall. The nitrogen route
 retains what Li et al.\ identified three decades ago~\cite{Li1990SMESIntercepts}: a constant
 shield temperature, stored reserve, and independence from the cryocooler, which now also
 means freedom from its vibration~\cite{Tomaru2004Vibration}. Those are operational
@@ -1018,7 +1093,9 @@ temperature limit, nitrogen needs 1.0\,$\mu$W at $\Re=500$; helium at 18\,bar ne
 wall-temperature criterion.
 \item The ideal ledger favours nitrogen by 21\,\% for a bare shield and helium by 9\,\% for
 an MLI shield; with hardware efficiencies and the liquefaction energy of the nitrogen
-consumed, helium is cheaper by 36--51\,\% in both cases. At
+consumed, the equivalent room-temperature power favours helium by 36--51\,\% in both cases at
+the nominal shield temperatures and by 13--56\,\% at the coupled operating points, an
+advantage that exists only where the helium plate is actually held near 50\,K. At
 those efficiencies the nitrogen route becomes competitive when the 77\,$\to$\,4\,K harness
 conduction is cut by about a factor of three, the lever Eq.~(\ref{eq:breakeven}) identifies.
 \item The comparison rests on code-verified numbers: NIST properties at a stated reference

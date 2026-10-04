@@ -142,6 +142,18 @@ Case & Coarsest-level faces & Closure (mean; range) & Radiation, as generated & 
 \bottomrule
 \end{tabular}\end{table}
 
+\paragraph{Conservation and reciprocity audit.} Two residuals are reported for every view-factor
+matrix. Global conservation: the net radiative power $\sum_{\mathrm{patches}}\int q_r\,\mathrm dA$
+summed over all surfaces of a closed region, which must vanish; the generated matrices leave 1.5\,W
+(400 faces) and 14\,W (800 faces) unbalanced on the 300$\to$50\,K case, the row-normalised ones
+0.10, 0.13 and 0.36\,W at 250, 400 and 800 faces. Reciprocity: with the coarse-face areas $A_i$
+rebuilt from the mesh by summing the fine faces of each agglomeration
+(\texttt{scripts/reciprocity.py}), the area-weighted error $\sum|A_iF_{ij}-A_jF_{ji}|/\sum A_iF_{ij}$
+of the normalised matrices is 3.9, 5.5 and 12.6\,\% at 250, 400 and 800 faces (outer gap region).
+Row normalisation restores closure exactly but leaves reciprocity untouched, and both residuals grow
+with agglomeration refinement, which is why the production level is the coarsest, 250 faces, and why
+the 3--4\,\% departure from the closed form is quoted as the accuracy of the method.
+
 \paragraph{Row normalisation.} Each fluid region of the enclosure model is a closed surface, so
 every row of the view-factor matrix must sum to unity. The generated matrix (\texttt{viewFactorsGen},
 Gauss quadrature tolerance 0.01) is stored sparsely, one entry per visible face pair; the
