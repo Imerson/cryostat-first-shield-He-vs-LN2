@@ -7,19 +7,10 @@ Support material for:
 > ledger*, submitted to **Thermal Science and Engineering Progress** (2026).
 
 This repository holds every OpenFOAM case, script, data table and figure
-behind the numbers quoted in that manuscript, plus the manuscript sources and
-the point-by-point record of changes relative to the previously reviewed
-version. Solution fields of the final time step and the large view-factor
+behind the numbers quoted in that manuscript, plus the manuscript sources. Solution fields of the final time step and the large view-factor
 matrices are **not** stored; each case regenerates them from the dictionaries
 and scripts provided.
 
-This is a self-contained successor to the earlier repository
-[Pre-cooling-a-superconducting-qubit-dilution-refrigerator](https://github.com/Imerson/Pre-cooling-a-superconducting-qubit-dilution-refrigerator),
-which remains as the archival record of the first submission. Every number in
-the present manuscript comes from this repository, not from that one; in
-particular the cold-plate sweep here uses helium properties from the NIST
-reference equations of state, which corrects the helium transport properties
-used in the earlier cold-plate model.
 
 ## Requirements
 
@@ -42,11 +33,7 @@ used in the earlier cold-plate model.
 | `scripts/` | `gen_hx_sweep.py` (builds the sweep with NIST/CoolProp properties), `run_hx_case.sh`, `queue_worker.sh`, `gen_enclosure_variants.sh`, `run_norm_variants.sh`, `normalise_F.py`, `hx_analysis.py`, `enclosure_collect.py`, `ledger.py`, `fig_schematic.py`, `fig_illustrations.py`, `render_domain_paraview.py`, `fluid_properties.py`, `pull_results.sh`. |
 | `data/` | `hx_sweep_all.csv`, `table_S6_all_runs.csv`, `hx_design_point.csv`, `hx_matched_pumping.csv`, `hx_gci_He.txt`, `enclosure_loads.csv`, `ledger.csv`, `fluid_properties.csv`. |
 | `figures/` | All manuscript figures (vector PDF at print width, plus PNG). |
-| `response_to_reviewers/` | Point-by-point changes relative to the previously reviewed version and the literature map. |
 
-`README_v2_folder_notes.md` is the original folder-level note that accompanied
-this material when it lived inside the earlier repository; it is kept
-unchanged for traceability.
 
 ## How the paper maps onto this repository
 

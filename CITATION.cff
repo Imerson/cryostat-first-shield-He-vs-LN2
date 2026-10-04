@@ -12,7 +12,7 @@ authors:
 repository-code: >-
   https://github.com/Imerson/cryostat-first-shield-He-vs-LN2
 license: MIT
-version: "2.0"
+version: "1.0"
 date-released: "2026-09-28"
 keywords:
   - cryostat
