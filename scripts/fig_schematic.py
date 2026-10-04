@@ -15,7 +15,7 @@ C_HE, C_N2, C_GREY = '#B85042', '#50708E', '#777777'
 fig, axes = plt.subplots(1, 3, figsize=(10.5, 4.2), gridspec_kw={'wspace': 0.04})
 titles = [('(a) reference: PTR first stage', '40--50 K, conductive'),
           ('(b) route He: circulated gas', '50 K nominal; 45 K in, 1--18 bar'),
-          ('(c) route N$_2$: liquid nitrogen', '77 K in, 3 bar')]
+          ('(c) route N$_2$: liquid nitrogen', '77 K in, 5 bar')]
 
 def stage_stack(ax, Ts1, route):
     ax.set_xlim(0, 10); ax.set_ylim(0.2, 10); ax.axis('off')
@@ -59,7 +59,7 @@ def stage_stack(ax, Ts1, route):
             ax.add_patch(Rectangle((x - 0.17, 4.82), 0.34, 0.31, fc='w', ec=col, lw=1.0))
         ax.add_patch(FancyArrowPatch((0.3, 4.97), (1.95, 4.97), arrowstyle='-|>', mutation_scale=8, color=col, lw=1.4))
         ax.add_patch(FancyArrowPatch((8.05, 4.97), (9.65, 4.97), arrowstyle='-|>', mutation_scale=8, color=col, lw=1.4))
-        lab_in = 'He in, 45 K\n1--18 bar' if route == 'he' else 'LN$_2$ in, 77 K\n3 bar'
+        lab_in = 'He in, 45 K\n1--18 bar' if route == 'he' else 'LN$_2$ in, 77 K\n5 bar'
         ax.text(1.35, 4.5, lab_in, fontsize=7.0, color=col, va='top', ha='left')
         ax.text(9.9, 4.55, 'out', fontsize=6.8, color=col, ha='right', va='top')
         ax.text(1.35, 3.6, 'cold plate:\nQ2 model', fontsize=7.0, color=col, ha='left', va='center')

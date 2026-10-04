@@ -74,7 +74,7 @@ def cryostat(ax, route):
         ttl = '(a) helium-gas route, first stage 50 K (nominal)'
     else:
         ax.add_patch(FancyBboxPatch((-3.1, 9.6), 2.75, 1.75, boxstyle='round,pad=0.02,rounding_size=0.1', fc='#dfe6ec', ec=col, lw=1))
-        ax.text(-1.72, 10.47, 'LN$_2$ dewar\n+ pump\n77 K, 3 bar', ha='center', va='center', fontsize=7.4, color=col)
+        ax.text(-1.72, 10.47, 'LN$_2$ dewar\n+ pump\n77 K, 5 bar', ha='center', va='center', fontsize=7.4, color=col)
         ttl = '(b) liquid-nitrogen route, first stage 77 K'
     # 4 K cryocooler outside the can (feedthrough)
     ax.plot([7.8, 10.1], [4.76, 4.76], color='k', lw=1.2)
