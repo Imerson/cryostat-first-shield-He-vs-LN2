@@ -55,7 +55,7 @@ def main():
             rows.append(r)
     df = pd.DataFrame(rows); df.to_csv(os.path.join(DATA, 'ledger.csv'), index=False); print(df.to_string())
     # ---- figure: grouped bars, ideal and real, bare and MLI ----
-    fig, axes = plt.subplots(1, 2, figsize=(5.4, 3.0))
+    fig, axes = plt.subplots(1, 2, figsize=(5.4, 3.35))   # extra height for the shared legend below
     for ax, shield, ttl in zip(axes, ('base', 'mli'), ('(a) bare polished shield', '(b) MLI-equivalent shield ($\\varepsilon$ = 0.003)')):
         d = df[df.case.str.endswith(shield)]
         if d.empty: ax.set_title(ttl + ' [pending]'); continue
@@ -71,7 +71,11 @@ def main():
         ax.set_yscale('log'); ax.set_ylabel('room-temperature power [W]'); ax.set_title(ttl, fontsize=9)
         for xi, (wi, wr) in enumerate(zip(d.W_ideal_W, d.W_real_mid_W)):
             ax.text(xi - w / 2 - 0.12, wi * 1.05, f'{wi:.0f} W', ha='right', fontsize=7); ax.text(xi + w / 2 + 0.12, wr * 1.05, f'{wr:.0f} W', ha='left', fontsize=7)
-    axes[0].legend(fontsize=7, loc='upper left')
-    fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig8_ledger.png')); fig.savefig(os.path.join(FIG, 'fig8_ledger.pdf')); plt.close(fig)
+        # headroom so the top error bar and its label never touch the frame; room on the left for the ideal labels
+        ax.set_ylim(top=float(d.W_real_hi_W.max()) * 1.8); ax.set_xlim(-0.72, len(d) - 0.28)
+    # one shared legend below both panels (nothing drawn over the data)
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc='lower center', ncol=3, fontsize=7, frameon=False, bbox_to_anchor=(0.5, 0.0))
+    fig.tight_layout(rect=[0, 0.09, 1, 1]); fig.savefig(os.path.join(FIG, 'fig8_ledger.png')); fig.savefig(os.path.join(FIG, 'fig8_ledger.pdf')); plt.close(fig)
 
 if __name__ == '__main__': main()
