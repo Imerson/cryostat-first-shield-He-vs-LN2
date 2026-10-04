@@ -1,0 +1,52 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/fluid";
+    object      p_rgh;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+dimensions      [1 -1 -2 0 0 0 0];
+internalField   uniform 1.000000e+00;
+
+boundaryField
+{
+    coldPlate { type fixedFluxPressure; value uniform 1.000000e+00; }
+    warmPlate { type fixedFluxPressure; value uniform 1.000000e+00; }
+    farfield  { type fixedFluxPressure; value uniform 1.000000e+00; }
+    shield { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax01 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax02 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax03 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax04 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax05 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax06 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax07 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax08 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax09 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax10 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax11 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax12 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax13 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax14 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax15 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax16 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax17 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax18 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax19 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax20 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax21 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax22 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax23 { type fixedFluxPressure; value uniform 1.000000e+00; }
+    fluid_to_coax24 { type fixedFluxPressure; value uniform 1.000000e+00; }
+}

@@ -59,7 +59,8 @@ $A=1.585$\,mm$^2$, PTFE dielectric $A=2.001$\,mm$^2$, 304 stainless centre condu
 $A=0.205$\,mm$^2$. Material $k(T)$ from the NIST cryogenic fits
 $\log_{10}k=\sum_n a_n(\log_{10}T)^n$. Each modelled cylinder carries $n_k$ lines with
 $\kappa_{\mathrm{eff}}(T)=(n_k/A_{\mathrm{model}})\sum_iA_ik_i(T)$; $A_{\mathrm{model}}$ is
-the calibrated effective conduction area of the 20\,mm cylinder.}
+the conduction area of the modelled cylinder taken from the mesh cross-section,
+$4.63\times10^{-4}$\,m$^2$, with conduction length $L=0.245$\,m, identical in all four cases.}
 \begin{tabular}{l l r r}
 \toprule
 Bundle & Family & $n_k$ & share of harness conduction \\
@@ -131,7 +132,9 @@ untouched. The solve was then restarted from the converged production field for 
 iterations. Script \texttt{normalise\_F.py} in the repository.
 
 \begin{table}[H]\centering\small
-\caption{Emissivity sensitivity (production view factors) and MLI-equivalent variant.}
+\caption{Emissivity sensitivity (production view factors) and MLI-equivalent variant; the
+MLI-equivalent cases are also given with the row-normalised matrix, which is the value
+carried into the main text and the ledger.}
 \begin{tabular}{l r r r}
 \toprule
 Case & $\varepsilon$ warm / cold & Radiation [W] & Total [W] \\
@@ -144,6 +147,8 @@ Case & $\varepsilon$ warm / cold & Radiation [W] & Total [W] \\
 300$\to$77\,K, high & 0.06 / 0.03 & 11.44 & 12.40 \\
 300$\to$50\,K, MLI-eq. & 0.04 / 0.003 & 1.81 & 2.84 \\
 300$\to$77\,K, MLI-eq. & 0.04 / 0.003 & 1.81 & 2.77 \\
+300$\to$50\,K, MLI-eq., rows normalised & 0.04 / 0.003 & 1.69 & 2.72 \\
+300$\to$77\,K, MLI-eq., rows normalised & 0.04 / 0.003 & 1.68 & 2.65 \\
 \bottomrule
 \end{tabular}\end{table}
 
@@ -185,7 +190,8 @@ imbalances reported earlier. The delivered wall heat flux was verified with the 
 Stage & $\eta$ range & Source \\
 \midrule
 4\,K cryocooler stage & 0.008--0.015 & PT415: 1.5\,W at 4.2\,K with 40\,W at 45\,K for 10.7\,kW
-\citep{Bluefors2026PT415}; input allocated by Carnot work gives 0.031 for both stages combined;
+\citep{Bluefors2026PT415}: the two stages together return 0.031 of their combined Carnot work, which the
+per-stage ranges reproduce to within 7\,\% at their midpoints;
 Radebaugh: ``at 4\,K efficiencies of about 1\,\% of Carnot or less are typical'' \citep{Radebaugh2009Cryocoolers} \\
 He first stage (45--80\,K) & 0.10--0.15 & Radebaugh: 10--15\,\% of Carnot for the best commercial 80\,K
 coolers; large plants up to 30\,\% \citep{Radebaugh2009Cryocoolers, Claudet2010LHCExergy} \\

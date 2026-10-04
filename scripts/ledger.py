@@ -43,7 +43,11 @@ def main():
     for shield in ('base', 'mli'):
         for route, T1, s1, s2 in (('He', 50.0, 's1_50K', 's2_from50K'), ('LN2', 77.0, 's1_77K', 's2_from77K')):
             # central values: row-normalised view factors (best CFD); 'base' production kept as the upper band
-            c1 = f'{s1}_norm250' if (shield == 'base' and f'{s1}_norm250' in L.index) else f'{s1}_{shield}'
+            # row-normalised matrix is the central value for BOTH shields when available
+            if shield == 'base':
+                c1 = f'{s1}_norm250' if f'{s1}_norm250' in L.index else f'{s1}_base'
+            else:
+                c1 = f'{s1}_mli_norm250' if f'{s1}_mli_norm250' in L.index else f'{s1}_mli'
             c2 = f'{s2}_norm250' if f'{s2}_norm250' in L.index else f'{s2}_base'
             if c1 not in L.index: continue
             r = ledger_row(f'{route}_{shield}', tot(c1), tot(c2), T1, route)

@@ -1,0 +1,16 @@
+FoamFile { version 2.0; format ascii; class dictionary; object topoSetDict; }
+actions
+(
+    { name coax_L1_set; type cellSet; action new; source cylinderToCell;
+      sourceInfo { p1 (0.13936 0.05630 0.0); p2 (0.13936 0.05630 0.335); radius 0.01; } }
+    { name coax_L1; type cellZoneSet; action new; source setToCellZone; sourceInfo { set coax_L1_set; } }
+    { name coax_L2_set; type cellSet; action new; source cylinderToCell;
+      sourceInfo { p1 (-0.05630 0.13936 0.0); p2 (-0.05630 0.13936 0.335); radius 0.01; } }
+    { name coax_L2; type cellZoneSet; action new; source setToCellZone; sourceInfo { set coax_L2_set; } }
+    { name coax_L3_set; type cellSet; action new; source cylinderToCell;
+      sourceInfo { p1 (-0.13936 -0.05630 0.0); p2 (-0.13936 -0.05630 0.335); radius 0.01; } }
+    { name coax_L3; type cellZoneSet; action new; source setToCellZone; sourceInfo { set coax_L3_set; } }
+    { name coax_L4_set; type cellSet; action new; source cylinderToCell;
+      sourceInfo { p1 (0.05630 -0.13936 0.0); p2 (0.05630 -0.13936 0.335); radius 0.01; } }
+    { name coax_L4; type cellZoneSet; action new; source setToCellZone; sourceInfo { set coax_L4_set; } }
+);
