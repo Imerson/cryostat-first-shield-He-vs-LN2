@@ -26,7 +26,7 @@ and scripts provided.
 
 | Folder | Contents |
 |---|---|
-| `manuscript/` | LaTeX sources (`precooling_v2.tex`, `supplementary_v2.tex`, `table_S6.tex`), bibliography, cover letter, and the compiled draft PDFs. |
+| `manuscript/` | LaTeX sources (`precooling_v2.tex`, `supplementary_v2.tex`, `table_S6.tex`), bibliography, and the compiled draft PDFs. |
 | `hx_sweep/` | The 22 cold-plate cases: laminar *Re* 500–2300, SST *Re* 5000 and 10 000, helium at 1, 5 and 18 bar, LN2 at 3 bar, three-grid GCI for both fluids, and gravity-on sensitivity cases (`_gON`). Each case keeps `0/`, `constant/`, `system/` (including `metricConstants`, `postProcess_metrics.sh`, `sampleWall`), `postProcessing/`, `metrics.csv`, `Nu_f_report.txt`, `GATE_CHECK.txt`, `yplus_summary.txt` (turbulent cases) and the solver log (gzipped). |
 | `enclosure_CHT/` | The four baseline enclosure cases of the passive study (`stage1_shield_50K_v2`, `stage1_shield_77K_v2`, `stage2_4K_from50K_v2`, `stage2_4K_from77K_v2`) with their converged `postProcessing/` output, the view-factor agglomeration sweep (`cascade_GCI/`) and the closed-form gate-check suite. Start with `enclosure_CHT/README_master.md`. |
 | `enclosure_variants/` | Enclosure variants built on those baselines: MLI-equivalent, emissivity ±50 %, agglomeration 400 and 800, and row-normalised view factors (`*_norm250`). Each keeps `0/`, `constant/` (without meshes and F matrices), `system/`, `postProcessing/heatLoadSummary`, `heat_loads_*.csv`, gate checks and the per-case scripts (`finalize_case.py`, `extract_heat_loads.py`, `harness_kappa.py`, `normalise_F.py`). |
