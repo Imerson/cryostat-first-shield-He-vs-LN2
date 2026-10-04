@@ -840,16 +840,15 @@ Energy-balance closure & 0.06\,\% & 0.001\,\% & -- \\
 The buoyancy parameter $\mathrm{Gr}/\Re^2$ of the forced-convection runs is at most 0.63 for
 helium at 1\,bar ($\Re=500$) and above unity for nitrogen in the laminar range (40 at $\Re=500$,
 1.0 at 2300), so a real plate in which gravity acts along the heated wall would carry a
-mixed-convection secondary flow in nitrogen; the one helium case in which orientation would
-also matter is the dense 18\,bar loop, where $\mathrm{Gr}/\Re^2$ reaches 7.3 at $\Re=2300$. The four runs with gravity on confirm this and bound its effect. Helium
-converged and gained 27\,\% in $\Nu$ at $\Re=2300$ and 118\,\% at $\Re=500$. Nitrogen did not
-reach a steady state at either Reynolds number: after 10\,000 iterations the temperature
-residual oscillated at $10^{-3}$ and the energy balance remained open by 11\,\% and 72\,\%,
-the signature of an unsteady buoyant flow that a steady solver cannot represent. The
-forced-convection nitrogen results therefore describe a plate in which gravity is normal to
-the heated wall or absent; for a plate with gravity along the wall the steady model gives no
-bound in either direction, and the ranking of Section~\ref{sec:res-q2-bases} is stated for
-forced convection only.
+mixed-convection secondary flow in nitrogen; for helium only the dense 18\,bar loop is
+affected ($\mathrm{Gr}/\Re^2=7.3$ at $\Re=2300$). The four gravity-on runs confirm this.
+Helium converged and gained 27\,\% in $\Nu$ at $\Re=2300$ and 118\,\% at $\Re=500$. Nitrogen
+reached no steady state at either Reynolds number: after 10\,000 iterations the temperature
+residual oscillated at $10^{-3}$ and the energy balance stayed open by 11\,\% and 72\,\%, the
+signature of an unsteady buoyant flow a steady solver cannot represent. The forced-convection
+nitrogen results therefore describe a plate with gravity normal to the heated wall or absent;
+with gravity along the wall the steady model gives no bound in either direction, and the
+ranking of Section~\ref{sec:res-q2-bases} is stated for forced convection only.
 
 % =====================================================================
 \section{Results Q3: the work ledger}
@@ -1038,11 +1037,10 @@ The cold plate is a single-wall-heated smooth duct with constant properties exce
 helium density and the nitrogen buoyancy term; conjugate conduction in the plate, which would
 spread the wall temperature, is not resolved. Nitrogen is single phase by verified margin at
 3\,bar but not at 1\,bar. The turbulent runs rely on the SST model at $y^+\le 9.5$ and were
-not compared with experiment. The hardware efficiencies are survey ranges from published data,
-and the split of a two-stage cooler's efficiency between its stages is taken from those ranges
-rather than from one machine; a measured capacity map of a specific machine would replace them. Buoyancy in nitrogen was shown to
-be unsteady and was excluded from the ranking rather than resolved; a transient calculation
-in a specified plate orientation would quantify it.
+not compared with experiment. The hardware efficiencies are survey ranges, with the two-stage cooler's efficiency split
+between stages from those ranges rather than from one machine; a measured capacity map would
+replace them. Nitrogen buoyancy was shown to be unsteady and excluded from the ranking rather
+than resolved; a transient calculation in a specified plate orientation would quantify it.
 
 % =====================================================================
 \section{Conclusions}
