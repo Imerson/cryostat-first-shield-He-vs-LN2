@@ -55,7 +55,7 @@ def main():
             rows.append(r)
     df = pd.DataFrame(rows); df.to_csv(os.path.join(DATA, 'ledger.csv'), index=False); print(df.to_string())
     # ---- figure: grouped bars, ideal and real, bare and MLI ----
-    fig, axes = plt.subplots(1, 2, figsize=(5.4, 3.35))   # extra height for the shared legend below
+    fig, axes = plt.subplots(1, 2, figsize=(5.4, 3.15))   # a little extra height for the shared legend below
     for ax, shield, ttl in zip(axes, ('base', 'mli'), ('(a) bare polished shield', '(b) MLI-equivalent shield ($\\varepsilon$ = 0.003)')):
         d = df[df.case.str.endswith(shield)]
         if d.empty: ax.set_title(ttl + ' [pending]'); continue
@@ -76,6 +76,6 @@ def main():
     # one shared legend below both panels (nothing drawn over the data)
     handles, labels = axes[0].get_legend_handles_labels()
     fig.legend(handles, labels, loc='lower center', ncol=3, fontsize=7, frameon=False, bbox_to_anchor=(0.5, 0.0))
-    fig.tight_layout(rect=[0, 0.09, 1, 1]); fig.savefig(os.path.join(FIG, 'fig8_ledger.png')); fig.savefig(os.path.join(FIG, 'fig8_ledger.pdf')); plt.close(fig)
+    fig.tight_layout(rect=[0, 0.085, 1, 1]); fig.savefig(os.path.join(FIG, 'fig8_ledger.png')); fig.savefig(os.path.join(FIG, 'fig8_ledger.pdf')); plt.close(fig)
 
 if __name__ == '__main__': main()
