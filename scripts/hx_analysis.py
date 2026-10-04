@@ -58,6 +58,32 @@ def load():
     df.to_csv(os.path.join(DATA, 'hx_sweep_all.csv'), index=False)
     return df
 
+T_LIM_HE = 77.36                      # helium plate no warmer than an LN2 bath plate
+T_LIM_N2 = TSAT_N2_3BAR - 2.0         # single phase with a 2 K margin at 3 bar
+
+def optimum_points(p):
+    """Minimum pumping power subject to T_w,max <= T_lim, per fluid, from the production sweep.
+    Helium: the 1 bar laminar curve crosses 77.4 K between two runs; Re* by linear interpolation
+    of T_w,max, pumping power by log-log interpolation; 5 and 18 bar scaled by the measured
+    pressure-series ratios at Re=2300. Nitrogen: lowest-Re run meeting the limit."""
+    out = []
+    he = p[(p.fluid == 'He') & (p.P_bar == 1) & (~p.turbulent)].sort_values('Re_target')
+    T, R, W = he.Tw_max.values, he.Re.values, he.Wpump_W.values
+    i = np.where(T <= T_LIM_HE)[0][0]                     # first run under the limit
+    Re_s = R[i - 1] + (R[i] - R[i - 1]) * (T[i - 1] - T_LIM_HE) / (T[i - 1] - T[i])
+    Wp_s = math.exp(np.interp(math.log(Re_s), np.log(R), np.log(W)))
+    ref = p[(p.fluid == 'He') & (p.Re_target == 2300) & (~p.gON)].set_index('P_bar').Wpump_W
+    for P in (1, 5, 18):
+        if P not in ref.index: continue
+        out.append(dict(fluid='He', P_bar=P, Re=Re_s, Wp_W=Wp_s * ref[P] / ref[1], Tw_max=T_LIM_HE, col=C_HE,
+                        label='optimum, He at 1 / 5 / 18 bar' if P == 1 else None))
+    n2 = p[(p.fluid == 'LN2') & (p.P_bar == 3) & (~p.gON)].sort_values('Re_target')
+    ok = n2[n2.Tw_max <= T_LIM_N2].iloc[0]
+    out.append(dict(fluid='LN2', P_bar=3, Re=ok.Re, Wp_W=ok.Wpump_W, Tw_max=ok.Tw_max, col=C_N2, label='optimum, LN$_2$ 3 bar'))
+    pd.DataFrame([{k: v for k, v in o.items() if k != 'col'} for o in out]).to_csv(os.path.join(DATA, 'hx_optimum_points.csv'), index=False)
+    for o in out: print(f"OPTIMUM {o['fluid']} {o['P_bar']} bar: Re={o['Re']:.0f}  Wp={o['Wp_W']*1e6:.2f} uW  Tw_max={o['Tw_max']:.1f} K")
+    return out
+
 def fig_maps(df):
     p = df[df.gci == 'production']
     fig, ax = plt.subplots(2, 2, figsize=(5.4, 5.3)); ax = ax.ravel()
@@ -77,6 +103,12 @@ def fig_maps(df):
     ax[3].axhline(TSAT_N2_3BAR, color=C_N2, ls='--', lw=1); ax[3].text(9800, TSAT_N2_3BAR + 0.7, 'N$_2$ saturation, 3 bar (87.9 K)', color=C_N2, fontsize=7, ha='right', va='bottom')
     ax[3].axhline(77.36, color='grey', ls=':', lw=1); ax[3].text(9800, 75.9, 'N$_2$ saturation, 1 bar (77.4 K)', color='grey', fontsize=7, ha='right', va='top')
     ax[3].set_ylim(44, 102)
+    # --- optimum operating points: minimum pumping power subject to T_w,max <= T_lim ---------
+    # helium: plate no warmer than a nitrogen-bath plate (77.4 K); nitrogen: single phase with 2 K margin
+    opt = optimum_points(p)
+    for o in opt:
+        ax[2].plot(o['Re'], o['Wp_W'] * 1e3, '*', color=o['col'], ms=11, mec='k', mew=0.5, zorder=6, label=o['label'])
+        ax[3].plot(o['Re'], o['Tw_max'], '*', color=o['col'], ms=11, mec='k', mew=0.5, zorder=6)
     for a in ax: a.set_xscale('log'); a.set_xlabel('$Re$')
     ax[0].set_yscale('log'); ax[0].set_ylabel('$h$ [W m$^{-2}$ K$^{-1}$]')
     ax[1].set_yscale('log'); ax[1].set_ylabel('wall superheat $T_w-T_b$ [K]')

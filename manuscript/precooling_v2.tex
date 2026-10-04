@@ -677,7 +677,8 @@ or subcooled loop is a requirement, not a refinement.
 \caption{Operating maps at 9.4\,W duty: (a)~heat-transfer coefficient, (b)~wall superheat,
 (c)~pumping power with the helium pressure series at $\Re=2300$, and (d)~maximum wall
 temperature with the nitrogen saturation temperatures at 1 and 3\,bar. Circles: laminar;
-squares: $k$--$\omega$ SST.}
+squares: $k$--$\omega$ SST; stars: each fluid's optimum, the minimum pumping power at which
+the maximum wall temperature meets its limit (77.4\,K for helium, 85.9\,K for nitrogen).}
 \label{fig:maps}
 \end{figure}
 
@@ -690,6 +691,20 @@ power as the inverse square of the density: 25.0 times at 5\,bar and 324 times a
 (Fig.~\ref{fig:maps}c). At the 18\,bar of the ITER and DTT shield loops~\cite{Nam2014ITERThermalShield,
 Barone2020DTTShield} helium's pumping power is 4.3\,$\mu$W, 8.5 times below nitrogen's; the
 parallel-path gaseous-helium shields of LHD operate in the same regime~\cite{Imagawa2002LHDShield}.
+
+\paragraph{Optimum operating points.} The maps answer the second half of Q2 once an optimum is
+defined: the minimum pumping power at which the plate meets a wall-temperature limit. For helium
+the natural limit is 77.4\,K, the temperature a nitrogen-bath plate would hold, since a warmer
+helium plate forfeits the 50/77\,K distinction of the passive comparison; for nitrogen it is the
+3\,bar saturation temperature less a 2\,K single-phase margin, 85.9\,K. The limits select
+$\Re\approx1400$ for helium, where the 1\,bar curve of Fig.~\ref{fig:maps}d crosses 77.4\,K,
+and $\Re=500$ for nitrogen, the lowest run in the sweep, which already sits 2.2\,K inside its
+margin (stars in Fig.~\ref{fig:maps}c,d). At these points nitrogen needs 1.0\,$\mu$W of pumping
+power and helium 0.44\,mW at 1\,bar, 18\,$\mu$W at 5\,bar and 1.4\,$\mu$W at 18\,bar. Compared
+at their optima rather than at a common Reynolds number, pressurised helium and nitrogen are
+within 40\,\% of each other in pumping power, and the 38-fold penalty of atmospheric helium
+at matched $\Re$ is the cost of running the gas loop at the wrong pressure rather than a
+property of the gas.
 
 \subsection{Wall-temperature distributions}
 \label{sec:res-q2-walls}
@@ -926,7 +941,10 @@ heat-transfer coefficient in laminar flow and 6 times in turbulent flow, and hol
 within about 4\,K of its inlet at $\Re=2300$ against helium's 21\,K; helium at 1\,bar lets the
 plate float above 77\,K below $\Re\approx1400$ and needs 38 times the pumping power, but at
 18\,bar its pumping power falls below nitrogen's by a factor of 8.5 with heat transfer
-unchanged at fixed Reynolds number. The ranking depends on the basis of comparison and the operating point.
+unchanged at fixed Reynolds number. At each fluid's optimum, the minimum pumping power that
+holds the plate within its temperature limit, nitrogen needs 1.0\,$\mu$W at $\Re=500$ and
+helium 1.4\,$\mu$W at 18\,bar and $\Re\approx1400$. The ranking depends on the basis of
+comparison and the operating point.
 \item The ideal ledger favours nitrogen by 21\,\% for a bare shield and helium by 9\,\% for
 an MLI shield; with hardware efficiencies helium is cheaper by 35--51\,\% in both cases. At
 those efficiencies the nitrogen route becomes competitive when the 77\,$\to$\,4\,K harness
