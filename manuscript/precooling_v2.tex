@@ -523,32 +523,27 @@ converge under agglomeration refinement: 9.46, 8.41, 6.49 and 3.26\,W at 60, 250
 800 coarse faces per patch, against 7.07\,W from the parallel-plate closed form
 (Fig.~\ref{fig:radsweep}). The cause is closure. In a closed enclosure every row of the
 view-factor matrix must sum to one; the generated rows sum to between 0.50 and 1.13 (mean
-0.97--1.01), and finer agglomeration worsens the scatter. With surface emissivities of
-0.02--0.04 the radiosity is reflected of order $1/\varepsilon$ times before it is absorbed,
-so a per-reflection leak of a few per cent compounds into a load error of tens of per cent.
-Normalising each row of the generated matrix to unity removes the artefact: at the
-production level of 250 faces the 300\,$\to$\,50\,K load becomes 7.36\,W (4.1\,\% above the
-closed form), the 300\,$\to$\,77\,K load 7.34\,W (4.2\,\%), and the two 4\,K-stage loads
-3.16 and 17.8\,mW (0.5\,\% above 3.15 and 17.7\,mW). The remaining 3--4\,\% at the first
-stage, which shrinks with refinement, combines the geometric departure of the real enclosure,
-with its harness penetrations, from the parallel-plate idealisation with the residual
-agglomeration error. All loads below are the row-normalised values; the unnormalised
-production values are retained as an upper band. Row normalisation enforces closure but not
-reciprocity, $A_iF_{ij}=A_jF_{ji}$; the least-squares rectification procedures compared by
-Taylor and Luck~\cite{TaylorLuck1995VFRectification} enforce both and would be the next
-refinement. The corrected method converges under agglomeration refinement: the normalised load
-is 7.36\,W at 250 faces, 7.32\,W at 400 and 7.27\,W at 800, 4.1, 3.6 and 2.8\,\% above the
-closed form, where the uncorrected matrix gave 8.41, 6.49 and 3.26\,W. Two further checks
-quantify what normalisation does and does not repair. Global conservation, the net radiative
-power summed over every surface of a closed region, must vanish: the generated matrices leave
-1.5\,W unbalanced at 400 faces and 14\,W at 800, the normalised ones 0.10, 0.13 and 0.36\,W
-at 250, 400 and 800 faces (1.3, 1.8 and 4.9\,\% of the load). Reciprocity, which
-normalisation does not enforce, was audited with the coarse-face areas rebuilt from the mesh
-(script \texttt{reciprocity.py}): the area-weighted error
-$\sum|A_iF_{ij}-A_jF_{ji}|/\sum A_iF_{ij}$ of the normalised matrices is 3.9, 5.5 and 12.6\,\% at 250, 400 and 800 faces in the outer gap region.
-Both residuals grow with refinement, which is why the production level is 250 faces and why
-the 3--4\,\% gap to the closed form is reported as the accuracy of the method rather than
-refined away.
+0.97--1.01), and finer agglomeration worsens the scatter. With emissivities of 0.02--0.04 the
+radiosity is reflected of order $1/\varepsilon$ times before absorption, so a per-reflection
+leak of a few per cent compounds into a load error of tens of per cent. Normalising each row
+to unity removes the artefact: at the production level of 250 faces the 300\,$\to$\,50\,K load
+becomes 7.36\,W (4.1\,\% above the closed form), the 300\,$\to$\,77\,K load 7.34\,W (4.2\,\%),
+and the two 4\,K-stage loads 3.16 and 17.8\,mW (0.5\,\% above 3.15 and 17.7\,mW). The
+normalised load converges under refinement, 7.36, 7.32 and 7.27\,W at 250, 400 and 800 faces,
+so the remaining 3--4\,\% combines the geometric departure of the real enclosure, with its
+harness penetrations, from the parallel-plate idealisation with residual agglomeration error.
+All loads below are the row-normalised values; the unnormalised production values are kept
+as an upper band. Normalisation enforces closure, not reciprocity $A_iF_{ij}=A_jF_{ji}$; the
+least-squares rectification procedures compared by Taylor and
+Luck~\cite{TaylorLuck1995VFRectification} enforce both and would be the next refinement. Two
+residuals quantify what it leaves: the net radiative power summed over every surface of a
+closed region, which must vanish, is 1.5\,W for the generated matrix at 400 faces and 14\,W at
+800, against 0.10, 0.13 and 0.36\,W (1.3, 1.8 and 4.9\,\% of the load) for the normalised
+matrices at 250, 400 and 800 faces; and the area-weighted reciprocity error
+$\sum|A_iF_{ij}-A_jF_{ji}|/\sum A_iF_{ij}$, with coarse-face areas rebuilt from the mesh
+(\texttt{reciprocity.py}), is 3.9, 5.5 and 12.6\,\% at the same levels (outer gap region).
+Both grow with refinement, which is why the production level is 250 faces and why the
+3--4\,\% gap to the closed form is reported as the accuracy of the method.
 
 \begin{figure}[tbp]
 \centering
@@ -667,21 +662,18 @@ not a benchmark, for these runs.
 
 \paragraph{Property sensitivity.} Two helium runs at 1\,bar, $\Re=500$ and 2300, were repeated
 with cubic $\mu(T)$ and $k(T)$ fitted to the NIST data over 40--100\,K (Section~\ref{sec:hx})
-and a heat-flux wall condition that uses the local conductivity (delivered 9.399\,W, closure
-0.01\,\%). Because $k$ rises with temperature, the hot near-wall gas conducts better than the
-50\,K reference value: at $\Re=500$ the Nusselt number rises from 3.66 to 4.16 (+14\,\%), the
+and a heat-flux wall condition using the local conductivity (delivered 9.399\,W, closure
+0.01\,\%). Because $k$ rises with temperature, the hot near-wall gas conducts better than at
+the 50\,K reference: at $\Re=500$ the Nusselt number rises from 3.66 to 4.16 (+14\,\%), the
 plate mean falls from 87.4 to 83.0\,K and the hottest face from 106.1 to 97.3\,K, while the
 friction factor and pumping power rise by 5\,\%; at $\Re=2300$ the changes are +5\,\% in
-$\Nu$, $-1.0$\,K in the mean and $-2.9$\,K in the hottest face (79.7 to 76.9\,K), with the
-pumping power unchanged. The 0.5\,K by which that hottest face clears the 77.4\,K limit is
-within the uncertainty of the quantity: the three-grid study moves it by 0.17\,K (79.85,
-79.74 and 79.68\,K), and the property fits and the constant $c_p$ add a few tenths, so the
-hottest-face optimum of Section~\ref{sec:res-q2-maps} is stated as a range, $\Re\approx2300$
-to 5000 with a pumping-power ratio of 4 to 30, rather than as a point. The constant-property helium results are therefore conservative
-toward helium by up to 14\,\% in $h$ at the lowest Reynolds number and by 5\,\% at the design
-point; the rankings of Sections~\ref{sec:res-q2-maps}--\ref{sec:res-q2-bases} are not
-affected, and the one statement they touch, the hottest-face optimum, is qualified where it is
-made. Both runs are listed in Supplementary Table~S7.
+$\Nu$, $-1.0$\,K in the mean and $-2.9$\,K in the hottest face (79.7 to 76.9\,K). The 0.5\,K
+by which that face clears 77.4\,K is within the uncertainty of the quantity (the three-grid
+study moves it by 0.17\,K; the property fits and constant $c_p$ add a few tenths), so the
+hottest-face optimum is stated as a range, $\Re\approx2300$ to 5000 and a pumping-power ratio
+of 4 to 30. The constant-property results are conservative toward helium by up to 14\,\% in
+$h$ at the lowest Reynolds number and 5\,\% at the design point; the rankings below are not
+affected. Both runs are listed in Supplementary Table~S7.
 
 \begin{table}[tbp]
 \centering\small
@@ -705,22 +697,19 @@ He (1 bar) & $\Nu$ & 6.439 & 6.449 & 6.457 & 0.64 & 6.49 & 0.7\,\% \\
 \label{sec:res-q2-maps}
 
 Figure~\ref{fig:maps} maps the two coolants over $\Re=500$--$10^4$ at the fixed 9.4\,W duty.
-Nitrogen's heat-transfer coefficient exceeds helium's by a factor of 4.9--5.1 throughout the
-laminar range and 6.2--6.3 in the turbulent range; the laminar ratio is set by the
-conductivity ratio of 3.1 times the ratio of developing-flow Nusselt numbers, which favours
-the high-Prandtl liquid. The consequence for the plate is stark. At atmospheric pressure the
-helium-cooled wall averages 87\,K at $\Re=500$ and 67\,K at $\Re=2300$, with hottest faces at
-the downstream end of the channel of 106 and 80\,K (Fig.~\ref{fig:maps}d). The plate mean
-falls below the 77\,K nitrogen temperature above $\Re\approx970$, but the hottest face does
-so only in turbulent flow, at $\Re=5000$ (61\,K maximum, 55\,K mean); the nominal 50\,K of
-the helium route is approached only at $\Re=10^4$ and 65\,mW of pumping power (50.3\,K mean,
+Nitrogen's heat-transfer coefficient exceeds helium's by 4.9--5.1 times in the laminar range
+and 6.2--6.3 in the turbulent range; the laminar ratio is the conductivity ratio of 3.1 times
+the ratio of developing-flow Nusselt numbers, which favours the high-Prandtl liquid. The
+consequence for the plate is stark. At atmospheric pressure the helium-cooled wall averages
+87\,K at $\Re=500$ and 67\,K at $\Re=2300$, with hottest faces at the channel outlet of 106
+and 80\,K (Fig.~\ref{fig:maps}d). The plate mean falls below 77\,K above $\Re\approx970$, the
+hottest face only in turbulent flow at $\Re=5000$ (61\,K maximum, 55\,K mean), and the
+nominal 50\,K is approached only at $\Re=10^4$ and 65\,mW of pumping power (50.3\,K mean,
 54.3\,K maximum). The nitrogen-cooled wall stays between 78 and 85\,K in the mean and below
-89.2\,K at its hottest face over the whole map. Its saturation margin at 5\,bar is 4.8\,K at
-$\Re=500$, 9.9\,K at 2300 and 15.4\,K at $10^4$. At 3\,bar the $\Re=500$ run would exceed
-saturation locally (89.2 against 87.9\,K) and is two-phase at the downstream end, and at
-1\,bar the wall would exceed the 77.4\,K saturation temperature in every run, so a bath-fed
-loop at atmospheric pressure would boil on the plate at this duty and a pressurised or
-subcooled loop is a requirement, not a refinement.
+89.2\,K at its hottest face; its saturation margin at 5\,bar is 4.8\,K at $\Re=500$, 9.9\,K at
+2300 and 15.4\,K at $10^4$. At 3\,bar the $\Re=500$ run would exceed saturation locally (89.2
+against 87.9\,K), and at 1\,bar every run would exceed 77.4\,K, so a pressurised or subcooled
+loop is a requirement, not a refinement.
 
 \begin{figure}[tbp]
 \centering
@@ -745,29 +734,25 @@ power as the inverse square of the density: 25.0 times at 5\,bar and 324 times a
 Barone2020DTTShield} helium's pumping power is 4.3\,$\mu$W, 8.5 times below nitrogen's; the
 parallel-path gaseous-helium shields of LHD operate in the same regime~\cite{Imagawa2002LHDShield}.
 
-\paragraph{Optimum operating points.} The maps answer the second half of Q2 once an optimum is
-defined: the minimum pumping power at which the plate meets a wall-temperature limit. For helium
-the natural limit is 77.4\,K, the temperature a nitrogen-bath plate would hold, since a warmer
-helium plate forfeits the 50/77\,K distinction of the passive comparison; for nitrogen it is the
-5\,bar saturation temperature less a 2\,K single-phase margin, 92.0\,K. The answer depends on
-which wall temperature is held to the limit. If the hottest face must comply, no laminar helium
-run of the constant-property sweep does: the 1\,bar laminar curve of Fig.~\ref{fig:maps}d stays
-above 79.7\,K up to $\Re=2300$, and the first compliant run is the turbulent $\Re=5000$ case,
-at 9.95\,mW of pumping power at 1\,bar, 0.40\,mW at 5\,bar and 31\,$\mu$W at 18\,bar (the
-gap between the laminar and turbulent runs is not interpolated). The margin at $\Re=2300$ is
-small, 2.4\,K, and the variable-property run of Section~\ref{sec:res-q2-verif} closes it
-(76.9\,K), so with the property variation resolved the hottest-face optimum moves to
-$\Re\approx2300$ at 1.39\,mW (1\,bar) or 4.3\,$\mu$W (18\,bar), four times nitrogen's rather
-than thirty. Nitrogen complies at $\Re=500$, the lowest run
-in the sweep, with 1.0\,$\mu$W. If the plate mean is the criterion, helium crosses 77.4\,K at
-$\Re\approx970$, where the pumping power is 0.20\,mW at 1\,bar and 0.62\,$\mu$W at 18\,bar,
-and nitrogen again at $\Re=500$ (stars in Fig.~\ref{fig:maps}c,d). Compared at their optima,
-pressurised helium therefore needs 4 to 30 times nitrogen's pumping power on the hottest-face
-criterion and 40\,\% less on the plate-mean criterion. Both are microwatts and neither enters
-the ledger of Section~\ref{sec:res-q3}; what the comparison establishes is that the 38-fold
-penalty of atmospheric helium at matched $\Re$ is the cost of running the gas loop at the wrong
-pressure rather than a property of the gas, and that a helium plate must be checked against its
-hottest face, 13\,K above the mean at $\Re=2300$, not against the mean that sets $h$.
+\paragraph{Optimum operating points.} The second half of Q2 needs an optimum: the minimum
+pumping power at which the plate meets a wall-temperature limit, 77.4\,K for helium (the
+temperature a nitrogen-bath plate would hold, beyond which the 50/77\,K distinction is
+forfeited) and the 5\,bar saturation temperature less a 2\,K margin, 92.0\,K, for nitrogen.
+The answer depends on which wall temperature is held to the limit. If the hottest face must
+comply, no laminar helium run of the constant-property sweep does: the 1\,bar curve of
+Fig.~\ref{fig:maps}d stays above 79.7\,K up to $\Re=2300$, and the first compliant run is the
+turbulent $\Re=5000$ case at 9.95\,mW (1\,bar), 0.40\,mW (5\,bar) and 31\,$\mu$W (18\,bar);
+the laminar--turbulent gap is not interpolated. The 2.4\,K margin at $\Re=2300$ is closed by
+the variable-property run of Section~\ref{sec:res-q2-verif} (76.9\,K), which would move the
+optimum to $\Re\approx2300$ at 1.39\,mW or 4.3\,$\mu$W at 18\,bar. Nitrogen complies at
+$\Re=500$, the lowest run, with 1.0\,$\mu$W. If the plate mean is the criterion, helium
+crosses 77.4\,K at $\Re\approx970$ (0.20\,mW at 1\,bar, 0.62\,$\mu$W at 18\,bar) and nitrogen
+again at $\Re=500$ (stars in Fig.~\ref{fig:maps}c,d). At their optima, pressurised helium
+therefore needs 4 to 30 times nitrogen's pumping power on the hottest-face criterion and
+40\,\% less on the plate-mean criterion. Both are microwatts and neither enters the ledger;
+what the comparison establishes is that the 38-fold penalty of atmospheric helium at matched
+$\Re$ is the cost of the wrong loop pressure, not a property of the gas, and that a helium
+plate must be checked against its hottest face, 13\,K above the mean at $\Re=2300$.
 
 \subsection{Wall-temperature distributions}
 \label{sec:res-q2-walls}
@@ -795,20 +780,18 @@ temperature profile at $x/L=0.5$ for both fluids at $\Re=500$, 2300 and $10^4$.}
 \label{sec:res-q2-bases}
 
 Table~\ref{tab:design} collects the design point and Fig.~\ref{fig:pareto} the trade-off
-between wall superheat and pumping power. The ranking depends on the basis. At matched
-Reynolds number nitrogen wins heat transfer by a factor of 5 and pumping power by 38; the
-effectiveness--NTU pair favours helium (0.11 against 0.06), a capacity-rate artefact of the
-gas's small $\dot m c_p$ that says nothing about how cold the plate is. At matched mass flow
-nitrogen's Reynolds number would fall to about 90, below the sweep; the fully developed
-one-wall limit $\Nu_\infty\approx2.71$ bounds its heat-transfer coefficient from below at about
-40\,W\,m$^{-2}$K$^{-1}$, 1.3 times helium's at $\Re=2300$, but this basis is not computed and
-is quoted only as a bound. At
-matched pumping power, the basis a plant designer pays for, nitrogen at the pumping power of
-1\,bar helium ($\Re=2300$) holds a superheat of 0.9\,K against helium's 20.8\,K, a factor of
-23; at the pumping power of 18\,bar helium the factor is 3.5 (5.9 against 20.8\,K). In the
-turbulent range the curves in Fig.~\ref{fig:pareto} are parallel: a given superheat costs
-helium at 1\,bar roughly 30 times the pumping power it costs nitrogen, and the 18\,bar
-helium point sits inside the nitrogen envelope on pumping power alone but outside it on
+between wall superheat and pumping power. At matched Reynolds number nitrogen wins heat
+transfer by a factor of 5 and pumping power by 38; the effectiveness--NTU pair favours helium
+(0.11 against 0.06), a capacity-rate artefact of the gas's small $\dot m c_p$ that says
+nothing about how cold the plate is. At matched mass flow nitrogen's Reynolds number would
+fall to about 90, below the sweep; the one-wall limit $\Nu_\infty\approx2.71$ bounds its
+heat-transfer coefficient from below at about 40\,W\,m$^{-2}$K$^{-1}$, 1.3 times helium's at
+$\Re=2300$, quoted only as a bound. At matched pumping power, the basis a plant designer pays
+for, nitrogen at the pumping power of 1\,bar helium ($\Re=2300$) holds a superheat of 0.9\,K
+against helium's 20.8\,K, a factor of 23; at that of 18\,bar helium the factor is 3.5 (5.9
+against 20.8\,K). In the turbulent range the curves of Fig.~\ref{fig:pareto} are parallel: a
+given superheat costs helium at 1\,bar roughly 30 times nitrogen's pumping power, and the
+18\,bar helium point sits inside the nitrogen envelope on pumping power but outside it on
 superheat. No single number ranks the coolants; the operating point and the pressure do.
 
 \begin{table}[tbp]
@@ -883,49 +866,47 @@ where the first-stage load is large and helium where insulation has removed it, 
 regime of the MLI-wrapped shields surveyed by Shu et al.~\cite{Shu2024AdvancedCryostats} and of the
 single-layer intercepts of Singh et al.~\cite{Singh2025CryostatThermalProtection}.
 
-With hardware efficiencies, and the shields at their nominal temperatures, the verdict is not close in either case. The 4\,K stage at
-0.8--1.5\,\% of Carnot turns the 106\,mW penalty into 520--980\,W, more than the whole
-first-stage bill of either route, and the helium route costs 840\,W (640--1100) against
-1300\,W (960--1770) for nitrogen with the bare shield and 610 against 1240\,W with MLI.
-On the nitrogen route the first-stage term is not a cryocooler but the liquefaction energy of
-the liquid evaporated, 0.5--0.7\,kWh\,kg$^{-1}$ against a latent heat of 199\,kJ\,kg$^{-1}$,
-or $M_{\mathrm{N_2}}=9.1$--12.7\,W of plant input per watt intercepted; this is the basis of
-Table~\ref{tab:ledger} (a fraction-of-Carnot basis for an 80\,K cooler, 7.2--9.7, would lower
-the nitrogen figures by 1--2\,\%). The 4\,K-stage term is the same cryocooler stage on both
-routes. Written as a break-even, the nitrogen route is cheaper only if
+With hardware efficiencies, and the shields at their nominal temperatures, the verdict is not
+close in either case. The 4\,K stage at 0.8--1.5\,\% of Carnot turns the 106\,mW penalty into
+520--980\,W, more than the whole first-stage bill of either route; the helium route costs
+840\,W (640--1100) against 1300\,W (960--1770) for nitrogen with the bare shield and 610
+against 1240\,W with MLI. The nitrogen first-stage term is not a cryocooler but the
+liquefaction energy of the liquid evaporated, 0.5--0.7\,kWh\,kg$^{-1}$ against a latent heat
+of 199\,kJ\,kg$^{-1}$, or $M_{\mathrm{N_2}}=9.1$--12.7\,W of plant input per watt intercepted
+(a fraction-of-Carnot basis for an 80\,K cooler, 7.2--9.7, would lower the nitrogen figures by
+1--2\,\%); the 4\,K-stage term is the same cryocooler stage on both routes. Written as a
+break-even, the nitrogen route is cheaper only if
 \begin{equation}
 \frac{\eta_2}{\eta_1}\gtrsim\frac{74\,\Delta\dot Q_2}{5.0\,\dot Q_{1,\mathrm{He}}-M_{\mathrm{N_2}}\,\dot Q_{1,\mathrm{N_2}}\,\eta_1},
 \label{eq:breakeven}
 \end{equation}
-which with the present loads and the range midpoints $\eta_1=0.12$ and $M_{\mathrm{N_2}}=10.7$ requires a
-4\,K-stage efficiency of 3.0\,\% of Carnot for the bare shield and 9\,\% for the MLI shield,
-two to ten times what commercial coolers achieve~\cite{Radebaugh2009Cryocoolers}. The
-lever is $\Delta\dot Q_2$: because 86\,\% of it is harness conduction, a harness that cuts the
-77\,$\to$\,4\,K conduction penalty threefold, by heat-sinking the drive and flux
-bundles or by lower-conductivity outer conductors, brings the bare-shield break-even to
-1.3\,\% of Carnot, within the range of real hardware.
+which with the present loads and the midpoints $\eta_1=0.12$ and $M_{\mathrm{N_2}}=10.7$
+requires a 4\,K-stage efficiency of 3.0\,\% of Carnot for the bare shield and 9\,\% for the
+MLI shield, two to ten times what commercial coolers achieve~\cite{Radebaugh2009Cryocoolers}.
+The lever is $\Delta\dot Q_2$: because 86\,\% of it is harness conduction, a harness that cuts
+the 77\,$\to$\,4\,K conduction penalty threefold, by heat-sinking the drive and flux bundles
+or by lower-conductivity outer conductors, brings the bare-shield break-even to 1.3\,\% of
+Carnot, within the range of real hardware.
 
 \paragraph{Coupled operating points.} The ledger above holds each shield at its nominal
-temperature, 50 or 77\,K, but Section~\ref{sec:res-q2-maps} shows that neither cold plate sits
-there: the helium plate averages 67\,K at $\Re=2300$ and reaches 50\,K only at $\Re=10^4$, and
-the nitrogen plate averages 81.2\,K at $\Re=2300$ and 77.8\,K at $10^4$, 4.2 and 0.8\,K above
-the bath, because the duty must cross the wall superheat. The harness is heat-sunk at the
-plate, so the 4\,K-stage load follows the plate temperature, not the coolant temperature.
-Table~\ref{tab:coupled} re-evaluates the ledger with the first-stage temperature set to the
-area-mean plate temperature of the cold-plate model at four operating points, using the
-harness integral behind Eq.~(\ref{eq:keff}) and the $T_1^4$ scaling of the residual
-radiation, both of which the enclosure model reproduces to 0.5\,\%; the helium pumping power
-is charged at a 50\,\% circulator efficiency. At matched laminar flow the helium plate's 67\,K
-costs it 62\,mW at the 4\,K stage and the nitrogen plate's 81\,K costs 21\,mW, and the
-hardware advantage of helium shrinks from 36 to 13\,\% (bare shield) and from 51 to 26\,\%
-(MLI). When each route runs at the flow its own design implies, helium turbulent at
-$\Re=10^4$ to hold 50\,K and nitrogen laminar at $\Re=2300$, the advantage is 41 and 56\,\%;
-with both turbulent it is 36 and 52\,\%. The ideal ledger moves the other way: at matched
-laminar flow nitrogen is cheaper by 25\,\% for the bare shield and by 4\,\% even with MLI.
-These are equivalent room-temperature powers under the stated efficiencies and supply
-energies, not measured plant consumption. What they establish is the sign and the order of
-the difference, and that the helium route's advantage exists only where its plate is actually
-held near 50\,K, which the flow rate, not the coolant, decides.
+temperature, but Section~\ref{sec:res-q2-maps} shows that neither cold plate sits there: the
+helium plate averages 67\,K at $\Re=2300$ and reaches 50\,K only at $\Re=10^4$; the nitrogen
+plate averages 81.2\,K at $\Re=2300$ and 77.8\,K at $10^4$, 4.2 and 0.8\,K above the bath,
+because the duty must cross the wall superheat. The harness is heat-sunk at the plate, so the
+4\,K-stage load follows the plate temperature. Table~\ref{tab:coupled} re-evaluates the ledger
+with the first-stage temperature set to the area-mean plate temperature at four operating
+points, using the harness integral behind Eq.~(\ref{eq:keff}) and the $T_1^4$ scaling of the
+residual radiation, both reproduced by the enclosure model to 0.5\,\%, with the helium pumping
+power charged at a 50\,\% circulator efficiency. At matched laminar flow the helium plate's
+67\,K costs 62\,mW at the 4\,K stage and the nitrogen plate's 81\,K costs 21\,mW, and helium's
+hardware advantage shrinks from 36 to 13\,\% (bare) and from 51 to 26\,\% (MLI). With each
+route at the flow its design implies, helium turbulent at $\Re=10^4$ to hold 50\,K and
+nitrogen laminar at $\Re=2300$, the advantage is 41 and 56\,\%; with both turbulent, 36 and
+52\,\%. The ideal ledger moves the other way: at matched laminar flow nitrogen is cheaper by
+25\,\% (bare) and 4\,\% (MLI). These are equivalent room-temperature powers under the stated
+efficiencies and supply energies, not measured consumption; they establish the sign and order
+of the difference, and that helium's advantage exists only where its plate is actually held
+near 50\,K, which the flow rate, not the coolant, decides.
 
 \begin{table}[tbp]
 \centering\footnotesize\setlength{\tabcolsep}{3.5pt}
@@ -1010,19 +991,17 @@ distinction of the passive comparison is only realised on the helium route with 
 flow or pressure, and Section~\ref{sec:res-q2-maps} gives the conditions.
 
 \paragraph{The three questions couple through the plate temperature.} The ledger credits the
-helium route with a 50\,K shield, but the cold plate reaches 50\,K only at $\Re\approx10^4$; at
-the laminar design point of $\Re=2300$ and 1\,bar its mean is 67\,K. Evaluating the harness
-integral of Eq.~(\ref{eq:keff}) with the shield at 67\,K gives a 4\,K-stage conduction of
-125\,mW, against 70\,mW at 50\,K and 162\,mW at 77\,K: a helium shield run at that design
-point forfeits 54\,mW, 59\,\% of the 92\,mW conduction penalty that separates the routes, and
-about 4\,W of the 7.9\,W ideal advantage. The 65\,mW of pumping power that buys the 50\,K
-plate at $\Re=10^4$ is negligible against that, so on the helium route the flow rate is set by
-the 4\,K ledger and not by the pumping power. The nitrogen plate is not pinned by the bath
-either: it sits 4.2\,K above it at $\Re=2300$ and 0.8\,K at $10^4$, worth 21 and 4\,mW at
-the 4\,K stage, a smaller and flow-insensitive coupling because the liquid's superheat is
-small. Table~\ref{tab:coupled} carries both couplings into the ledger, and the operational
-argument for nitrogen, a plate temperature that the flow rate barely moves, is what remains of
-the bath-pinning idea.
+helium route with a 50\,K shield, but the cold plate reaches 50\,K only at $\Re\approx10^4$;
+at the laminar design point of $\Re=2300$ and 1\,bar its mean is 67\,K, where the harness
+integral of Eq.~(\ref{eq:keff}) gives a 4\,K-stage conduction of 125\,mW against 70\,mW at
+50\,K and 162\,mW at 77\,K. A helium shield run there forfeits 54\,mW, 59\,\% of the 92\,mW
+conduction penalty that separates the routes, and about 4\,W of the 7.9\,W ideal advantage;
+the 65\,mW of pumping power that buys the 50\,K plate at $\Re=10^4$ is negligible against
+that, so on the helium route the flow rate is set by the 4\,K ledger. The nitrogen plate is
+not pinned by the bath either: it sits 4.2\,K above it at $\Re=2300$ and 0.8\,K at $10^4$,
+worth 21 and 4\,mW at the 4\,K stage, a smaller and flow-insensitive coupling because the
+liquid's superheat is small. Table~\ref{tab:coupled} carries both into the ledger; what
+remains of the bath-pinning idea is a plate temperature that the flow rate barely moves.
 
 \paragraph{The basis of comparison decides the ranking.} Matched Reynolds number, matched mass
 flow and matched pumping power rank the fluids differently in magnitude and, for pumping
@@ -1070,40 +1049,37 @@ in a specified plate orientation would quantify it.
 \label{sec:conclusions}
 
 \begin{enumerate}
-\item A 77\,K first shield costs essentially nothing at the first stage relative to a 50\,K shield: it
-intercepts 99.6\,\% of the radiation and 6.5\,\% less harness conduction, 8.3 against 8.4\,W
-for the enclosure studied. The penalty appears at the 4\,K stage, 106\,mW, and is 86\,\%
-harness conduction concentrated in the drive and flux bundles; it is worth 7.9\,W of ideal
-room-temperature power and 520--980\,W with real 4\,K coolers.
-\item View-factor radiation in low-emissivity enclosures is controlled by matrix closure:
-the generated matrix gave loads from 9.5 to 3.3\,W under agglomeration refinement against a
-7.07\,W closed form, and row normalisation recovered the closed form to 4\,\% at the first
-stage and 0.5\,\% at the 4\,K stage, converging under refinement (7.36, 7.32 and 7.27\,W at
-250, 400 and 800 faces).
-\item As a first-shield coolant at 9.4\,W, nitrogen at 3\,bar gives 5 times helium's
-heat-transfer coefficient in laminar flow and 6 times in turbulent flow, and holds the plate
-within about 4\,K of its inlet at $\Re=2300$ against helium's 21\,K; helium at 1\,bar lets the
-plate mean float above 77\,K below $\Re\approx970$ and its hottest face above 77\,K in every
-constant-property laminar run (76.9\,K at $\Re=2300$ with variable properties), and needs 38
-times the pumping power, but at 18\,bar its pumping power
-falls below nitrogen's by a factor of 8.5 with heat transfer unchanged at fixed Reynolds
-number. At each fluid's optimum, the minimum pumping power that holds the plate within its
-temperature limit, nitrogen needs 1.0\,$\mu$W at $\Re=500$; helium at 18\,bar needs
-0.6\,$\mu$W if the plate mean is the criterion and 4 to 31\,$\mu$W if the hottest face is. The ranking depends on the basis of comparison, the operating point and the
-wall-temperature criterion.
-\item The ideal ledger favours nitrogen by 21\,\% for a bare shield and helium by 9\,\% for
-an MLI shield; with hardware efficiencies and the liquefaction energy of the nitrogen
-consumed, the equivalent room-temperature power favours helium by 36--51\,\% in both cases at
-the nominal shield temperatures and by 13--56\,\% at the coupled operating points, an
-advantage that exists only where the helium plate is actually held near 50\,K. At
-those efficiencies the nitrogen route becomes competitive when the 77\,$\to$\,4\,K harness
-conduction is cut by about a factor of three, the lever Eq.~(\ref{eq:breakeven}) identifies.
+\item A 77\,K first shield costs essentially nothing at the first stage relative to a 50\,K
+shield: 99.6\,\% of the radiation and 6.5\,\% less harness conduction, 8.3 against 8.4\,W. The
+penalty appears at the 4\,K stage, 106\,mW, 86\,\% of it harness conduction in the drive and
+flux bundles, worth 7.9\,W of ideal room-temperature power and 520--980\,W with real 4\,K
+coolers.
+\item View-factor radiation in low-emissivity enclosures is controlled by matrix closure: the
+generated matrix gave 9.5 to 3.3\,W under agglomeration refinement against a 7.07\,W closed
+form; row normalisation recovers it to 4\,\% at the first stage and 0.5\,\% at the 4\,K stage
+and converges under refinement (7.36, 7.32, 7.27\,W at 250, 400, 800 faces).
+\item As a first-shield coolant at 9.4\,W, nitrogen gives 5 times helium's heat-transfer
+coefficient in laminar flow and 6 in turbulent flow and holds the plate within about 4\,K of
+its inlet at $\Re=2300$ against helium's 21\,K; helium at 1\,bar lets the plate mean float
+above 77\,K below $\Re\approx970$ and its hottest face above 77\,K in every constant-property
+laminar run (76.9\,K at $\Re=2300$ with variable properties) and needs 38 times the pumping
+power, but at 18\,bar its pumping power falls below nitrogen's by 8.5 times with heat transfer
+unchanged. At each fluid's optimum nitrogen needs 1.0\,$\mu$W at $\Re=500$; helium at 18\,bar
+needs 0.6\,$\mu$W on the plate-mean criterion and 4 to 31\,$\mu$W on the hottest-face
+criterion. The ranking depends on the basis, the operating point and the wall criterion.
+\item The ideal ledger favours nitrogen by 21\,\% for a bare shield and helium by 9\,\% with
+MLI; with hardware efficiencies and the liquefaction energy of the nitrogen consumed, the
+equivalent room-temperature power favours helium by 36--51\,\% at the nominal shield
+temperatures and by 13--56\,\% at the coupled operating points, an advantage that exists only
+where the helium plate is actually held near 50\,K. Nitrogen becomes competitive when the
+77\,$\to$\,4\,K harness conduction is cut by about a factor of three, the lever of
+Eq.~(\ref{eq:breakeven}).
 \item The comparison rests on code-verified numbers: NIST properties at a stated reference
 state, a forced-convection basis with gravity-on sensitivity, a mass-flux-weighted mixing-cup
-temperature that closes the energy balance to 0.2\,\%, wall temperatures read from the wall
-itself, and row-normalised view factors that reproduce the closed forms to 4\,\%. The
-conclusion that the shield choice and the harness design are not separable follows from those
-numbers; experimental validation of the cold-plate model is the next step.
+temperature closing the energy balance to 0.2\,\%, wall temperatures read from the wall
+itself, and row-normalised view factors reproducing the closed forms to 4\,\%. That the shield
+choice and the harness design are not separable follows from those numbers; experimental
+validation of the cold-plate model is the next step.
 \end{enumerate}
 
 \section*{CRediT authorship contribution statement}
