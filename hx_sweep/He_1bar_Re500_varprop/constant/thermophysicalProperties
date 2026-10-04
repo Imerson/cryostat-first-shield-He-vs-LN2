@@ -1,0 +1,20 @@
+FoamFile { version 2.0; format ascii; class dictionary; object thermophysicalProperties; }
+// Helium, 1 bar: variable transport properties.  mu(T), kappa(T) cubic fits to NIST REFPROP values
+// (fluid_properties.csv) over 40-100 K, max error 0.03 % (mu) and 0.02 % (kappa).  Cp constant (5195-5206 J/kg/K).
+thermoType
+{
+    type            heRhoThermo;
+    mixture         pureMixture;
+    transport       polynomial;
+    thermo          hPolynomial;
+    equationOfState perfectGas;
+    specie          specie;
+    energy          sensibleEnthalpy;
+}
+mixture
+{
+    specie        { molWeight  4.0026; }
+    thermodynamics{ Hf 0; Sf 0; CpCoeffs<8> ( 5201.0 0 0 0 0 0 0 0 ); }
+    transport     { muCoeffs<8>    ( 1.530195e-06 1.186261e-07 -5.210535e-10 1.597017e-12 0 0 0 0 );
+                    kappaCoeffs<8> ( 1.133414e-02 8.286969e-04 -2.831133e-06 7.826982e-09 0 0 0 0 ); }
+}

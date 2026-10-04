@@ -1,0 +1,5 @@
+// Heated-wall patch temperature statistics (true wall values: max, min, area mean of the patch field).
+// Included from system/controlDict -> functions.  Output: postProcessing/wallT{max,min,mean}/<time>/surfaceFieldValue_0.dat
+wallTmax  { type surfaceFieldValue; libs (fieldFunctionObjects); regionType patch; name heatedWall; operation max;         fields (T); writeFields no; log no; writeControl writeTime; }
+wallTmin  { type surfaceFieldValue; libs (fieldFunctionObjects); regionType patch; name heatedWall; operation min;         fields (T); writeFields no; log no; writeControl writeTime; }
+wallTmean { type surfaceFieldValue; libs (fieldFunctionObjects); regionType patch; name heatedWall; operation areaAverage; fields (T); writeFields no; log no; writeControl writeTime; }

@@ -8,7 +8,9 @@ Inputs: cfd_campaign/enclosure_variants/<case>/postProcessing/heatLoadSummary/he
 import os, re, glob, numpy as np, pandas as pd
 import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, '..')
-VAR = os.path.join(ROOT, 'cfd_campaign', 'enclosure_variants'); DATA = os.path.join(ROOT, 'data'); FIG = os.path.join(ROOT, 'figures')
+VAR = os.path.join(ROOT, 'cfd_campaign', 'enclosure_variants')
+if not os.path.isdir(VAR): VAR = os.path.join(ROOT, 'enclosure_variants')   # public-repo layout
+DATA = os.path.join(ROOT, 'data'); FIG = os.path.join(ROOT, 'figures')
 plt.rcParams.update({'font.size': 9, 'font.family': 'DejaVu Serif', 'axes.grid': True, 'grid.alpha': 0.3, 'figure.dpi': 300, 'savefig.bbox': 'tight'})
 C_RAD, C_CON = '#E8A87C', '#1E2761'
 SIG = 5.670374e-8
@@ -51,17 +53,21 @@ def main():
         rows.append(dict(case=name, Th=Th, Tc=Tc, **v))
     df = pd.DataFrame(rows); df.to_csv(os.path.join(DATA, 'enclosure_loads.csv'), index=False); print(df.to_string())
     # ---- Fig 2 ----
-    order = ['s1_50K_base', 's1_77K_base', 's2_from50K_base', 's2_from77K_base', 's1_50K_mli', 's1_77K_mli']
+    # central values = row-normalised view factors (the values used throughout the text); production = fallback
+    order = ['s1_50K_norm250', 's1_77K_norm250', 's2_from50K_norm250', 's2_from77K_norm250', 's1_50K_mli_norm250', 's1_77K_mli_norm250']
+    fallback = ['s1_50K_base', 's1_77K_base', 's2_from50K_base', 's2_from77K_base', 's1_50K_mli', 's1_77K_mli']
     labs = ['300$\\to$50 K', '300$\\to$77 K', '50$\\to$4 K', '77$\\to$4 K', '300$\\to$50 K\nMLI-eq.', '300$\\to$77 K\nMLI-eq.']
-    d = df.set_index('case'); keep = [(o, l) for o, l in zip(order, labs) if o in d.index]
+    d = df.set_index('case'); keep = [((o if o in d.index else f), l) for o, f, l in zip(order, fallback, labs) if (o in d.index or f in d.index)]
     fig, ax = plt.subplots(figsize=(5.4, 3.3)); x = np.arange(len(keep))
     rad = np.array([d.loc[o, 'radiation_W'] for o, _ in keep]); con = np.array([d.loc[o, 'conduction_W'] for o, _ in keep])
     ax.bar(x, rad, 0.55, color=C_RAD, label='radiation'); ax.bar(x, con, 0.55, bottom=rad, color=C_CON, label='harness conduction')
     for i, (o, _) in enumerate(keep):
         t = rad[i] + con[i]; ax.text(i, t * 1.3, f'{t:.2f} W' if t > 1 else f'{t*1e3:.0f} mW', ha='center', fontsize=8)
-        lo, hi = o.replace('base', 'epsLo'), o.replace('base', 'epsHi')
-        if lo != o and lo in d.index and hi in d.index:
-            ax.errorbar(i, t, yerr=[[max(0.0, t - d.loc[lo, 'total_W'])], [max(0.0, d.loc[hi, 'total_W'] - t)]], fmt='none', ecolor='k', capsize=4, lw=0.9)
+        # emissivity band: the +-50 % runs used the production (unnormalised) matrix; apply their ratio to the central value
+        base = o.replace('_norm250', '_base'); lo, hi = base.replace('base', 'epsLo'), base.replace('base', 'epsHi')
+        if lo != base and lo in d.index and hi in d.index and base in d.index:
+            tb = d.loc[base, 'total_W']; tlo, thi = t * d.loc[lo, 'total_W'] / tb, t * d.loc[hi, 'total_W'] / tb
+            ax.errorbar(i, t, yerr=[[max(0.0, t - tlo)], [max(0.0, thi - t)]], fmt='none', ecolor='k', capsize=4, lw=0.9)
     ax.set_yscale('log'); ax.set_ylim(1e-3, 80); ax.set_xticks(x); ax.set_xticklabels([l for _, l in keep], fontsize=8)
     ax.set_ylabel('stage heat load [W]'); ax.legend(fontsize=8, loc='upper right')
     ax.text(0.5, 30, 'error bars: emissivity $\\pm$50 %', fontsize=7.5, color='k')
@@ -73,12 +79,13 @@ def main():
         if k in d.index: lv.append((n, d.loc[k, 'radiation_W'], cl))
     lv.sort(); n_, q_, c_ = zip(*lv)
     fig, ax = plt.subplots(figsize=(4.4, 3.1))
-    ax.plot(n_, q_, 'o-', color=C_CON, ms=6); ax.axhline(7.073, ls='--', color='#B85042'); ax.text(65, 6.75, 'closed-form grey-body value 7.07 W', color='#B85042', fontsize=8)
+    ax.plot(n_, q_, 'o-', color=C_CON, ms=6); ax.axhline(7.073, ls='--', color='#B85042'); ax.text(65, 6.78, 'closed-form grey-body value 7.07 W', color='#B85042', fontsize=8)
     for n, q, c in lv:
         ax.annotate(f'{q:.2f} W', (n, q), textcoords='offset points', xytext=(5, 6), fontsize=7)
-    if 's1_50K_norm250' in d.index:
-        ax.plot([250], [d.loc['s1_50K_norm250', 'radiation_W']], 's', color='#50708E', ms=7, label='250 faces, rows of $F$ normalised')
-        ax.annotate('row-normalised $F$', (250, d.loc['s1_50K_norm250', 'radiation_W']), textcoords='offset points', xytext=(10, 4), fontsize=7.5, color='#50708E')
+    nv = [(n, d.loc[k, 'radiation_W']) for n, k in ((250, 's1_50K_norm250'), (400, 's1_50K_agg400_norm'), (800, 's1_50K_agg800_norm')) if k in d.index]
+    if nv:
+        ax.plot([n for n, _ in nv], [q for _, q in nv], 's-', color='#50708E', ms=7, label='rows of $F$ normalised to unity')
+        for n, q in nv: ax.annotate(f'{q:.2f} W', (n, q), textcoords='offset points', xytext=(-8, 9), fontsize=7, color='#50708E', ha='center')
     ax.plot([], [], 'o-', color=C_CON, label='as generated (agglomeration sweep)'); ax.legend(fontsize=7.5, loc='lower left')
     ax.set_xscale('log'); ax.set_xlabel('coarsest-level faces per patch (view-factor agglomeration)'); ax.set_ylabel('first-stage radiative load [W]')
     fig.savefig(os.path.join(FIG, 'fig3_radiation_sweep.png')); fig.savefig(os.path.join(FIG, 'fig3_radiation_sweep.pdf')); plt.close(fig)

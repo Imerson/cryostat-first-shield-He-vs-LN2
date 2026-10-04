@@ -1,0 +1,35 @@
+=====================================================================
+ Consolidated metrics report  (true SI units, no manual corrections)
+ Case:  He_1bar_Re2300      Fluid: He_50K_1bar
+ Geometry: mini-channel (Dh=0.01 m = 10 mm; Kandlikar mini, NOT micro)
+ Heat duty Q_wall: 9.4 W (matched-duty He-vs-N2 basis; Stage-1 load ~9.4 W)
+ Flow model: compressible variable-density (ideal-gas He; Boussinesq NOT assumed)
+=====================================================================
+--- raw CFD ---
+Tin_K: 4.50000000e+01  Tout_bulk_K: 4.74708120e+01  Tout_area_K: 4.99451079e+01  Tw_K: 6.60343499e+01  Tb_K: 46.2354
+dP_Pa(true): 1.981  Umean_m_s: 1.40383  mdot_kg_s: 0.0007314  Qvol_m3_s: 0.000701913
+rho_in: 1.06986  rho_out: 1.01416  rho_ratio_in_out: 1.05492
+--- dimensional ---
+h_W_m2K: 31.6515  Wpump_W(true): 0.00139049  wall_superheat_Tw_minus_Tb_K: 19.7989
+--- core dimensionless ---
+Re: 2300  Nu: 6.78053  f_Darcy: 0.064312  Nu_over_f: 105.432  PF_Nu_f13: 16.9239
+St: 0.00415805  Colburn_j: 0.00330613  j_over_f: 0.0514077  Mouromtseff_Mo: 566.736
+--- HX effectiveness (single-stream isothermal-wall limit) ---
+NTU: 0.124808  effectiveness_eps: 0.117334
+--- validation (Shah & London, square duct, const-q: Nu_inf=3.61, fRe=56.9) ---
+Nu_over_Nuinf: 1.87826  fRe_Darcy: 147.918  fRe_over_56p9: 2.59961
+--- thermal entry length (Graetz) ---
+Lt_m: 0.81535  Lt_over_L: 2.71783
+--- convective Bejan ---
+Convec_Bejan: 3.2546e+09
+--- entropy generation (EGM) ---
+Irrev_Bejan: NA (out of scope, guideline 2.4)   W_exergy_loss_W: NA
+--- density / Boussinesq diagnostic ---
+rho_ratio_in_out: 1.05492  beta_dT_wall_to_bulk: 0.395979  beta_dT_coolant: 0.0494162
+--- energy balance ---
+Q_removed_W: 9.39899  energy_balance_error_pct: -0.0107447
+--- provenance ---
+solver: buoyantSimpleFoam (laminar)  OF: openfoam2412
+nCells: 291600  last_time: 10000  final_resid_Ux: 1.6273098e-05  T_or_h: 1.0759163e-05  p_rgh: 0.0022524365
+Carnot_COP: 0.20
+=====================================================================

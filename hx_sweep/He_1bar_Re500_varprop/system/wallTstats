@@ -1,0 +1,3 @@
+    wallTmax  { type surfaceFieldValue; libs (fieldFunctionObjects); regionType patch; name heatedWall; operation max;         fields (T); writeFields no; log no; }
+    wallTmin  { type surfaceFieldValue; libs (fieldFunctionObjects); regionType patch; name heatedWall; operation min;         fields (T); writeFields no; log no; }
+    wallTmean { type surfaceFieldValue; libs (fieldFunctionObjects); regionType patch; name heatedWall; operation areaAverage; fields (T); writeFields no; log no; }

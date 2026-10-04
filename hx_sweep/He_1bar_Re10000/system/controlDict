@@ -23,6 +23,7 @@ runTimeModifiable true;
 
 functions
 {
+    #include "wallTstats"
     inletMassFlow
     {
         type            surfaceFieldValue;

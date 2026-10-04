@@ -5,6 +5,7 @@
 \usepackage{amsmath,amssymb,booktabs,array,tabularx,caption,float,graphicx,xcolor}
 \captionsetup{font=small,labelfont=bf,labelsep=period}
 \usepackage[numbers,sort&compress]{natbib}\bibliographystyle{unsrtnat}
+\usepackage{pdflscape}
 \usepackage{hyperref}\hypersetup{colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue}
 \renewcommand{\thetable}{S\arabic{table}}\renewcommand{\thefigure}{S\arabic{figure}}
 \renewcommand{\theequation}{S\arabic{equation}}\renewcommand{\thesection}{S\arabic{section}}
@@ -58,19 +59,28 @@ agglomeration & \texttt{nFacesInCoarsestLevel} 250, \texttt{featureAngle} 20, \t
 $A=1.585$\,mm$^2$, PTFE dielectric $A=2.001$\,mm$^2$, 304 stainless centre conductor
 $A=0.205$\,mm$^2$. Material $k(T)$ from the NIST cryogenic fits
 $\log_{10}k=\sum_n a_n(\log_{10}T)^n$. Each modelled cylinder carries $n_k$ lines with
-$\kappa_{\mathrm{eff}}(T)=(n_k/A_{\mathrm{model}})\sum_iA_ik_i(T)$; $A_{\mathrm{model}}$ is
-the conduction area of the modelled cylinder taken from the mesh cross-section,
-$4.63\times10^{-4}$\,m$^2$, with conduction length $L=0.245$\,m, identical in all four cases.}
-\begin{tabular}{l l r r}
+$\kappa_{\mathrm{eff}}(T)=(n_k/A_{\mathrm{model}})\sum_iA_ik_i(T)$. $A_{\mathrm{model}}$ is the
+conduction cross-section of the meshed cylinder in each stage span (calibrated from the mesh so
+that $(A_{\mathrm{model}}/L)\int\kappa_{\mathrm{eff}}\,\mathrm dT$ equals the physical cable
+integral $n_kL^{-1}\sum_iA_i\int k_i\,\mathrm dT$); it differs between the stage-1 and stage-2
+geometries. Because $A_{\mathrm{model}}$ cancels in that product, the stage-integrated
+conduction is fixed by the cable data by construction: the resolved model reproduces the
+targets below to 0.01\,\%, which verifies the implementation but is not an independent
+prediction.}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{l r r r r r r}
 \toprule
-Bundle & Family & $n_k$ & share of harness conduction \\
+Span & $A_{\mathrm{model}}$ [m$^2$] & $L$ [m] & L1 drive, $n_k$=25 & L2 flux, 25 & L3 readout, 10 & L4 pump, 5 \\
 \midrule
-coax\_L1 & drive & 25 & 38.5\,\% \\
-coax\_L2 & flux & 25 & 38.5\,\% \\
-coax\_L3 & readout & 10 & 15.4\,\% \\
-coax\_L4 & pump & 5 & 7.7\,\% \\
+300$\to$50\,K & $2.975\times10^{-4}$ & 0.335 & 395.8 mW & 395.8 mW & 158.3 mW & 79.2 mW \\
+300$\to$77\,K & $2.976\times10^{-4}$ & 0.335 & 370.0 mW & 370.0 mW & 148.0 mW & 74.0 mW \\
+50$\to$4\,K & $3.934\times10^{-3}$ & 0.245 & 27.03 mW & 27.03 mW & 10.81 mW & 5.41 mW \\
+77$\to$4\,K & $2.845\times10^{-3}$ & 0.245 & 62.33 mW & 62.33 mW & 24.93 mW & 12.47 mW \\
 \bottomrule
-\end{tabular}\end{table}
+\end{tabular}
+\par\smallskip\footnotesize Per-bundle targets $n_kL^{-1}\sum_iA_i\int k_i\,\mathrm dT$; shares
+38.5\,/\,38.5\,/\,15.4\,/\,7.7\,\% follow from $n_k$ with identical cable construction and length.
+\end{table}
 
 \begin{table}[H]\centering\scriptsize
 \caption{Deployed $\kappa_{\mathrm{eff}}(T)=\sum_{n=0}^{5}c_nT^n$ [W\,m$^{-1}$K$^{-1}$, $T$ in K]
@@ -100,10 +110,18 @@ Span & Bundle & $c_0$ & $c_1$ & $c_2$ & $c_3$ & $c_4$ & $c_5$ \\
 \bottomrule
 \end{tabular}\end{table}
 
-\paragraph{Free-molecular gas conduction bound.} At $p<10^{-4}$\,mbar the mean free path
-exceeds the gap and gas heat transport is free-molecular, $\dot Q_{\mathrm{gas}}=\alpha\Lambda pA\Delta T$
-\citep{37-Corruccini1959FreeMolecular}; it is linear in pressure and below 1\,\% of the
-harness conduction at the operating pressure, so it is carried as a budget line.
+\paragraph{Free-molecular gas conduction bound.} At $p<10^{-2}$\,Pa the mean free path
+exceeds the gap and gas heat transport is free-molecular,
+$\dot Q_{\mathrm{gas}}=\alpha\Lambda pA\Delta T$ \citep{37-Corruccini1959FreeMolecular}, with
+$\Lambda=\frac{\gamma+1}{\gamma-1}\sqrt{R/(8\pi MT)}$ evaluated at the warm wall (helium,
+$\gamma=5/3$: $\Lambda=2.10$\,W\,m$^{-2}$\,K$^{-1}$\,Pa$^{-1}$; nitrogen: 1.19),
+accommodation coefficient $\alpha$, exchange area $A$ and $\Delta T=250$\,K. For the
+enclosure's equivalent plate area $A=1.14$\,m$^2$ and helium with $\alpha=0.4$ the bound is
+2.4\,mW at $10^{-5}$\,Pa, 24\,mW at $10^{-4}$\,Pa and 0.24\,W at $10^{-3}$\,Pa, that is 0.2,
+2.3 and 23\,\% of the 1.03\,W harness conduction ($\alpha=1$: 0.6, 5.8 and 58\,\%). The model
+therefore applies to a cryostat pumped to $10^{-4}$\,Pa or better, where the residual gas is a
+budget line of a few per cent; the nominal $p=10^{-3}$\,Pa of the gap regions is a solver
+setting for the radiation-only vacuum, not an operating pressure.
 
 \begin{table}[H]\centering\footnotesize\setlength{\tabcolsep}{3pt}
 \caption{View-factor agglomeration refinement and row normalisation. Closure = mean row sum
@@ -115,8 +133,8 @@ Case & Coarsest-level faces & Closure (mean; range) & Radiation, as generated & 
 \midrule
 300$\to$50\,K & 60 & -- & 9.46 W & -- \\
 300$\to$50\,K & 250 (production) & 0.99--1.01; 0.50--1.13 & 8.41 W & 7.36 W \\
-300$\to$50\,K & 400 & 0.98--0.99 & 6.49 W & -- \\
-300$\to$50\,K & 800 & -- & 3.26 W & -- \\
+300$\to$50\,K & 400 & 0.98--0.99 & 6.49 W & 7.32 W \\
+300$\to$50\,K & 800 & 0.90--0.96 & 3.26 W & 7.27 W \\
 300$\to$50\,K & closed form & -- & \multicolumn{2}{c}{7.07 W} \\
 300$\to$77\,K & 250 (production) & 0.99 & 8.38 W & 7.34 W (closed form 7.04) \\
 50$\to$4\,K & 250 (production) & 1.00 & 5.29 mW & 3.16 mW (closed form 3.15) \\
@@ -153,7 +171,9 @@ Case & $\varepsilon$ warm / cold & Radiation [W] & Total [W] \\
 \end{tabular}\end{table}
 
 \section{Cold-plate sweep: full results}
+\begin{landscape}
 \input{table_S6}
+\end{landscape}
 
 \begin{table}[H]\centering\small
 \caption{Grid convergence index study for both fluids at $\Re=2300$ (Celik et al.\ 2008); meshes 86\,400 /
@@ -182,9 +202,22 @@ time, biases the outlet temperature low on a graded mesh and was the cause of th
 imbalances reported earlier. The delivered wall heat flux was verified with the solver-native
 \texttt{wallHeatFlux} function object (9.395\,W).
 
+\paragraph{Wall temperatures and the nitrogen loop pressure.} Wall temperatures are read from
+the heated-wall patch with \texttt{surfaceFieldValue} (\texttt{max}, \texttt{min},
+\texttt{areaAverage}; include file \texttt{system/wallTstats} in every case), and the
+wall-profile figure of the manuscript uses the patch face values along the centre row of the
+first channel (\texttt{postProcessing/wallFaces/wall\_centreline.csv}). A line sample 0.4\,mm
+inside the fluid, which an earlier post-processing used, underestimates the hottest wall face
+by 8--10\,K for helium and 1--3.5\,K for nitrogen and is not used anywhere in the paper. The
+nitrogen cases are stored under the name \texttt{LN2\_3bar\_*} because their properties were
+generated at 3\,bar; the Boussinesq fields do not depend on the loop pressure (density,
+viscosity and conductivity of the 77\,K liquid change by 0.06, 0.3 and 0.1\,\% between 3 and
+5\,bar), and the saturation margins of Table~S7 are evaluated at the 5\,bar loop pressure of
+the manuscript, with the 3\,bar value (87.9\,K) quoted where it matters.
+
 \section{Hardware efficiencies used in the real ledger}
 \begin{table}[H]\centering\small
-\caption{Stage efficiencies as fractions of Carnot.}
+\caption{Stage efficiencies and the nitrogen supply-energy multiplier used in the real ledger.}
 \begin{tabularx}{\textwidth}{l l X}
 \toprule
 Stage & $\eta$ range & Source \\
@@ -195,8 +228,11 @@ per-stage ranges reproduce to within 7\,\% at their midpoints;
 Radebaugh: ``at 4\,K efficiencies of about 1\,\% of Carnot or less are typical'' \citep{Radebaugh2009Cryocoolers} \\
 He first stage (45--80\,K) & 0.10--0.15 & Radebaugh: 10--15\,\% of Carnot for the best commercial 80\,K
 coolers; large plants up to 30\,\% \citep{Radebaugh2009Cryocoolers, Claudet2010LHCExergy} \\
-LN$_2$ supply & 0.30--0.40 & ideal liquefaction work 0.213\,kWh\,kg$^{-1}$ \citep{BarronNellis2016Cryogenic};
-plant consumption 0.5--0.7\,kWh\,kg$^{-1}$ \citep{Karabuga2018N2Liquefaction}; latent heat 199\,kJ\,kg$^{-1}$ \\
+LN$_2$ supply (basis of Table 6) & $M_{\mathrm{N_2}}$ = 9.1--12.7 W per W intercepted & plant
+consumption 0.5--0.7\,kWh\,kg$^{-1}$ \citep{Karabuga2018N2Liquefaction} divided by the latent
+heat 199\,kJ\,kg$^{-1}$ at 1\,bar; equivalent to 0.30--0.40 of Carnot at 77\,K (ideal
+liquefaction work 0.213\,kWh\,kg$^{-1}$ \citep{BarronNellis2016Cryogenic}); the
+fraction-of-Carnot form gives 7.2--9.7\,W/W and changes the nitrogen totals by 1--2\,\% \\
 \bottomrule
 \end{tabularx}\end{table}
 

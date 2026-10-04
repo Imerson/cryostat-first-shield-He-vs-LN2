@@ -18,6 +18,10 @@ W_in = 10700.0
 # allocate input in proportion to Carnot work (same eta for both stages), then use Radebaugh bands
 eta_common = (W_c1 + W_c2) / W_in
 ETA = {'He_stage1': (0.10, 0.15), '4K': (0.008, 0.015), 'LN2': (0.30, 0.40)}   # (low, high) fraction of Carnot
+# LN2 route, supply-energy basis: the first-stage heat is rejected by evaporating liquid that an industrial
+# plant produced at 0.5-0.7 kWh per kg (Karabuga 2018); latent heat 199 kJ/kg at 1 bar.  Multiplier W/W:
+LN2_SUPPLY = (0.5 * 3.6e6 / 199e3, 0.7 * 3.6e6 / 199e3)      # 9.05 .. 12.66 W of plant input per W intercepted
+LN2_BASIS = os.environ.get('LN2_BASIS', 'supply')              # 'supply' (default) or 'eta' (fraction-of-Carnot)
 ETA_PT415_alloc = eta_common
 print(f"PT415 combined fraction of Carnot = {eta_common:.3f}  (Carnot work 4.2K {W_c2:.0f} W, 45K {W_c1:.0f} W, input {W_in:.0f} W)")
 
@@ -25,9 +29,13 @@ def carnot(T): return (T0 - T) / T
 
 def ledger_row(label, Q1, Q2, T1, route):
     ideal = Q1 * carnot(T1) + Q2 * carnot(4.0)
-    e1 = ETA['He_stage1'] if route == 'He' else ETA['LN2']; e2 = ETA['4K']
-    real_lo = Q1 * carnot(T1) / e1[1] + Q2 * carnot(4.0) / e2[1]
-    real_hi = Q1 * carnot(T1) / e1[0] + Q2 * carnot(4.0) / e2[0]
+    e2 = ETA['4K']
+    if route == 'LN2' and LN2_BASIS == 'supply':
+        m1_lo, m1_hi = LN2_SUPPLY                                 # W per W, independent of T1
+    else:
+        e1 = ETA['He_stage1'] if route == 'He' else ETA['LN2']; m1_lo, m1_hi = carnot(T1) / e1[1], carnot(T1) / e1[0]
+    real_lo = Q1 * m1_lo + Q2 * carnot(4.0) / e2[1]
+    real_hi = Q1 * m1_hi + Q2 * carnot(4.0) / e2[0]
     return dict(case=label, route=route, T1=T1, Q1_W=Q1, Q2_W=Q2, W_ideal_W=ideal, W_ideal_S1=Q1 * carnot(T1), W_ideal_S2=Q2 * carnot(4.0),
                 W_real_lo_W=real_lo, W_real_hi_W=real_hi, W_real_mid_W=np.sqrt(real_lo * real_hi))
 

@@ -8,6 +8,8 @@ Icon?
 # OpenFOAM solution time directories (keep 0/)
 **/[1-9]*/
 !**/0/
+# ...but keep function-object and sample output written under time-named folders
+!**/postProcessing/*/[1-9]*/
 
 # Solver artefacts
 *.foam
