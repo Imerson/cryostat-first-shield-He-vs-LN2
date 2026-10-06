@@ -123,24 +123,36 @@ therefore applies to a cryostat pumped to $10^{-4}$\,Pa or better, where the res
 budget line of a few per cent; the nominal $p=10^{-3}$\,Pa of the gap regions is a solver
 setting for the radiation-only vacuum, not an operating pressure.
 
-\begin{table}[H]\centering\footnotesize\setlength{\tabcolsep}{3pt}
-\caption{View-factor agglomeration refinement and row normalisation. Closure = mean row sum
-$\sum_jF_{ij}$ of the generated matrix (unity for a closed enclosure); loads with the matrix as
-generated and, at the production level, with rows normalised.}
-\begin{tabular}{l l r r r}
+\begin{table}[H]\centering\footnotesize
+\caption{View-factor agglomeration refinement and row normalisation. Upper block: refinement sweep
+on the 300$\to$50\,K case; lower block: all four stage cases at the production level of 250 faces.
+As gen./norm.: matrix as generated / row-normalised. Closure: row sums $\sum_jF_{ij}$ of the generated matrix (unity for a closed enclosure). Deviation:
+radiative load relative to the parallel-plate closed form. Conservation: net radiative power
+$\sum\int q_r\,\mathrm dA$ over all surfaces of both gap regions with the normalised matrix (zero for an
+exact matrix). Reciprocity: area-weighted error $\sum|A_iF_{ij}-A_jF_{ji}|/\sum A_iF_{ij}$ of the
+normalised matrix (outer gap region). --: not evaluated.}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{l c c r r r r r r r}
 \toprule
-Case & Coarsest-level faces & Closure (mean; range) & Radiation, as generated & Radiation, normalised \\
+ & \multicolumn{2}{c}{Closure of generated $F$} & \multicolumn{3}{c}{Radiative load} & \multicolumn{2}{c}{Deviation} & \multicolumn{2}{c}{Normalised matrix} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-6}\cmidrule(lr){7-8}\cmidrule(lr){9-10}
+ & mean & range & as gen. & norm. & closed form & as gen. & norm. & conserv. & recipr. \\
 \midrule
-300$\to$50\,K & 60 & -- & 9.46 W & -- \\
-300$\to$50\,K & 250 (production) & 0.99--1.01; 0.50--1.13 & 8.41 W & 7.36 W \\
-300$\to$50\,K & 400 & 0.98--0.99 & 6.49 W & 7.32 W \\
-300$\to$50\,K & 800 & 0.90--0.96 & 3.26 W & 7.27 W \\
-300$\to$50\,K & closed form & -- & \multicolumn{2}{c}{7.07 W} \\
-300$\to$77\,K & 250 (production) & 0.99 & 8.38 W & 7.34 W (closed form 7.04) \\
-50$\to$4\,K & 250 (production) & 1.00 & 5.29 mW & 3.16 mW (closed form 3.15) \\
-77$\to$4\,K & 250 (production) & 1.00 & 29.7 mW & 17.8 mW (closed form 17.7) \\
+\multicolumn{10}{l}{\textit{300$\to$50\,K, faces per patch}} \\
+\quad 60 & -- & -- & 9.46 W & -- & 7.07 W & $+33.7$\,\% & -- & -- & -- \\
+\quad 250$^{\dagger}$ & 0.99--1.01 & 0.50--1.13 & 8.41 W & 7.36 W & 7.07 W & $+18.9$\,\% & $+4.1$\,\% & 0.10 W & 3.9\,\% \\
+\quad 400 & 0.98--0.99 & 0.51--1.19 & 6.49 W & 7.32 W & 7.07 W & $-8.2$\,\% & $+3.6$\,\% & 0.13 W & 5.5\,\% \\
+\quad 800 & 0.90--0.96 & 0.50--1.23 & 3.26 W & 7.27 W & 7.07 W & $-53.9$\,\% & $+2.8$\,\% & 0.36 W & 12.6\,\% \\
+\addlinespace[3pt]
+\multicolumn{10}{l}{\textit{All stage cases, 250 faces$^{\dagger}$}} \\
+\quad 300$\to$50\,K & 0.99--1.01 & 0.50--1.13 & 8.41 W & 7.36 W & 7.07 W & $+18.9$\,\% & $+4.1$\,\% & 0.10 W & 3.9\,\% \\
+\quad 300$\to$77\,K & 0.99 & -- & 8.38 W & 7.34 W & 7.04 W & $+19.0$\,\% & $+4.2$\,\% & 0.10 W & -- \\
+\quad 50$\to$4\,K & 1.00 & -- & 5.29 mW & 3.16 mW & 3.15 mW & $+68$\,\% & $+0.5$\,\% & 0.04 mW & -- \\
+\quad 77$\to$4\,K & 1.00 & -- & 29.7 mW & 17.8 mW & 17.7 mW & $+68$\,\% & $+0.5$\,\% & 0.21 mW & -- \\
 \bottomrule
-\end{tabular}\end{table}
+\end{tabular}
+\par\smallskip\footnotesize $^{\dagger}$production level, used for every load in the manuscript.
+\end{table}
 
 \paragraph{Conservation and reciprocity audit.} Two residuals are reported for every view-factor
 matrix. Global conservation: the net radiative power $\sum_{\mathrm{patches}}\int q_r\,\mathrm dA$

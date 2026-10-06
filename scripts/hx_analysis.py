@@ -205,12 +205,9 @@ def gci_he(df):
 
 def label(case):
     f, P, Re = case.split('_')[:3]
-    lab = ('He' if f == 'He' else '\\LNtwo') + f" {P.replace('bar', '')}\\,bar $\\Re$={Re.replace('Re', '')}"
-    if case.endswith('_gON'): lab += ' (g on)'
-    if 'gci_coarse' in case: lab += ' (coarse grid)'
-    if 'gci_fine' in case: lab += ' (fine grid)'
-    if 'varprop' in case: lab += ' (variable properties)'
-    return lab
+    lab = ('He' if f == 'He' else '\\LNtwo') + f" {P.replace('bar', '')}\\,bar, {Re.replace('Re', '')}"
+    marks = [m for k, m in (('_gON', 'g'), ('gci_coarse', 'c'), ('gci_fine', 'f'), ('varprop', 'v')) if k in case]
+    return lab + (f"$^{{\\mathrm{{{','.join(marks)}}}}}$" if marks else '')
 
 def write_table_S6(df):
     """Supplementary all-runs table (manuscript/table_S6.tex) from the merged sweep data."""
@@ -232,20 +229,23 @@ def write_table_S6(df):
     old = old.loc[[c for c in dfi.index if c in old.index]]          # same order as the sweep (fluid, P, Re)
     old.reset_index().to_csv(os.path.join(DATA, 'table_S6_all_runs.csv'), index=False)
     def g(v, fmt='{:.3g}'):
-        return '--' if (v is None or (isinstance(v, float) and np.isnan(v))) else fmt.format(v)
+        if v is None or (isinstance(v, float) and np.isnan(v)): return '--'
+        if fmt == '{:.3g}' and abs(v) >= 1000: return f'{v:,.0f}'.replace(',', '\\,')
+        if fmt == '{:.3g}' and abs(v) < 0.01: return f'{v:.1e}'
+        return fmt.format(v)
     rows = []
     for case, r in old.iterrows():
-        rows.append(' & '.join([label(case), g(r.Re, '{:.0f}'), g(r.mdot_kg_s * 1e3), g(r.Qvol_cm3_s), g(r.dP_Pa), g(r.Wpump_W * 1e6),
+        rows.append(' & '.join([label(case), g(r.mdot_kg_s * 1e3), g(r.Qvol_cm3_s), g(r.dP_Pa), g(r.Wpump_W * 1e6),
                     g(r.Tout, '{:.2f}'), g(r.Tw_K, '{:.1f}'), g(r.Tw_max, '{:.1f}'), g(r.Tw_min, '{:.1f}'), g(r.dT_super, '{:.2f}'), g(r.h_W_m2K),
                     g(r.Nu), g(r.f_Darcy), g(r.NTU), g(r.eps), g(r.Gr_Re2, '{:.2g}'), g(r.sat_margin, '{:.1f}'), g(r.yplus_max, '{:.1f}'),
                     g(r.ebal_pct, '{:.2f}')]) + ' \\\\')
-    tex = r'''\begin{table}[H]\centering\scriptsize
-\caption{All cold-plate runs at 9.4\,W (production mesh unless marked). $\dot m$ in g\,s$^{-1}$, volumetric flow in cm$^3$\,s$^{-1}$, $\Delta p$ in Pa, $\dot W_{\mathrm p}$ in $\mu$W, temperatures in K, $h$ in W\,m$^{-2}$K$^{-1}$; $T_{\mathrm{in}}$ = 45\,K (He), 77\,K (\LNtwo). $T_{\mathrm w}$ is the area mean over the heated-wall patch, $T_{\mathrm{w,max}}$ and $T_{\mathrm{w,min}}$ its extreme face values (\texttt{surfaceFieldValue} on the patch); margin = $T_{\mathrm{sat}}(5\,\mathrm{bar})-T_{\mathrm{w,max}}$ = $94.0\,\mathrm K-T_{\mathrm{w,max}}$; $y^+$ = maximum on the heated wall; closure = energy-balance error. Gravity-on (g on) nitrogen runs did not reach a steady state (see closure).}
+    tex = r'''\begin{table}[H]\centering\small
+\caption{All cold-plate runs at 9.4\,W (production mesh unless marked). $\dot m$ in g\,s$^{-1}$, volumetric flow in cm$^3$\,s$^{-1}$, $\Delta p$ in Pa, $\dot W_{\mathrm p}$ in $\mu$W, temperatures in K, $h$ in W\,m$^{-2}$K$^{-1}$; $T_{\mathrm{in}}$ = 45\,K (He), 77\,K (\LNtwo). $T_{\mathrm w}$ is the area mean over the heated-wall patch, $T_{\mathrm{w,max}}$ and $T_{\mathrm{w,min}}$ its extreme face values (\texttt{surfaceFieldValue} on the patch); margin = $T_{\mathrm{sat}}(5\,\mathrm{bar})-T_{\mathrm{w,max}}$ = $94.0\,\mathrm K-T_{\mathrm{w,max}}$; $y^+$ = maximum on the heated wall; closure = energy-balance error. Superscripts: g gravity on, c/f coarse/fine grid, v variable properties. Gravity-on nitrogen runs did not reach a steady state (see closure).}
 \label{tab:S6}
-\setlength{\tabcolsep}{2.2pt}
-\resizebox{\textwidth}{!}{\begin{tabular}{l r r r r r r r r r r r r r r r r r r r}
+\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
+{\begin{tabular}{l r r r r r r r r r r r r r r r r r r}
 \toprule
-Case & $\Re$ & $\dot m$ & $\dot V$ & $\Delta p$ & $\dot W_{\mathrm p}$ & $T_{\mathrm{out}}$ & $T_{\mathrm w}$ & $T_{\mathrm{w,max}}$ & $T_{\mathrm{w,min}}$ & $T_{\mathrm w}-T_{\mathrm b}$ & $h$ & $\Nu$ & $f$ & NTU & $\varepsilon$ & Gr/$\Re^2$ & margin & $y^+$ & closure \% \\
+Case (fluid, $p$, $\Re$) & $\dot m$ & $\dot V$ & $\Delta p$ & $\dot W_{\mathrm p}$ & $T_{\mathrm{out}}$ & $T_{\mathrm w}$ & $T_{\mathrm{w,max}}$ & $T_{\mathrm{w,min}}$ & $T_{\mathrm w}-T_{\mathrm b}$ & $h$ & $\Nu$ & $f$ & NTU & $\varepsilon$ & Gr/$\Re^2$ & margin & $y^+$ & closure \% \\
 \midrule
 ''' + '\n'.join(rows) + r'''
 \bottomrule
